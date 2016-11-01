@@ -89,6 +89,7 @@ public class BezierView extends View implements View.OnTouchListener {
         this.constructionPosition = (float) 0.5;
 
         this.setBackgroundColor(Color.YELLOW);
+        this.setBackgroundColor(Color.GREEN);
     }
 
     // getter/setter
