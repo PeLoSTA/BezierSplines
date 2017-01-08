@@ -26,6 +26,7 @@ import de.peterloos.beziersplines.R;
 
 // TODO: Die Seekbars sind recht ungenau ... für schrittweise könnte man auch eine Stepwise Control benötigen#
 
+// TODO: Starte jetzt mit Material Layout
 // TODO: Die AsyncTask sollte als dritten Paramer Void bekommen ...
 // TODO: Die AsyncTask sollte als ersten Paramer Void bekommen ...
 
