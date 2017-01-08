@@ -1,16 +1,20 @@
 package de.peterloos.beziersplines.activities;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import de.peterloos.beziersplines.R;
 import de.peterloos.beziersplines.adapters.ViewPagerAdapter;
 
+/**
+ * Created by Peter on 28.10.2016.
+ */
 public class DocumentationActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     private ViewPager viewPager;

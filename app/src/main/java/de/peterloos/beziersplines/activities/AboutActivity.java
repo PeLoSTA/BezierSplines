@@ -1,10 +1,14 @@
 package de.peterloos.beziersplines.activities;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import de.peterloos.beziersplines.R;
 
+/**
+ * Created by Peter on 28.10.2016.
+ */
 public class AboutActivity extends AppCompatActivity {
 
     @Override

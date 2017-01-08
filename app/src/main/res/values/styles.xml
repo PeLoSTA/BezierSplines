@@ -1,18 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 
-    <style name="CustomToolbarTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:textColorPrimary">#FFFFFF</item>
-        <item name="actionMenuTextColor">@color/colorPrimary</item>
-        <item name="android:textColorSecondary">@color/abc_secondary_text_material_dark</item>
-        <item name="android:textSize">30sp</item>
-    </style>
-
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!--<style name="BezierAppTheme" parent="android:Theme.Holo">-->
+
+
+    <style name="BezierAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="colorPrimary">@color/material_blue_500</item>-->
+        <!--<item name="colorPrimaryDark">@color/material_blue_700</item>-->
+        <!--<item name="colorAccent">@color/material_green_A200</item>-->
+
+        <item name="colorPrimary">@color/material_red_500</item>
+        <item name="colorPrimaryDark">@color/material_red_700</item>
+        <item name="colorAccent">@color/material_green_A200</item>
 
         <!-- For the resting Spinner style -->
         <item name="android:spinnerItemStyle">

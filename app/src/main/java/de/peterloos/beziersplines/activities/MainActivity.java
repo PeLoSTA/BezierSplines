@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -49,11 +48,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.setContentView(R.layout.activity_main);
 
         // prefer Action Bar Title with two lines
-        ActionBar actionBar = this.getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.main_title);
-            actionBar.setSubtitle(this.getString(R.string.sub_title));
-        }
+//        ActionBar actionBar = this.getSupportActionBar();
+//        if (actionBar != null) {
+//            actionBar.setTitle(R.string.main_title);
+//            actionBar.setSubtitle(this.getString(R.string.sub_title));
+//        }
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        myToolbar.setTitle(R.string.main_title);
+        myToolbar.setSubtitle(this.getString(R.string.sub_title));
+
 
         // retrieve control references
         this.bezierView = (BezierView) this.findViewById(R.id.bezier_view);
