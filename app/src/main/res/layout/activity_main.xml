@@ -11,21 +11,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="de.peterloos.beziersplines.activities.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="0dp"
-    />
-
     <TableLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="1"
         android:shrinkColumns="0,2"
-        android:layout_below="@id/my_toolbar"
         android:layout_margin="10dp" >
 
         <TableRow>
@@ -37,12 +28,13 @@
                 android:entries="@array/editor_modes" />
 
             <TextView
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
 
             <CheckBox
                 android:id="@+id/checkbox_show_resolution"
+                android:layout_height="match_parent"
                 android:textSize="18sp"
-                android:layout_marginRight="10sp"
+                android:theme="@style/ThisCheckboxStyle"
                 android:text="@string/show_construction" />
 
         </TableRow>

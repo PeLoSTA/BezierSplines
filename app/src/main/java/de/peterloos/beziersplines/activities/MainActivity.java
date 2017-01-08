@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -31,7 +32,7 @@ import de.peterloos.beziersplines.R;
 // TODO: Die AsyncTask sollte als ersten Paramer Void bekommen ...
 
 /**
- * main activity of bézier splines app
+ * main activity of Bézier splines app
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, AdapterView.OnItemSelectedListener {
 
@@ -49,16 +50,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.setContentView(R.layout.activity_main);
 
         // prefer Action Bar Title with two lines
-//        ActionBar actionBar = this.getSupportActionBar();
-//        if (actionBar != null) {
-//            actionBar.setTitle(R.string.main_title);
-//            actionBar.setSubtitle(this.getString(R.string.sub_title));
-//        }
+        ActionBar actionBar = this.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.main_title);
+            actionBar.setSubtitle(this.getString(R.string.sub_title));
+        }
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        myToolbar.setTitle(R.string.main_title);
-        myToolbar.setSubtitle(this.getString(R.string.sub_title));
+//        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+//        setSupportActionBar(myToolbar);
+//        myToolbar.setTitle(R.string.main_title);
+//        myToolbar.setSubtitle(this.getString(R.string.sub_title));
 
 
         // retrieve control references

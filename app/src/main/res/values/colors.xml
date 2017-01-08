@@ -5,43 +5,48 @@
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
 
+    <color name="colorPrimary">#FF9800</color>
+    <color name="colorPrimaryDark">#E65100</color>
+    <color name="colorAccent">#757575</color>
+    <color name="colorTitle">#ffffff</color>
 
-    <color name="background_material_dark">#ff212121</color>
-    <color name="background_material_light">#fffafafa</color>
 
-    <color name="ripple_material_light">#20444444</color>
-    <color name="ripple_material_dark">#20ffffff</color>
+    <!--<color name="background_material_dark">#ff212121</color>-->
+    <!--<color name="background_material_light">#fffafafa</color>-->
 
-    <color name="button_material_dark">#ff5a595b</color>
-    <color name="button_material_light">#ffd6d7d7</color>
+    <!--<color name="ripple_material_light">#20444444</color>-->
+    <!--<color name="ripple_material_dark">#20ffffff</color>-->
 
-    <color name="bright_foreground_material_dark">@color/white</color>
-    <color name="bright_foreground_material_light">@color/black</color>
+    <!--<color name="button_material_dark">#ff5a595b</color>-->
+    <!--<color name="button_material_light">#ffd6d7d7</color>-->
 
-    <color name="bright_foreground_disabled_material_dark">#80ffffff</color> <!-- White 50% -->
-    <color name="bright_foreground_disabled_material_light">#80000000</color> <!-- Black 50% -->
+    <!--<color name="bright_foreground_material_dark">@color/white</color>-->
+    <!--<color name="bright_foreground_material_light">@color/black</color>-->
 
-    <color name="bright_foreground_inverse_material_dark">@color/bright_foreground_material_light</color>
-    <color name="bright_foreground_inverse_material_light">@color/bright_foreground_material_dark</color>
+    <!--<color name="bright_foreground_disabled_material_dark">#80ffffff</color> &lt;!&ndash; White 50% &ndash;&gt;-->
+    <!--<color name="bright_foreground_disabled_material_light">#80000000</color> &lt;!&ndash; Black 50% &ndash;&gt;-->
 
-    <color name="dim_foreground_material_dark">#ffbebebe</color>
-    <color name="dim_foreground_material_light">#ff323232</color>
-    <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
-    <color name="dim_foreground_disabled_material_light">#80323232</color>
+    <!--<color name="bright_foreground_inverse_material_dark">@color/bright_foreground_material_light</color>-->
+    <!--<color name="bright_foreground_inverse_material_light">@color/bright_foreground_material_dark</color>-->
+
+    <!--<color name="dim_foreground_material_dark">#ffbebebe</color>-->
+    <!--<color name="dim_foreground_material_light">#ff323232</color>-->
+    <!--<color name="dim_foreground_disabled_material_dark">#80bebebe</color>-->
+    <!--<color name="dim_foreground_disabled_material_light">#80323232</color>-->
 
     <color name="hint_foreground_material_dark">#80ffffff</color>
     <color name="hint_foreground_material_light">#80000000</color>
 
-    <color name="highlighted_text_material_dark">#6640c4ff</color> <!-- TODO: This is 40% alpha on the default accent color. -->
-    <color name="highlighted_text_material_light">#6640c4ff</color> <!-- TODO: This is 40% alpha on the default accent color. -->
+    <!--<color name="highlighted_text_material_dark">#6640c4ff</color> --> <!-- TODO: This is 40% alpha on the default accent color. -->
+    <!--<color name="highlighted_text_material_light">#6640c4ff</color> --> <!-- TODO: This is 40% alpha on the default accent color. -->
 
     <!-- Text & foreground colors -->
 
-    <color name="primary_text_default_material_light">#de000000</color> <!-- Black 87% -->
+    <!--<color name="primary_text_default_material_light">#de000000</color>  --> <!-- Black 87% -->
     <color name="secondary_text_material_light">#8a000000</color> <!-- Black 54% -->
     <color name="tertiary_text_material_light">#8a000000</color> <!-- Black 54% (TODO: same as secondary?) -->
 
-    <color name="primary_text_default_material_dark">#deffffff</color> <!-- White 87% -->
+    <!--<color name="primary_text_default_material_dark">#deffffff</color> --> <!-- White 87% -->
     <color name="secondary_text_material_dark">#61ffffff</color> <!-- White 38% -->
     <color name="tertiary_text_material_dark">#61ffffff</color> <!-- White 38% (TODO: same as secondary?) -->
 
@@ -90,7 +95,7 @@
     <color name="material_yellow_100">#fffce8b2</color>
     <color name="material_yellow_300">#fff7cb4d</color>
     <color name="material_yellow_500">#fff4b400</color>
-    <color name="material_yellow_700">#fff09300</color>
+    <color name="material_yellow_700">#f09300</color>
     <color name="material_yellow_A200">#ffffcd40</color>
     <color name="material_yellow_A400">#ffffbc00</color>
 
