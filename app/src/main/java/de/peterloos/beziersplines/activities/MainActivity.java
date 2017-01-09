@@ -49,18 +49,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
 
-        // prefer Action Bar Title with two lines
+        // prefer action bar title with two lines
         ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(R.string.main_title);
             actionBar.setSubtitle(this.getString(R.string.sub_title));
         }
-
-//        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-//        setSupportActionBar(myToolbar);
-//        myToolbar.setTitle(R.string.main_title);
-//        myToolbar.setSubtitle(this.getString(R.string.sub_title));
-
 
         // retrieve control references
         this.bezierView = (BezierView) this.findViewById(R.id.bezier_view);
@@ -96,44 +90,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int id = item.getItemId();
 
-        if (id == R.id.menu_action_demo) {
+        if (id == R.id.menu_action_settings) {
+            Toast.makeText(this, "Pressed Action Settings", Toast.LENGTH_LONG).show();
+        }
+        else if (id == R.id.menu_action_demo) {
             Context currentContext = this.getApplicationContext();
             Intent demoIntent = new Intent(currentContext, DemoActivity.class);
             this.startActivity(demoIntent);
-        } else if (id == R.id.menu_action_about) {
+        }
+        else if (id == R.id.menu_action_about) {
             Context currentContext = this.getApplicationContext();
             Intent demoIntent = new Intent(currentContext, AboutActivity.class);
+            this.startActivity(demoIntent);
+        }
+        else if (id == R.id.menu_action_docs) {
+            Context currentContext = this.getApplicationContext();
+            Intent demoIntent = new Intent(currentContext, DocumentationActivity.class);
             this.startActivity(demoIntent);
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-//    public boolean onOptionsItemSelected_Alt(MenuItem item) {
-//
-//        int id = item.getItemId();
-//
-//        if (id == R.id.menu_action_settings) {
-//            Toast.makeText(this, "Pressed Action Settings", Toast.LENGTH_LONG).show();
-//        }
-//        else if (id == R.id.menu_action_demo) {
-//            Context currentContext = this.getApplicationContext();
-//            Intent demoIntent = new Intent(currentContext, DemoActivity.class);
-//            this.startActivity(demoIntent);
-//        }
-//        else if (id == R.id.menu_action_about) {
-//            Context currentContext = this.getApplicationContext();
-//            Intent demoIntent = new Intent(currentContext, AboutActivity.class);
-//            this.startActivity(demoIntent);
-//        }
-//        else if (id == R.id.menu_action_docs) {
-//            Context currentContext = this.getApplicationContext();
-//            Intent demoIntent = new Intent(currentContext, DocumentationActivity.class);
-//            this.startActivity(demoIntent);
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     /*
      * implementing interface 'View.OnClickListener'

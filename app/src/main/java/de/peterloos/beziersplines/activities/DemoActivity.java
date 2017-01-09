@@ -3,6 +3,7 @@ package de.peterloos.beziersplines.activities;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +46,13 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
+
+        // prefer action bar title with two lines
+        ActionBar actionBar = this.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.demo);
+            actionBar.setSubtitle(this.getString(R.string.main_title));
+        }
 
         // retrieve control references
         this.bezierView = (BezierView) this.findViewById(R.id.bezier_view);
@@ -251,7 +259,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             // enable another demo to run ...
             DemoActivity.this.task = null;
         }
-
 
         @Override
         protected void onProgressUpdate(UpdateDescriptor... values) {

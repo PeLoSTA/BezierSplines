@@ -1,6 +1,6 @@
 package de.peterloos.beziersplines.activities;
 
-import android.app.Activity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -16,13 +16,11 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_about);
 
-        // prefer Action Bar Title with two lines
-//        ActionBar actionBar = this.getSupportActionBar();
-//        if (actionBar != null) {
-//            actionBar.setTitle(R.string.About);
-//            //        actionBar.setSubtitle(this.getString(R.string.sub_title));
-//            actionBar.setHomeButtonEnabled(true);
-//        }
+        // prefer action bar title with two lines
+        ActionBar actionBar = this.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.about);
+            actionBar.setSubtitle(this.getString(R.string.main_title));
+        }
     }
-
 }

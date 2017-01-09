@@ -19,6 +19,9 @@
     <string name="button_restart">Restart</string>
     <string name="show_construction">Show Construction</string>
     <string name="button_test">TEST</string>
+    <string name="about">About</string>
+    <string name="demo">Demo</string>
+    <string name="documentation">Documentation</string>
 
     <string-array name="editor_modes">
         <item>Create</item>

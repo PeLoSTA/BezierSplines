@@ -6,11 +6,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.MainActivity">
 
-<!--    <item
+    <item
         android:id="@+id/menu_action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="90"
-        app:showAsAction="never" />-->
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_action_demo"
@@ -24,10 +24,10 @@
         android:orderInCategory="92"
         app:showAsAction="never" />
 
-<!--    <item
+   <item
         android:id="@+id/menu_action_docs"
         android:title="@string/action_documentation"
         android:orderInCategory="93"
-        app:showAsAction="never" />-->
+        app:showAsAction="never" />
 
 </menu>

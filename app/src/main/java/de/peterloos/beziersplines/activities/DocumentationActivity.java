@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +36,13 @@ public class DocumentationActivity extends AppCompatActivity implements ViewPage
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_documentation);
+
+        // prefer action bar title with two lines
+        ActionBar actionBar = this.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.documentation);
+            actionBar.setSubtitle(this.getString(R.string.main_title));
+        }
 
         // retrieve control references
         this.viewPager = (ViewPager) this.findViewById(R.id.pager_documentation);

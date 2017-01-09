@@ -36,7 +36,7 @@
 
     <style name="ThisCheckboxStyle" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorControlNormal">@color/material_grey_600</item>
-        <item name="colorControlActivated">@color/material_deep_orange_500</item>
+        <item name="colorControlActivated">@color/material_red_500</item>
     </style>
 
 </resources>
