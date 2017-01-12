@@ -30,7 +30,6 @@
         <item>Clear</item>
     </string-array>
 
-
     <string-array name="docs_app_modes_headers">
         <item>Interaktives Erstellen einer Bézier-Kurve</item>
         <item>Modi der App</item>
@@ -40,25 +39,37 @@
 
     <string-array name="docs_app_modes_description">
 
-        <item>Die Stützpunkte einer Bézier-Kurve lassen sich durch simples Tippen
-auf dem Touchscreen eingeben. Die Stützpunkte werden in der Reihenfolge
-der Eingabe durchnummeriert. Ab drei oder mehr Stützpunkten
-wird die aktuelle Bézier-Kurve dargestellt.</item>
+        <item>Die Stützpunkte einer Bézier-Kurve lassen sich durch simples Tippen auf dem Touchscreen eingeben. Die Stützpunkte werden in der Reihenfolge der Eingabe durchnummeriert.
+            Ab drei oder mehr Stützpunkten wird die aktuelle Bézier-Kurve dargestellt.
+        </item>
 
-        <item>Die Stützpunkte einer Bézier-Kurve lassen sich durch simples Tippen
-auf dem Touchscreen eingeben. Die Stützpunkte werden in der Reihenfolge
-der Eingabe durchnummeriert. Ab drei oder mehr Stützpunkten
-wird die aktuelle Bézier-Kurve dargestellt.</item>
+        <item>
+            Ja nach Modus der Bézier-Kurven Ansicht kann man entweder neue Stützpunkte hinzufügen, bestehende Stützpunkte verschieben oder diese auch löschen (einzeln oder alle).
+            Eingestellt wird der App-Modus durch ein DropDown-Menü (Android-Jargon: Spinner):\n\n
 
-        <item>Die Stützpunkte einer Bézier-Kurve lassen sich durch simples Tippen
-auf dem Touchscreen eingeben. Die Stützpunkte werden in der Reihenfolge
-der Eingabe durchnummeriert. Ab drei oder mehr Stützpunkten
-wird die aktuelle Bézier-Kurve dargestellt.</item>
+            "Create" - Eingabe von Stützpunkten
+            "Edit" - Verschieben von Stützpunkten
+            "Delete" - Löschen eines Stützpunktes
+            "Clear" - Löschen von allen Stützpunkten
 
-        <item>Die Stützpunkte einer Bézier-Kurve lassen sich durch simples Tippen
-auf dem Touchscreen eingeben. Die Stützpunkte werden in der Reihenfolge
-der Eingabe durchnummeriert. Ab drei oder mehr Stützpunkten
-wird die aktuelle Bézier-Kurve dargestellt.</item>
+            Im Eingabe-Modus lassen sich durch Tippen die Stützpunkte einer Bézier-Kurve eingeben. Im Modus "Edit" können Sie durch Wischen einen Stützpunkt verschieben.
+            Dazu müssen Sie den ausgesuchten Stützpunkte zunächst Berühren (Farbe wechselt von Rot nach Grün), dann können Sie den Punkt verschieben.
+            Beachten Sie dabei: Beim Verschieben eines Stützpunkts ist die App mit vielen Rechenoperationen ausgelastet (Aktualisierung der Bézier-Kurve). Deshalb kann bei zu schnellem Wischen die App ihren Bezugspunkt zur Touch-Gestik verlieren.
+            Zum Löschen eines Stützpunkts wechseln Sie in den "Delete"-Modus. Selektieren Sie den zu löschenden Punkt mit einem Ein-Finger-Tipp. Sie können auch die komplette Bézier-Kurve löschen: Wechseln Sie dazu in den "Clear"-Modus. Nach dem Löschen der Kurve wechselt die App automatisch in den "Eingabe"-Modus.
+        </item>
+
+        <item>
+            Für jedes t im Intervall von 0 bis 1 kann man einen Punkt der Bézier-Kurve berechnen.
+            In dieser App werden für maximal 100 äquidistante Werte von <em>t</em> im Intervall [0,1] die Punkte der Bézier-Kurve ermittelt.
+            Die genaue Anzahl können Sie mit dem unteren Schiebebalken mit der Beschriftung "Resolution" einstellen.
+        </item>
+
+        <item>
+            Eine Besondertheit der Realisierung stellt die Auswahlbox "Show Construction" dar. Um die Arbeitsweise des Algorithmus von de Casteljau zu demonstrieren, werden in diesem Anzeigemodus die für die Konstruktion des aktuellen Bézierpunktes berechneten Hilfspunkte des Casteljau-Schemas zusätzlich mit angezeigt. Dies ist natürlich immer nur für einen bestimmten Parameter t aus dem Intervall [0,1] möglich.
+            Mit dem zweiten Schiebebalken am unteren Rand (Beschriftung <em>t</em>) stellen Sie diesen Wert ein.
+        </item>
+
     </string-array>
+
 
 </resources>
