@@ -10,13 +10,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="de.peterloos.beziersplines.activities.DocumentationActivity">
 
-    <RelativeLayout
+<!--    <RelativeLayout
         android:id="@+id/view_pager_indicator"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="5dp"
-        android:gravity="center">
+        android:gravity="center" >
 
         <LinearLayout
             android:id="@+id/view_pager_count_dots"
@@ -26,13 +26,22 @@
             android:gravity="center"
             android:orientation="horizontal" />
 
-    </RelativeLayout>
+    </RelativeLayout>-->
+
+    <LinearLayout
+        android:id="@+id/view_pager_count_dots"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
+        android:gravity="center" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager_documentation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/view_pager_indicator"
+        android:layout_above="@id/view_pager_count_dots"
         tools:listitem="@layout/pager_item" />
 
 </RelativeLayout>

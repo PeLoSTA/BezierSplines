@@ -1,12 +1,15 @@
 package de.peterloos.beziersplines.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v4.view.PagerAdapter;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import de.peterloos.beziersplines.R;
 
@@ -16,31 +19,75 @@ import de.peterloos.beziersplines.R;
 
 public class ViewPagerAdapter extends PagerAdapter {
 
-    private Context mContext;
-    private int[] mResources;
+    private Context context;
+    private int[] resources;
 
-    public ViewPagerAdapter(Context mContext, int[] mResources) {
-        this.mContext = mContext;
-        this.mResources = mResources;
+    private String newLine;
+
+    private String[] docsHeaders;
+    private String[] docsDescriptions;
+
+    public ViewPagerAdapter(Context context, int[] resources) {
+        this.context = context;
+        this.resources = resources;
+
+        this.newLine = System.getProperty("line.separator");
+
+        Resources res = this.context.getResources();
+
+        this.docsHeaders = res.getStringArray(R.array.docs_app_modes_headers);
+        this.docsDescriptions = res.getStringArray(R.array.docs_app_modes_description);
     }
-//
+
     @Override
     public int getCount() {
-        return mResources.length;
+        return this.resources.length;
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == ((LinearLayout) object);
+        return view == object;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View itemView = LayoutInflater.from(mContext).inflate(R.layout.pager_item, container, false);
+
+        LayoutInflater inflater = LayoutInflater.from(this.context);
+        View itemView = inflater.inflate(R.layout.pager_item, container, false);
 
         ImageView imageView = (ImageView) itemView.findViewById(R.id.img_pager_item);
-        imageView.setImageResource(mResources[position]);
+        TextView textViewHeader = (TextView) itemView.findViewById(R.id.text_docs_header);
 
+        TextView textViewDocs = (TextView) itemView.findViewById(R.id.text_docs_contents);
+        textViewDocs.setMovementMethod(new ScrollingMovementMethod());
+
+        textViewHeader.setText(this.docsHeaders[position]);
+        textViewDocs.setText(this.docsDescriptions[position]);
+
+//        textViewHeader.setText("Header");
+//
+//        textViewDocs.append("eins");
+//        textViewDocs.append(this.newLine);
+//        textViewDocs.append("zwei");
+//        textViewDocs.append(this.newLine);
+//        textViewDocs.append("drei");
+//        textViewDocs.append(this.newLine);
+//        textViewDocs.append("vier");
+//        textViewDocs.append(this.newLine);
+//        textViewDocs.append("fuenf");
+//        textViewDocs.append(this.newLine);
+//        textViewDocs.append("sechs");
+//        textViewDocs.append(this.newLine);
+//        textViewDocs.append("sieben");
+//        textViewDocs.append(this.newLine);
+//        textViewDocs.append("acht");
+//        textViewDocs.append(this.newLine);
+//        textViewDocs.append("nein");
+//        textViewDocs.append(this.newLine);
+//        textViewDocs.append("zwhn");
+//        textViewDocs.append(this.newLine);
+
+        imageView.setImageResource(this.resources[position]);
         container.addView(itemView);
 
         return itemView;
@@ -50,5 +97,4 @@ public class ViewPagerAdapter extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((LinearLayout) object);
     }
-
 }

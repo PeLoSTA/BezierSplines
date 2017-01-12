@@ -1,6 +1,5 @@
 package de.peterloos.beziersplines.activities;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -25,11 +24,10 @@ public class DocumentationActivity extends AppCompatActivity implements ViewPage
     private ViewPagerAdapter viewPagerAdapter;
 
     private int[] imagesResources = {
-            R.mipmap.abc1,
-            R.mipmap.abc2,
-            R.mipmap.abc3,
-            R.mipmap.abc4,
-            R.mipmap.abc5
+            R.mipmap.app_screenshot_01,
+            R.mipmap.app_screenshot_02,
+            R.mipmap.app_screenshot_03,
+            R.mipmap.app_screenshot_04
     };
 
     @Override

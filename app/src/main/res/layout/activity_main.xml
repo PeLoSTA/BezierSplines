@@ -34,7 +34,6 @@
                 android:id="@+id/checkbox_show_resolution"
                 android:layout_height="match_parent"
                 android:textSize="18sp"
-                android:theme="@style/ThisCheckboxStyle"
                 android:text="@string/show_construction" />
 
         </TableRow>

@@ -23,6 +23,7 @@
         <TableRow>
             <Button
                 android:id="@+id/button_stop"
+                style="@style/robotoButtonStyle"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textAllCaps="false"
@@ -30,6 +31,7 @@
 
             <Button
                 android:id="@+id/button_restart"
+                style="@style/robotoButtonStyle"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textAllCaps="false"

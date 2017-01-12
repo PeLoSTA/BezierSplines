@@ -4,17 +4,44 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:weightSum="10"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent" >
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:src="@mipmap/abc1"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:layout_width="wrap_content"
+        tools:src="@mipmap/abc4"
         android:id="@+id/img_pager_item"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        android:clickable="false"/>
+        android:scaleType="centerInside"
+        android:layout_gravity="center"
+        android:clickable="false" android:padding="10sp"
+        android:contentDescription="documentation image" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/text_docs_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ABC"
+            android:theme="@style/ThemeOverlay.MyTitleText" />
+
+        <TextView
+            android:id="@+id/text_docs_contents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:lines="6"
+            android:scrollbars="vertical"
+            style="@style/ThemeOverlay.MyTextDetail"
+            android:text="" />
+
+    </LinearLayout>
 
 </LinearLayout>

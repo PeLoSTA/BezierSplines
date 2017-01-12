@@ -3,8 +3,6 @@
 <resources>
 
     <!-- Base application theme. -->
-    <!--<style name="BezierAppTheme" parent="android:Theme.Holo">-->
-
     <style name="BezierAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 
         <!-- Customize your theme here. -->
@@ -34,9 +32,28 @@
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="ThisCheckboxStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="robotoButtonStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="buttonStyle">@style/robotoButtonStyle</item>
+    </style>
+
+    <style name="ThemeOverlay.MyTitleText" parent="BezierAppTheme">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="ThemeOverlay.MyTextDetail" parent="BezierAppTheme">
+        <item name="android:gravity">center</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+
+<!--    <style name="robotoCheckboxStyle" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorControlNormal">@color/material_grey_600</item>
         <item name="colorControlActivated">@color/material_red_500</item>
-    </style>
+        <item name="checkboxStyle">@style/robotoCheckboxStyle</item>
+    </style>-->
 
 </resources>
