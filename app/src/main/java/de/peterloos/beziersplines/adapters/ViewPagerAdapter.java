@@ -2,8 +2,12 @@ package de.peterloos.beziersplines.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.support.v4.view.PagerAdapter;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +66,16 @@ public class ViewPagerAdapter extends PagerAdapter {
         textViewDocs.setMovementMethod(new ScrollingMovementMethod());
 
         textViewHeader.setText(this.docsHeaders[position]);
-        textViewDocs.setText(this.docsDescriptions[position]);
+
+
+
+        // this.docsDescriptions = Html.fromHtml(res.getStringArray(R.array.docs_app_modes_description));
+        // textViewDocs.setText(Html.fromHtml(this.docsDescriptions[position], Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE));
+
+        Spanned description = this.fromHtml (this.docsDescriptions[position]);
+        textViewDocs.setText(description);
+
+
 
 //        textViewHeader.setText("Header");
 //
@@ -96,5 +109,20 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((LinearLayout) object);
+    }
+
+    @SuppressWarnings("deprecation")
+    private static Spanned fromHtml (String html) {
+
+        Spanned result;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Log.v("PeLo", "NEW API");
+            result = Html.fromHtml(html, Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE);
+        }
+        else {
+            Log.v("PeLo", "OLD API");
+            result = Html.fromHtml(html);
+        }
+        return result;
     }
 }

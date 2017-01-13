@@ -38,8 +38,11 @@
 
     <string-array name="docs_app_modes_description">
 
-        <item>Die Stützpunkte einer Bézier-Kurve lassen sich durch simples Tippen auf dem Touchscreen eingeben. Die Stützpunkte werden in der Reihenfolge der Eingabe durchnummeriert.
-            Ab drei oder mehr Stützpunkten wird die aktuelle Bézier-Kurve dargestellt.
+        <item>
+            <![CDATA[
+              Die Stützpunkte einer <b>BBBézier</b>-Kurve lassen sich durch simples Tippen auf dem Touchscreen eingeben. Die Stützpunkte werden in der Reihenfolge der Eingabe durchnummeriert.
+              Ab drei oder mehr Stützpunkten wird die aktuelle Bézier-Kurve dargestellt.
+            ]]>
         </item>
 
         <item>
