@@ -38,8 +38,8 @@ public class DocumentationActivity extends AppCompatActivity implements ViewPage
         // prefer action bar title with two lines
         ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(R.string.documentation);
-            actionBar.setSubtitle(this.getString(R.string.main_title));
+            actionBar.setTitle(R.string.title_activity_documentation);
+            actionBar.setSubtitle(this.getString(R.string.app_main_title));
         }
 
         // retrieve control references

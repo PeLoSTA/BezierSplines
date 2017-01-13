@@ -34,6 +34,4 @@ public class UpdateDescriptor {
     public boolean isChangeT() {
         return this.changeT;
     }
-
-
 }

@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // prefer action bar title with two lines
         ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(R.string.main_title);
-            actionBar.setSubtitle(this.getString(R.string.sub_title));
+            actionBar.setTitle(R.string.app_main_title);
+            actionBar.setSubtitle(this.getString(R.string.app_sub_title));
         }
 
         // retrieve control references

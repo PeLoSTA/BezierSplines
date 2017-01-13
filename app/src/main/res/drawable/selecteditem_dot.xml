@@ -6,8 +6,8 @@
     android:useLevel="true">
 
     <size
-        android:width="12dip"
-        android:height="12dip" />
+        android:width="10dip"
+        android:height="10dip" />
 
     <solid android:color="#40000000" />
 </shape>

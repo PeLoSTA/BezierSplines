@@ -19,8 +19,8 @@ public class AboutActivity extends AppCompatActivity {
         // prefer action bar title with two lines
         ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(R.string.about);
-            actionBar.setSubtitle(this.getString(R.string.main_title));
+            actionBar.setTitle(R.string.title_activity_about);
+            actionBar.setSubtitle(this.getString(R.string.app_main_title));
         }
     }
 }

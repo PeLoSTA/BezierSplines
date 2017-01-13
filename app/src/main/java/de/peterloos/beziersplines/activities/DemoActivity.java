@@ -1,6 +1,5 @@
 package de.peterloos.beziersplines.activities;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -50,8 +49,8 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         // prefer action bar title with two lines
         ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(R.string.demo);
-            actionBar.setSubtitle(this.getString(R.string.main_title));
+            actionBar.setTitle(R.string.title_activity_demo);
+            actionBar.setSubtitle(this.getString(R.string.app_main_title));
         }
 
         // retrieve control references
