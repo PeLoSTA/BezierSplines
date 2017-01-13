@@ -18,15 +18,15 @@
         android:orderInCategory="91"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/menu_action_about"
-        android:title="@string/action_about"
-        android:orderInCategory="92"
-        app:showAsAction="never" />
-
    <item
         android:id="@+id/menu_action_docs"
         android:title="@string/action_documentation"
+        android:orderInCategory="92"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_action_about"
+        android:title="@string/action_about"
         android:orderInCategory="93"
         app:showAsAction="never" />
 
