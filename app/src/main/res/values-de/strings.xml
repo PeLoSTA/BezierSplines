@@ -3,7 +3,7 @@
     <string name="app_name">De Casteljau Bézierkurven Simulation</string>
     <string name="app_name_for_app_drawer">Bézierkurven</string>
     <string name="resolution">Auflösung:</string>
-    <string name="t">T:</string>
+    <string name="t">t:</string>
     <string name="button_clear">Clear</string>
     <string name="action_info">My Info</string>
     <string name="action_settings">Einstellungen</string>

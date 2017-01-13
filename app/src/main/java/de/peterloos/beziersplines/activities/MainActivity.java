@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import android.view.Menu;
@@ -27,7 +27,6 @@ import de.peterloos.beziersplines.R;
 
 // TODO: Die Seekbars sind recht ungenau ... für schrittweise könnte man auch eine Stepwise Control benötigen#
 
-// TODO: Starte jetzt mit Material Layout
 // TODO: Die AsyncTask sollte als dritten Paramer Void bekommen ...
 // TODO: Die AsyncTask sollte als ersten Paramer Void bekommen ...
 
@@ -37,12 +36,13 @@ import de.peterloos.beziersplines.R;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, AdapterView.OnItemSelectedListener {
 
     private BezierView bezierView;
-    private CheckBox checkboxResolution;
+    private CheckBox checkboxConstruction;
     private SeekBar seekBarResolution;
     private SeekBar seekBarT;
     private TextView textViewResolution;
     private TextView textViewT;
     private Spinner spinnerMode;
+    private TableRow tableRowConstruction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,24 +58,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // retrieve control references
         this.bezierView = (BezierView) this.findViewById(R.id.bezier_view);
-        this.checkboxResolution = (CheckBox) this.findViewById(R.id.checkbox_show_resolution);
+        this.checkboxConstruction = (CheckBox) this.findViewById(R.id.checkbox_show_construction);
         this.seekBarResolution = (SeekBar) this.findViewById(R.id.seekbar_resolution);
         this.seekBarT = (SeekBar) this.findViewById(R.id.seekbar_t);
         this.textViewResolution = (TextView) this.findViewById(R.id.textview_resolution);
         this.textViewT = (TextView) this.findViewById(R.id.textview_t);
         this.spinnerMode = (Spinner) this.findViewById(R.id.spinner_editormode);
+        this.tableRowConstruction = (TableRow) this.findViewById(R.id.t_seekbar);
 
         // connect with event handlers
-        this.checkboxResolution.setOnClickListener(this);
+        this.checkboxConstruction.setOnClickListener(this);
         this.seekBarResolution.setOnSeekBarChangeListener(this);
         this.seekBarT.setOnSeekBarChangeListener(this);
         this.spinnerMode.setOnItemSelectedListener(this);
 
         // initialize controls
-        this.checkboxResolution.setChecked(false);
         this.seekBarResolution.setProgress(50);
         this.seekBarT.setProgress(50);
         this.bezierView.setShowConstruction(false);
+
+        this.checkboxConstruction.setChecked(false);
+        this.tableRowConstruction.setVisibility(View.GONE);
     }
 
     @Override
@@ -119,11 +122,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
-        if (view == this.checkboxResolution) {
-            if (this.checkboxResolution.isChecked()) {
+        if (view == this.checkboxConstruction) {
+            if (this.checkboxConstruction.isChecked()) {
                 this.bezierView.setShowConstruction(true);
+                this.tableRowConstruction.setVisibility(View.VISIBLE);
             } else {
                 this.bezierView.setShowConstruction(false);
+                this.tableRowConstruction.setVisibility(View.GONE);
             }
         }
     }

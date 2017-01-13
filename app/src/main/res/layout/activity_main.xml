@@ -31,7 +31,7 @@
                 android:layout_height="match_parent" />
 
             <CheckBox
-                android:id="@+id/checkbox_show_resolution"
+                android:id="@+id/checkbox_show_construction"
                 android:layout_height="match_parent"
                 android:textSize="18sp"
                 android:text="@string/show_construction" />
@@ -47,9 +47,10 @@
         android:stretchColumns="2"
         android:shrinkColumns="0,1"
         android:layout_margin="10dp"
+        android:animateLayoutChanges="true"
         android:layout_alignParentBottom="true" >
 
-        <TableRow>
+        <TableRow android:id="@+id/resolution_seekbar">
             <TextView
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
@@ -78,7 +79,7 @@
                 android:progress="1" />
         </TableRow>
 
-        <TableRow>
+        <TableRow  android:id="@+id/t_seekbar">
             <TextView
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"

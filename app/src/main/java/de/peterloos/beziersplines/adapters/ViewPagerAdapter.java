@@ -118,6 +118,10 @@ public class ViewPagerAdapter extends PagerAdapter {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Log.v("PeLo", "NEW API");
             result = Html.fromHtml(html, Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE);
+
+            // TODO: Den Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE auf dem Samsung testen !!!
+            // TODO: Es gäbe da auch einen LEGACY Parameter ... was immer der tut ?!?!
+
         }
         else {
             Log.v("PeLo", "OLD API");
