@@ -20,7 +20,7 @@
     <string name="about_link">peterloos.de</string>
     <string name="button_stop">Stop</string>
     <string name="button_restart">Start</string>
-    <string name="show_construction">Zeige Konstruktion</string>
+    <string name="show_construction">Konstruktion</string>
 
     <!-- main spinner -->
     <string-array name="editor_modes">
