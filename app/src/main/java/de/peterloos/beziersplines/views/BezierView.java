@@ -6,8 +6,10 @@ import android.graphics.Color;
 
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -57,6 +59,11 @@ public class BezierView extends View implements View.OnTouchListener {
     private int resolution;
     private float constructionPosition;
 
+    private String positionInfo;
+    private Rect positionBounds;
+    private float xPosInfo;
+    private float yPosInfo;
+
     // c'tor
     public BezierView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -87,6 +94,11 @@ public class BezierView extends View implements View.OnTouchListener {
 
         this.resolution = 50;
         this.constructionPosition = (float) 0.5;
+
+        this.positionInfo = "";
+        this.positionBounds = null;
+        this.xPosInfo = 0.0F;
+        this.yPosInfo = 0.0F;
     }
 
     // getter/setter
@@ -112,6 +124,7 @@ public class BezierView extends View implements View.OnTouchListener {
     // public interface
     public void clear() {
         this.controlPoints.clear();
+        this.positionInfo = "            ";
         this.invalidate();
     }
 
@@ -135,56 +148,6 @@ public class BezierView extends View implements View.OnTouchListener {
         this.invalidate();
     }
 
-    // test interface
-    public void showScreenshot() {
-
-        List<BezierPoint> circleList;
-
-        // screen-shot (totally random)
-        circleList = showScreenshot01();
-
-        // screen-shot (lines)
-        // circleList = showScreenshot02();
-
-        // screen-shot (two concentric circles)
-        // circleList = showScreenshot03();
-
-        // screet-shot (bunch of lines)
-        // circleList = showScreenshot04();
-
-        this.addControlPoints(circleList);
-    }
-
-    private List<BezierPoint> showScreenshot01() {
-        return BezierUtils.getTotallyRandom(this.getWidth(), this.getHeight(), 70);
-    }
-
-    private List<BezierPoint> showScreenshot02() {
-        float centerX = this.getWidth() / 2;
-        float centerY = this.getHeight() / 2;
-        float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
-        int partitions = 6;
-        return BezierUtils.getDemoCircle01(centerX, centerY, squareLength / 2 - 50, partitions);
-    }
-
-    private List<BezierPoint> showScreenshot03() {
-        float centerX = this.getWidth() / 2;
-        float centerY = this.getHeight() / 2;
-        float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
-        float arcLentgth = 0.5f;
-        return BezierUtils.getDemoConcentricCircles(centerX, centerY, squareLength / 5, squareLength / 2 - 50, arcLentgth);
-    }
-
-    private List<BezierPoint> showScreenshot04() {
-        float centerX = this.getWidth() / 2;
-        float centerY = this.getHeight() / 2;
-        float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
-        float distance = squareLength / 6;
-        int numEdges = 6;
-        return BezierUtils.getDemoRectangle(centerX - distance / 2, centerY - distance / 2, distance, numEdges);
-    }
-
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -195,6 +158,8 @@ public class BezierView extends View implements View.OnTouchListener {
             this.drawBezierCurve(canvas);
         if (this.showConstruction)
             this.drawConstructionPoints(canvas);
+
+        this.drawPositionInfo(canvas);
     }
 
     @Override
@@ -203,21 +168,31 @@ public class BezierView extends View implements View.OnTouchListener {
         if (this.mode == BezierMode.Demo)
             return true;
 
+        // prevent touch events outside the bounds of the view
+        if (event.getX() <= CircleRadius)
+            return true;
+        if (event.getX() >= this.getWidth() - CircleRadius)
+            return true;
+        if (event.getY() <= CircleRadius)
+            return true;
+        if (event.getY() >= this.getHeight() - CircleRadius)
+            return true;
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            startX = (int) event.getX();
-            startY = (int) event.getY();
+            this.startX = event.getX();
+            this.startY = event.getY();
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             float endX = event.getX();
             float endY = event.getY();
-            float dX = Math.abs(endX - startX);
-            float dY = Math.abs(endY - startY);
+            float dX = Math.abs(endX - this.startX);
+            float dY = Math.abs(endY - this.startY);
 
             if (Math.sqrt(dX * dX + dY * dY) <= this.touchSlop) {
                 BezierPoint p = new BezierPoint(this.startX, this.startY);
                 if (this.mode == BezierMode.Create) {
-
                     // add new control point
                     this.addControlPoint(p);
+                    this.setTouchPosition((int) p.getX(), (int) p.getY());
                 } else if (this.mode == BezierMode.Delete) {
                     int index = this.getNearestPointIndex(p);
                     if (index == -1) {
@@ -225,6 +200,8 @@ public class BezierView extends View implements View.OnTouchListener {
                     }
 
                     // remove this control point
+                    p = this.controlPoints.get(index);
+                    this.setTouchPosition((int) p.getX(), (int) p.getY());
                     this.removeControlPoint(index);
                 }
             }
@@ -237,6 +214,7 @@ public class BezierView extends View implements View.OnTouchListener {
                 }
 
                 // update control point
+                this.setTouchPosition((int) p.getX(), (int) p.getY());
                 this.updateControlPoint(dragIndex, p);
             }
         }
@@ -276,40 +254,6 @@ public class BezierView extends View implements View.OnTouchListener {
             p0 = p1;
         }
     }
-
-//    // alternative implementation of drawBezierCurve - using drawLines
-//    private void drawBezierCurve(Canvas canvas) {
-//        int numPoints = this.controlPoints.size();
-//        if (numPoints < 3)
-//            return;
-//
-//        ArrayList<Float> points = new ArrayList<>();
-//
-//        BezierPoint p0 = this.controlPoints.get(0);
-//        for (int i = 1; i <= this.resolution; i++) {
-//            float t = ((float) i) / ((float) this.resolution);
-//            BezierPoint p1 = this.computeBezierPoint(t);
-//
-//            points.add(p0.getX());
-//            points.add(p0.getY());
-//            points.add(p1.getX());
-//            points.add(p1.getY());
-//
-//
-//            p0 = p1;
-//        }
-//
-//        // convert List<Float> to float[] - the only way to create a genuine array
-//        float[] pts = new float [points.size()];
-//        int i = 0;
-//        for (float f : points) {
-//            pts[i++] = f;
-//        }
-//
-//        this.linePaint.setColor(ColorCurveLine);
-//        this.linePaint.setStrokeWidth(StrokeWidthCurveLine);
-//        canvas.drawLines(pts, this.linePaint );
-//    }
 
     // helper function to compute a bezier point defined by the control polygon at value t
     private BezierPoint computeBezierPoint(float t) {
@@ -422,6 +366,27 @@ public class BezierView extends View implements View.OnTouchListener {
         }
     }
 
+    private void setTouchPosition(int x, int y) {
+
+        this.positionInfo = String.format(Locale.getDefault(), "%03d, %03d", x, y);
+    }
+
+    private void drawPositionInfo(Canvas canvas) {
+
+        // calculate coordinates of info text
+        if (this.positionBounds == null) {
+
+            this.positionBounds = new Rect();
+            String test = String.format(Locale.getDefault(), "%03d, %03d", 888, 888);
+            this.textPaint.getTextBounds(test, 0, test.length(), this.positionBounds);
+
+            this.xPosInfo = (int) (this.getWidth() - this.positionBounds.width() - 10);
+            this.yPosInfo = (int) (this.positionBounds.height() + 10);
+        }
+
+        canvas.drawText(this.positionInfo, this.xPosInfo, this.yPosInfo, this.textPaint);
+    }
+
     // drawing helper methods for lines
     private void drawConstructionLine(Canvas canvas, BezierPoint p0, BezierPoint p1) {
         this.drawLine(canvas, p0, p1, ColorConstructionLine, StrokeWidthConstructionLine);
@@ -439,5 +404,54 @@ public class BezierView extends View implements View.OnTouchListener {
         this.linePaint.setColor(color);
         this.linePaint.setStrokeWidth(strokeWidth);
         canvas.drawLine(p0.getX(), p0.getY(), p1.getX(), p1.getY(), this.linePaint);
+    }
+
+    // test interface
+    public void showScreenshot() {
+
+        List<BezierPoint> circleList;
+
+        // screen-shot (totally random)
+        circleList = showScreenshot01();
+
+        // screen-shot (lines)
+        // circleList = showScreenshot02();
+
+        // screen-shot (two concentric circles)
+        // circleList = showScreenshot03();
+
+        // screet-shot (bunch of lines)
+        // circleList = showScreenshot04();
+
+        this.addControlPoints(circleList);
+    }
+
+    private List<BezierPoint> showScreenshot01() {
+        return BezierUtils.getTotallyRandom(this.getWidth(), this.getHeight(), 70);
+    }
+
+    private List<BezierPoint> showScreenshot02() {
+        float centerX = this.getWidth() / 2;
+        float centerY = this.getHeight() / 2;
+        float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
+        int partitions = 6;
+        return BezierUtils.getDemoCircle01(centerX, centerY, squareLength / 2 - 50, partitions);
+    }
+
+    private List<BezierPoint> showScreenshot03() {
+        float centerX = this.getWidth() / 2;
+        float centerY = this.getHeight() / 2;
+        float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
+        float arcLentgth = 0.5f;
+        return BezierUtils.getDemoConcentricCircles(centerX, centerY, squareLength / 5, squareLength / 2 - 50, arcLentgth);
+    }
+
+    private List<BezierPoint> showScreenshot04() {
+        float centerX = this.getWidth() / 2;
+        float centerY = this.getHeight() / 2;
+        float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
+        float distance = squareLength / 6;
+        int numEdges = 6;
+        return BezierUtils.getDemoRectangle(centerX - distance / 2, centerY - distance / 2, distance, numEdges);
     }
 }
