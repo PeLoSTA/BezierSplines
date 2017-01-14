@@ -24,10 +24,10 @@ public class DocumentationActivity extends AppCompatActivity implements ViewPage
     private ViewPagerAdapter viewPagerAdapter;
 
     private int[] imagesResources = {
-            R.mipmap.app_screenshot_01,
-            R.mipmap.app_screenshot_02,
-            R.mipmap.app_screenshot_03,
-            R.mipmap.app_screenshot_04
+            R.mipmap.app_screenshot_1,
+            R.mipmap.app_screenshot_2,
+            R.mipmap.app_screenshot_3,
+            R.mipmap.app_screenshot_4
     };
 
     @Override
