@@ -30,6 +30,11 @@ import de.peterloos.beziersplines.R;
 // TODO: Die AsyncTask sollte als dritten Paramer Void bekommen ...
 // TODO: Die AsyncTask sollte als ersten Paramer Void bekommen ...
 
+
+// TODO: Habe min version von 16 auf 17 hochgesetzt
+// TODO: a) Wieviele Cliens velieren ich dacurch
+// TODO: b) Dokumentaton der der Developers Console nachziehen
+
 /**
  * main activity of Bézier splines app
  */
@@ -94,7 +99,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.menu_action_settings) {
-            Toast.makeText(this, "Pressed Action Settings", Toast.LENGTH_LONG).show();
+            Context currentContext = this.getApplicationContext();
+            Intent settingsIntent = new Intent(currentContext, SettingsActivity.class);
+            this.startActivity(settingsIntent);
         }
         else if (id == R.id.menu_action_demo) {
             Context currentContext = this.getApplicationContext();

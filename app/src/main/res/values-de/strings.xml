@@ -8,7 +8,8 @@
     <string name="app_sub_title">De Casteljau\'s Algorithmus</string>
     <string name="title_activity_about">Über</string>
     <string name="title_activity_documentation">Dokumentation</string>
-    <string name="title_activity_demo">Demonstration</string>
+    <string name="title_activity_demo">Demon</string>
+    <string name="title_activity_settings">Einstellungen</string>
 
     <!-- views -->
     <string name="resolution">Auflösung:</string>
@@ -21,6 +22,8 @@
     <string name="button_stop">Stop</string>
     <string name="button_restart">Start</string>
     <string name="show_construction">Konstruktion</string>
+    <string name="button_english">Englisch</string>
+    <string name="button_german">Deutsch</string>
 
     <!-- main spinner -->
     <string-array name="editor_modes">

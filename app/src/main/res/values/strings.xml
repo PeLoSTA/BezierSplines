@@ -9,6 +9,7 @@
     <string name="title_activity_about">About</string>
     <string name="title_activity_documentation">Documentation</string>
     <string name="title_activity_demo">Demo</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- views -->
     <string name="resolution">Resolution:</string>
@@ -21,6 +22,8 @@
     <string name="button_stop">Stop</string>
     <string name="button_restart">Restart</string>
     <string name="show_construction">Show Construction</string>
+    <string name="button_english">English</string>
+    <string name="button_german">German</string>
 
     <!-- main spinner -->
     <string-array name="editor_modes">
