@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
@@ -60,6 +63,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             actionBar.setTitle(R.string.app_main_title);
             actionBar.setSubtitle(this.getString(R.string.app_sub_title));
         }
+
+        //  width of display ?!?!?!
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        WindowManager wm = this.getWindowManager();
+//        Display display = wm.getDefaultDisplay();
+//        display.getMetrics(metrics);
+//        Log.v("PeLo", "DisplayMetrics ===> " + metrics.widthPixels + "," + metrics.heightPixels);
+
+        //  width of display ?!?!?!
 
         // retrieve control references
         this.bezierView = (BezierView) this.findViewById(R.id.bezier_view);
@@ -149,14 +161,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (seekBar == this.seekBarResolution) {
 
-            Log.v("PeLo", "onProgressChanged Resolution: " + Integer.toString(i));
-
             String s = Integer.toString(i);
             this.textViewResolution.setText(s);
             this.bezierView.setResolution(i);
         } else if (seekBar == this.seekBarT) {
-
-            Log.v("PeLo", "onProgressChanged T: " + Integer.toString(i));
 
             float constructionPosition = (float) 0.01 * i;
             String pos = String.format(Locale.getDefault(), "%.2f", constructionPosition);

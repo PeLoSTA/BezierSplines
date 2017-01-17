@@ -35,7 +35,7 @@
 
     <!-- documentation: header -->
     <string-array name="docs_app_modes_headers">
-        <item>Interaktives Erstellen einer Bézier-Kurve</item>
+        <item>Interaktives Erstellen einer\nBézier-Kurve</item>
         <item>Modi der App</item>
         <item>Auflösung der Kurve</item>
         <item>Algorithmus von de Casteljau</item>

@@ -8,7 +8,7 @@
     <string name="app_sub_title">De Casteljau\'s Algorithmus</string>
     <string name="title_activity_about">Über</string>
     <string name="title_activity_documentation">Dokumentation</string>
-    <string name="title_activity_demo">Demon</string>
+    <string name="title_activity_demo">Demo</string>
     <string name="title_activity_settings">Einstellungen</string>
 
     <!-- views -->
@@ -35,7 +35,7 @@
 
     <!-- documentation: header -->
     <string-array name="docs_app_modes_headers">
-        <item>Interaktives Erstellen einer Bézier-Kurve</item>
+        <item>Interaktives Erstellen einer\nBézier-Kurve</item>
         <item>Modi der Kurvenstellung</item>
         <item>Auflösung der Kurve</item>
         <item>Algorithmus von de Casteljau</item>
