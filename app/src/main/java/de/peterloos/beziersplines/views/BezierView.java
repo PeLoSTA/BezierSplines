@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,7 +40,7 @@ public class BezierView extends View implements View.OnTouchListener {
 
     // density-independent pixels for text
     private static final int StrokeWidthTextSizeDp = 18;
-    private static final int StrokeWidthInfoPaddingDp = 5;
+    private static final int StrokeWidthInfoPaddingDp = 8;
 
     // color settings
     private static final int ColorLineBetweenControlPoints = 0xFF565656; /* inverted dark gray */
@@ -100,9 +99,8 @@ public class BezierView extends View implements View.OnTouchListener {
 
         this.mode = BezierMode.Create;
 
-        // TODO: Warum wird da this.getContext() gerufem ... haben WIR DAOCH ALS PARAMETER
-        // TODO: Die CValls zerlegen ....
-        this.touchSlop = ViewConfiguration.get(this.getContext()).getScaledTouchSlop();
+        ViewConfiguration vc = ViewConfiguration.get(context);
+        this.touchSlop = vc.getScaledTouchSlop();
 
         this.controlPoints = new ArrayList<>();
 
@@ -142,7 +140,7 @@ public class BezierView extends View implements View.OnTouchListener {
         this.yPosInfo = 0.0F;
         this.strokeWidthInfoPadding = this.convertDpToPixel(StrokeWidthInfoPaddingDp);
 
-        //  need size of view (when view is visible
+        //  need size of view (when view is visible)
         ViewTreeObserver vto = this.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -151,11 +149,8 @@ public class BezierView extends View implements View.OnTouchListener {
 
                 int width = BezierView.this.getMeasuredWidth();
                 int height = BezierView.this.getMeasuredHeight();
-
                 BezierView.this.viewDigitsOfWidth = BezierView.this.digitsOfNumber(width);
                 BezierView.this.viewDigitsOfHeight = BezierView.this.digitsOfNumber(height);
-
-                Log.v("PeLo", "View Metrics (2) ===> " + BezierView.this.viewDigitsOfWidth + "," + BezierView.this.viewDigitsOfHeight);
             }
         });
     }
@@ -183,7 +178,7 @@ public class BezierView extends View implements View.OnTouchListener {
     // public interface
     public void clear() {
         this.controlPoints.clear();
-        this.positionInfo = "                ";
+        this.positionInfo = "                  ";
         this.invalidate();
     }
 
@@ -409,7 +404,15 @@ public class BezierView extends View implements View.OnTouchListener {
 
     private void drawPoint(Canvas canvas, float cx, float cy, int colorStart, int colorEnd, String text, boolean drawBorder) {
 
-        Shader shader = new LinearGradient(cx, cy, cx + this.strokeWidthCircle, cy + this.strokeWidthCircle, colorStart, colorEnd, Shader.TileMode.CLAMP);
+        Shader shader = new LinearGradient(
+            cx,
+            cy,
+            cx + this.strokeWidthCircle,
+            cy + this.strokeWidthCircle,
+            colorStart,
+            colorEnd,
+            Shader.TileMode.CLAMP);
+
         this.circlePaint.setShader(shader);
         this.circlePaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(cx, cy, this.strokeWidthCircle, this.circlePaint);
@@ -427,21 +430,6 @@ public class BezierView extends View implements View.OnTouchListener {
 
 
     private void setTouchPosition(int x, int y) {
-
-        // GEHT - aber die 4 ist statisch
-        // this.positionInfo = String.format(Locale.getDefault(), "%04d, %04d", x, y);
-
-        // GEHT - mit führender Null
-//        String fmt = "%0" + this.viewDigitsOfWidth + "d, %0" + this.viewDigitsOfHeight + "d";
-//        Log.v("PeLo", "fmt ==> " + fmt);
-//        this.positionInfo = String.format(Locale.getDefault(), fmt, x, y);
-
-        // GEHT - ohne führender Null
-//        String fmt = "%" + this.viewDigitsOfWidth + "d, %" + this.viewDigitsOfHeight + "d";
-//        Log.v("PeLo", "fmt ==> " + fmt);
-//        this.positionInfo = String.format(Locale.getDefault(), fmt, x, y);
-
-        // GEHT - am einfachsten !!!!!!
         this.positionInfo = String.format(Locale.getDefault(), "%d, %d", x, y);
     }
 
@@ -463,10 +451,7 @@ public class BezierView extends View implements View.OnTouchListener {
             this.positionBounds = new Rect();
 
             // build dummy string: maximum number of digits, plus one comma, plus one space
-//            String fmt = "%" + this.viewDigitsOfWidth + "d,%" + this.viewDigitsOfHeight + "d";
-//            Log.v("PeLo", "fmt ==> " + fmt);
             String fmt = "%d, %d";
-            Log.v("PeLo", "fmt ==> " + fmt);
 
             // want numbers consisting of '8s
             int dummy1 = 0;
@@ -477,15 +462,8 @@ public class BezierView extends View implements View.OnTouchListener {
             for (int i = 0; i < this.viewDigitsOfHeight; i ++)
                 dummy2 = 10 * dummy2 + 8;
 
-            Log.v("PeLo", "dummy1 ==> " + dummy1);
-            Log.v("PeLo", "dummy2 ==> " + dummy2);
-
-//            String test = String.format(Locale.getDefault(), "%04d, %04d", 8888, 8888);
-//            this.textPaint.getTextBounds(test, 0, test.length(), this.positionBounds);
-
             String test = String.format(Locale.getDefault(), fmt, dummy1, dummy2);
             this.textPaint.getTextBounds(test, 0, test.length(), this.positionBounds);
-            Log.v("PeLo", "test ==> " + test);
 
             this.xPosInfo = (int) (this.getWidth() - this.positionBounds.width() - this.strokeWidthInfoPadding);
             this.yPosInfo = (int) (this.positionBounds.height() + this.strokeWidthInfoPadding);
@@ -518,35 +496,24 @@ public class BezierView extends View implements View.OnTouchListener {
         Resources res = this.getResources();
         DisplayMetrics dm = res.getDisplayMetrics() ;
         float strokeWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpSize, dm);
-
-        // String test = String.format(Locale.getDefault(), "  converted %d Dp to %d pixel ###", dpSize, (int) strokeWidth);
-        // Log.v("PeLo", test);
-
         return strokeWidth;
     }
 
-    private float convertDpToPixel_Variant2 (int dpSize) {
-        Log.v("PeLo", "convertDpToPixel");
+    private float convertDpToPixel_V2 (int dpSize) {
+
         Resources res = this.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         // convert the dps to pixels, based on density scale
         float strokeWidth = dpSize * dm.density + 0.5f;
-
-        String test = String.format(Locale.getDefault(), "  converted %d Dp to %d pixel #####", dpSize, (int) strokeWidth);
-        Log.v("PeLo", test);
-
         return strokeWidth;
     }
 
     private int digitsOfNumber(int number) {
-
         int result = 0;
-
         while (number != 0) {
             number = number / 10;
             result ++;
         }
-
         return result;
     }
 

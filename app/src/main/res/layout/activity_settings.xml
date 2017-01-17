@@ -29,4 +29,13 @@
         android:textAllCaps="false"
         android:text="@string/button_german" />
 
+    <Button
+        android:id="@+id/button_strokewidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/robotoButtonStyle"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:text="@string/stroke_width" />
+
 </LinearLayout>

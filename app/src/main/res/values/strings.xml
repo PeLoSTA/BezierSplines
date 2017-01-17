@@ -24,6 +24,7 @@
     <string name="show_construction">Show Construction</string>
     <string name="button_english">English</string>
     <string name="button_german">German</string>
+    <string name="stroke_width">Stroke Width</string>
 
     <!-- main spinner -->
     <string-array name="editor_modes">
