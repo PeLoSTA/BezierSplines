@@ -1,5 +1,6 @@
 package de.peterloos.beziersplines.activities;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -18,6 +19,7 @@ import de.peterloos.beziersplines.utils.BezierMode;
 import de.peterloos.beziersplines.utils.BezierPoint;
 import de.peterloos.beziersplines.R;
 import de.peterloos.beziersplines.utils.BezierUtils;
+import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
 import de.peterloos.beziersplines.views.BezierView;
 
 /**
@@ -70,6 +72,10 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         this.bezierView.setT(0);
         this.bezierView.setShowConstruction(true);
 
+        // retrieve shared preferences
+        Context context = this.getApplicationContext();
+        SharedPreferencesUtils.readSharedPreferences(context, this.bezierView);
+
         // initialize controls
         String resolution = String.format(Locale.getDefault(), "%d", BezierViewResolution);
         this.textViewResolution.setText(resolution);
@@ -104,27 +110,11 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
                     // DemoActivity.this.computeDemoControlPoints();
 
-                    Log.v("PeLo", "onGlobalLayout !!!!!!!!!!!!!!!!!! " + Integer.toString(DemoActivity.this.width) + ", " + Integer.toString(DemoActivity.this.height));
+                    Log.v("PeLo", "onGlobalLayout " + Integer.toString(DemoActivity.this.width) + ", " + Integer.toString(DemoActivity.this.height));
 
                     DemoActivity.this.task = new DemoActivity.DemoOperation();
                     DemoActivity.this.task.setRunning(true);
                     DemoActivity.this.task.execute("Let's go ...");
-                } else if (DemoActivity.this.width > 0 && DemoActivity.this.width != DemoActivity.this.bezierView.getWidth()) {
-
-                    /*
-                     * layout sizes have (probably) changed
-                     */
-                    Log.v("PeLo", "onGlobalLayout !!!!!!!!!!!!!!!!!! NEW Layout sizes - to be done ...");
-                } else if (DemoActivity.this.width > 0 && DemoActivity.this.width == DemoActivity.this.bezierView.getWidth()) {
-                    /*
-                     * (probably) same layout sizes - ignore this call
-                     */
-                    Log.v("PeLo", "onGlobalLayout !!!!!!!!!!!!!!!!!! SAME Layout sizes - ignore...");
-                } else {
-                    /*
-                     * // totally unexpected invocation - ignore
-                     */
-                    Log.v("PeLo", "onGlobalLayout !!!!!!!!!!!!!!!!!! TOTALLY unexpected invocation - ignore");
                 }
             }
         });
@@ -163,7 +153,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         if (view == this.buttonStop) {
 
             if (this.task != null) {
-                Log.v("PeLo", "button stop");
 
                 this.task.setRunning(false);
                 this.task = null;
@@ -171,7 +160,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         } else if (view == this.buttonRestart) {
 
             if (this.task == null) {
-                Log.v("PeLo", "restart");
 
                 this.bezierView.clear();
                 this.bezierView.setT(0);
@@ -253,7 +241,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(String result) {
-            Log.v("PeLo", "onPostExecute: Done ");
 
             // enable another demo to run ...
             DemoActivity.this.task = null;
@@ -280,14 +267,11 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onPause() {
-        Log.v("PeLo", "onPause");
         super.onPause();
-
     }
 
     @Override
     protected void onStop() {
-        Log.v("PeLo", "lifecycle onStop");
 
         if (this.task != null) {
             this.task.setRunning(false);
@@ -299,7 +283,6 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
-        Log.v("PeLo", "onDestroy");
         super.onDestroy();
     }
 }

@@ -1,32 +1,51 @@
 package de.peterloos.beziersplines.activities;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-// import android.support.v7.view.ContextThemeWrapper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.Locale;
 
 import de.peterloos.beziersplines.R;
 import de.peterloos.beziersplines.utils.LocaleUtils;
+import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
 
 public class SettingsActivity extends AppCompatActivity  implements View.OnClickListener {
+
+    private static final int NumScaleFactors = 5;
 
     private Button buttonEnglish;
     private Button buttonGerman;
     private Button buttonStrokeWidth;
+
+    private EditText editTextStrokeWidth;
+    private RelativeLayout relativeLayoutStrokeWidth;
+
+    // private SharedPreferences sharedPref;
+
+    // TODO: DIe müssen in die String.xml Dateien ...
+    // private final CharSequence[] items = { "Extra Light", "Light", "Normal", "Bold", "Extra Bold" };
+    // private final float[] scaleFactors = new float[] { 0.6F, 0.8F, 1.0F, 1.2F, 1.4F };
+
+    private int scaleFactor;
+    private int tmpScaleFactor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +63,28 @@ public class SettingsActivity extends AppCompatActivity  implements View.OnClick
         this.buttonEnglish = (Button) this.findViewById(R.id.button_englisch);
         this.buttonGerman = (Button) this.findViewById(R.id.button_german);
         this.buttonStrokeWidth = (Button) this.findViewById(R.id.button_strokewidth);
+        this.editTextStrokeWidth = (EditText) this.findViewById(R.id.edittext_strokewidth);
+
+        // setup controls
+        this.editTextStrokeWidth.setEnabled(false);
 
         // connect with event handlers
         this.buttonEnglish.setOnClickListener(this);
         this.buttonGerman.setOnClickListener(this);
         this.buttonStrokeWidth.setOnClickListener(this);
+
+        // connect 'Strokewidth' dialog with a specific RelativeLayout region
+        this.relativeLayoutStrokeWidth = (RelativeLayout) this.findViewById(R.id.relative_layout_strokewidth);
+        this.relativeLayoutStrokeWidth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SettingsActivity.this.showAlertDiologStrokeWidth();
+            }
+        });
+
+        // restoring shared preferences
+        Context context = this.getApplicationContext();
+        this.scaleFactor = SharedPreferencesUtils.readScaleFactor(context);
     }
 
     @Override
@@ -69,52 +105,63 @@ public class SettingsActivity extends AppCompatActivity  implements View.OnClick
 //            Locale myLocale = new Locale("de");
 //            this.updateConfig2 (myLocale);
         }
-        else  if (view == this.buttonStrokeWidth) {
-            this.showAlertDiologStrokeWidth();
-        }
     }
 
-    AlertDialog levelDialog = null;
 
     private void showAlertDiologStrokeWidth() {
 
+        // need temporary variable in case of user cancels dialog
+        this.tmpScaleFactor = this.scaleFactor;
 
-// Strings to Show In Dialog with Radio Buttons
-        final CharSequence[] items = {" Easy "," Medium "," Hard "," Very Hard "};
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Select Stroke Width");
+        alertDialog.setSingleChoiceItems(BezierGlobals.ScaleFactorDisplayNames, this.scaleFactor, new DialogInterface.OnClickListener() {
 
-        // Creating and Building the Dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select The Difficulty Level");
-        builder.setSingleChoiceItems(items, 1, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
+
+                Log.v("PeLo", "item --> " + Integer.toString(item));
 
                 switch(item)
                 {
                     case 0:
-                        // Your code when first option seletced
+                        SettingsActivity.this.tmpScaleFactor = 0;
                         break;
                     case 1:
-                        // Your code when 2nd  option seletced
+                        SettingsActivity.this.tmpScaleFactor = 1;
                         break;
                     case 2:
-                        // Your code when 3rd option seletced
+                        SettingsActivity.this.tmpScaleFactor = 2;
                         break;
                     case 3:
-                        // Your code when 4th  option seletced
+                        SettingsActivity.this.tmpScaleFactor = 3;
                         break;
-
+                    case 4:
+                        SettingsActivity.this.tmpScaleFactor = 4;
+                        break;
                 }
-
-                levelDialog.dismiss();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
+                SettingsActivity.this.scaleFactor = SettingsActivity.this.tmpScaleFactor;
+
+                float newStrokeWidthControlPoints = BezierGlobals.StrokeWidthControlPointsDp * BezierGlobals.ScaleFactors[SettingsActivity.this.scaleFactor];
+                float newStrokeWidthCurveLine = BezierGlobals.StrokeWidthCurveLineDp * BezierGlobals.ScaleFactors[SettingsActivity.this.scaleFactor];
+                float newStrokeWidthConstructionLines = BezierGlobals.StrokeWidthConstructionLinesDp * BezierGlobals.ScaleFactors[SettingsActivity.this.scaleFactor];
+
+                Context context = SettingsActivity.this.getApplicationContext();
+                SharedPreferencesUtils.writeScaleFactor(context, SettingsActivity.this.scaleFactor);
+                SharedPreferencesUtils.writeSharedPreferences(context, newStrokeWidthControlPoints, newStrokeWidthCurveLine, newStrokeWidthConstructionLines);
             }
         });
-        levelDialog = builder.create();
-        levelDialog.show();
+
+        AlertDialog strokewidthDialog = alertDialog.create();
+        strokewidthDialog.show();
     }
 
     // private helper methods

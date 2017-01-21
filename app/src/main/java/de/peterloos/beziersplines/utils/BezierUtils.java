@@ -1,6 +1,6 @@
 package de.peterloos.beziersplines.utils;
 
-import android.util.Log;
+// import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +34,8 @@ public class BezierUtils {
             float x = rand.nextFloat() * width + border / 2;
             float y = rand.nextFloat() * height + border / 2;
 
-            String s = String.format("%f,%f", x, y);
-            Log.v("PeLo", s);
+//            String s = String.format("%f,%f", x, y);
+//            Log.v("PeLo", s);
 
             BezierPoint p = new BezierPoint(x, y);
             result.add(p);
@@ -197,9 +197,9 @@ public class BezierUtils {
             }
 
             // paint
-            String msg = String.format("%s   (%f,%f) ==> (%f,%f)",
-                    direction.toString(), currentX, currentY, nextX, nextY);
-            Log.v("PeLo", msg);
+//            String msg = String.format("%s   (%f,%f) ==> (%f,%f)",
+//                    direction.toString(), currentX, currentY, nextX, nextY);
+//            Log.v("PeLo", msg);
 
             BezierPoint point = new BezierPoint(currentX, currentY);
             list.add(point);

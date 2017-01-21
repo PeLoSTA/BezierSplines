@@ -9,7 +9,64 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="de.peterloos.beziersplines.activities.SettingsActivity">
+    tools:context="de.peterloos.beziersplines.activities.SettingsActivity" >
+
+    <!--<TextView-->
+        <!--android:id="@+id/title_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:layout_marginTop="@dimen/title_top_margin"-->
+        <!--android:layout_marginBottom="@dimen/title_bottom_margin"-->
+        <!--android:text="Settings"-->
+        <!--android:theme="@style/ThemeOverlay.MyTitleText" />-->
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/relative_layout_strokewidth_test"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:background="@drawable/ripple"-->
+        <!--android:clickable="true"-->
+        <!--android:layout_marginTop="10dp" >-->
+
+    <!--</RelativeLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_strokewidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ripple"
+        android:clickable="true" >
+
+        <TextView
+            android:id="@+id/textview_header_strokewidth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Strichstärke:"
+            android:gravity="left"
+            android:textSize="26sp"
+            android:theme="@style/ThemeOverlay.MyTitleText"
+            />
+
+        <EditText
+            android:id="@+id/edittext_strokewidth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            style="@style/ThemeOverlay.MyTextDetail"
+            android:text="Ahhhhh  hhhhhhh hhhhh"
+            android:layout_below="@id/textview_header_strokewidth"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true" />
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/button_englisch"

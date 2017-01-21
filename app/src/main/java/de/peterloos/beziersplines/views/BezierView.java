@@ -27,11 +27,6 @@ import de.peterloos.beziersplines.utils.BezierUtils;
 
 public class BezierView extends View implements View.OnTouchListener {
 
-    // density-independent pixels for lines
-    private static final int StrokeWidthLineBetweenControlPointsDp = 4;
-    private static final int StrokeWidthCurveLineDp = 5;
-    private static final int StrokeWidthConstructionLineDp = 3;
-
     // density-independent pixels for circles
     private static final int StrokeWidthCircleRadiusDp = 10;
     private static final int StrokeWidthBorderWidthDp = 2;
@@ -65,9 +60,9 @@ public class BezierView extends View implements View.OnTouchListener {
     private Paint textPaint;
 
     //  real pixel densities for lines
-    private float strokeWidthLineBetweenControlPoints;
-    private float strokeWidthCurveLine;
-    private float strokeWidthConstructionLine;
+    private float strokeWidthControlPoints;
+    private float strokeWidthCurveLines;
+    private float strokeWidthConstructionLines;
 
     //  real pixel densities for circles
     private float strokeWidthCircle;
@@ -110,9 +105,9 @@ public class BezierView extends View implements View.OnTouchListener {
 
         this.setOnTouchListener(this);
 
-        this.strokeWidthLineBetweenControlPoints = this.convertDpToPixel(StrokeWidthLineBetweenControlPointsDp);
-        this.strokeWidthCurveLine = this.convertDpToPixel(StrokeWidthCurveLineDp);
-        this.strokeWidthConstructionLine = this.convertDpToPixel(StrokeWidthConstructionLineDp);
+//        this.strokeWidthControlPoints = this.convertDpToPixel(StrokeWidthLineBetweenControlPointsDp);
+//        this.strokeWidthCurveLine = this.convertDpToPixel(StrokeWidthCurveLineDp);
+//        this.strokeWidthConstructionLine = this.convertDpToPixel(StrokeWidthConstructionLineDp);
         this.strokeWidthCircle = this.convertDpToPixel(StrokeWidthCircleRadiusDp);
         this.strokeWidthBorderWidth = this.convertDpToPixel(StrokeWidthBorderWidthDp);
         this.strokeTextSize = this.convertDpToPixel(StrokeWidthTextSizeDp);
@@ -173,6 +168,18 @@ public class BezierView extends View implements View.OnTouchListener {
 
     public void setMode(BezierMode mode) {
         this.mode = mode;
+    }
+
+    public void setStrokeWidthControlPoints (float valueDp) {
+        this.strokeWidthControlPoints = this.convertDpToPixel(valueDp);
+    }
+
+    public void setStrokeWidthCurveLines (float valueDp) {
+        this.strokeWidthCurveLines = this.convertDpToPixel(valueDp);
+    }
+
+    public void setStrokeWidthConstructionLines (float valueDp) {
+        this.strokeWidthConstructionLines = this.convertDpToPixel(valueDp);
     }
 
     // public interface
@@ -474,15 +481,15 @@ public class BezierView extends View implements View.OnTouchListener {
 
     // drawing helper methods for lines
     private void drawConstructionLine(Canvas canvas, BezierPoint p0, BezierPoint p1) {
-        this.drawLine(canvas, p0, p1, ColorConstructionLine, this.strokeWidthConstructionLine);
+        this.drawLine(canvas, p0, p1, ColorConstructionLine, this.strokeWidthConstructionLines);
     }
 
     private void drawCurveLine(Canvas canvas, BezierPoint p0, BezierPoint p1) {
-        this.drawLine(canvas, p0, p1, this.ColorCurveLine, this.strokeWidthCurveLine);
+        this.drawLine(canvas, p0, p1, this.ColorCurveLine, this.strokeWidthCurveLines);
     }
 
     private void drawLineBetweenControlPoints(Canvas canvas, BezierPoint p0, BezierPoint p1) {
-        this.drawLine(canvas, p0, p1, ColorLineBetweenControlPoints, this.strokeWidthLineBetweenControlPoints);
+        this.drawLine(canvas, p0, p1, ColorLineBetweenControlPoints, this.strokeWidthControlPoints);
     }
 
     private void drawLine(Canvas canvas, BezierPoint p0, BezierPoint p1, int color, float strokeWidth) {
@@ -491,8 +498,7 @@ public class BezierView extends View implements View.OnTouchListener {
         canvas.drawLine(p0.getX(), p0.getY(), p1.getX(), p1.getY(), this.linePaint);
     }
 
-
- private  float convertDpToPixel (int dpSize) {
+    private  float convertDpToPixel (float dpSize) {
         Resources res = this.getResources();
         DisplayMetrics dm = res.getDisplayMetrics() ;
         float strokeWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpSize, dm);

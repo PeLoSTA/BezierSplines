@@ -2,6 +2,9 @@ package de.peterloos.beziersplines.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +28,7 @@ import android.widget.Toast;
 import java.util.Locale;
 
 import de.peterloos.beziersplines.utils.BezierMode;
+import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
 import de.peterloos.beziersplines.views.BezierView;
 import de.peterloos.beziersplines.R;
 
@@ -64,15 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             actionBar.setSubtitle(this.getString(R.string.app_sub_title));
         }
 
-        //  width of display ?!?!?!
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        WindowManager wm = this.getWindowManager();
-//        Display display = wm.getDefaultDisplay();
-//        display.getMetrics(metrics);
-//        Log.v("PeLo", "DisplayMetrics ===> " + metrics.widthPixels + "," + metrics.heightPixels);
-
-        //  width of display ?!?!?!
-
         // retrieve control references
         this.bezierView = (BezierView) this.findViewById(R.id.bezier_view);
         this.checkboxConstruction = (CheckBox) this.findViewById(R.id.checkbox_show_construction);
@@ -96,6 +91,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         this.checkboxConstruction.setChecked(false);
         this.tableRowConstruction.setVisibility(View.GONE);
+
+        // retrieve shared preferences
+        Context context = this.getApplicationContext();
+        SharedPreferencesUtils.readSharedPreferences(context, this.bezierView);
     }
 
     @Override
