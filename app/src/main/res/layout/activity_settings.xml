@@ -11,36 +11,11 @@
     android:orientation="vertical"
     tools:context="de.peterloos.beziersplines.activities.SettingsActivity" >
 
-    <!--<TextView-->
-        <!--android:id="@+id/title_text"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginLeft="20dp"-->
-        <!--android:layout_marginRight="20dp"-->
-        <!--android:layout_marginTop="@dimen/title_top_margin"-->
-        <!--android:layout_marginBottom="@dimen/title_bottom_margin"-->
-        <!--android:text="Settings"-->
-        <!--android:theme="@style/ThemeOverlay.MyTitleText" />-->
-
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/relative_layout_strokewidth_test"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:layout_marginLeft="20dp"-->
-        <!--android:layout_marginRight="20dp"-->
-        <!--android:background="@drawable/ripple"-->
-        <!--android:clickable="true"-->
-        <!--android:layout_marginTop="10dp" >-->
-
-    <!--</RelativeLayout>-->
-
     <RelativeLayout
         android:id="@+id/relative_layout_strokewidth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_margin="15dp"
         android:background="@drawable/ripple"
         android:clickable="true" >
 
@@ -48,51 +23,50 @@
             android:id="@+id/textview_header_strokewidth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="Strichstärke:"
             android:gravity="left"
-            android:textSize="26sp"
-            android:theme="@style/ThemeOverlay.MyTitleText"
-            />
+            android:layout_marginLeft="5dp"
+            style="@style/ThemeOverlay.MyTitleText"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
 
-        <EditText
-            android:id="@+id/edittext_strokewidth"
+        <TextView
+            android:id="@+id/textview_strokewidth"
+            android:layout_below="@id/textview_header_strokewidth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            style="@style/ThemeOverlay.MyTextDetail"
-            android:text="Ahhhhh  hhhhhhh hhhhh"
-            android:layout_below="@id/textview_header_strokewidth"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true" />
-
+            android:gravity="left"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-light"
+            style="@style/ThemeOverlay.MyTextDetail" />
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/button_englisch"
+    <RelativeLayout
+        android:id="@+id/relative_layout_languages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/robotoButtonStyle"
-        android:textSize="18sp"
-        android:textAllCaps="false"
-        android:text="@string/button_english" />
+        android:layout_margin="15dp"
+        android:background="@drawable/ripple"
+        android:clickable="true" >
 
-    <Button
-        android:id="@+id/button_german"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/robotoButtonStyle"
-        android:textSize="18sp"
-        android:textAllCaps="false"
-        android:text="@string/button_german" />
+        <TextView
+            android:id="@+id/textview_header_languages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginLeft="5dp"
+            style="@style/ThemeOverlay.MyTitleText"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
 
-    <Button
-        android:id="@+id/button_strokewidth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/robotoButtonStyle"
-        android:textSize="18sp"
-        android:textAllCaps="false"
-        android:text="@string/stroke_width" />
+        <TextView
+            android:id="@+id/textview_languages"
+            android:layout_below="@id/textview_header_languages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="sans-serif-light"
+            style="@style/ThemeOverlay.MyTextDetail" />
+    </RelativeLayout>
 
 </LinearLayout>

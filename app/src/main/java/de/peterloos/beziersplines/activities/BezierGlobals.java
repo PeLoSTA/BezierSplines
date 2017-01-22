@@ -6,12 +6,14 @@ package de.peterloos.beziersplines.activities;
 
 public class BezierGlobals {
 
+    // language settings
+    public static final String LanguageGerman = "German";
+    public static final String LanguageEnglish = "English";
+    public static final String DefaultLanguage = LanguageEnglish;
+
     // scale factor for stroke widths
     public static final int DefaultScaleFactor = 2;
-    public static final float[] ScaleFactors = new float[] { 0.6F, 0.8F, 1.0F, 1.2F, 1.4F };
-
-    // TODO Klären ob das Englisch / Deutsch sein sollte ....
-    public static final CharSequence[] ScaleFactorDisplayNames = { "Extra Light", "Light", "Normal", "Bold", "Extra Bold" };
+    public static final float[] ScaleFactors = new float[] { 0.5F, 0.75F, 1.0F, 1.25F, 1.5F };
 
     // density-independent pixels for lines
     public static final float StrokeWidthControlPointsDp = 4F;

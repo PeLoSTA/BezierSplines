@@ -1,13 +1,13 @@
 package de.peterloos.beziersplines.activities;
 
+import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
+import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,10 +16,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.Locale;
 
@@ -27,25 +25,25 @@ import de.peterloos.beziersplines.R;
 import de.peterloos.beziersplines.utils.LocaleUtils;
 import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
 
-public class SettingsActivity extends AppCompatActivity  implements View.OnClickListener {
+public class SettingsActivity extends AppCompatActivity /** implements View.OnClickListener **/ {
 
     private static final int NumScaleFactors = 5;
 
-    private Button buttonEnglish;
-    private Button buttonGerman;
-    private Button buttonStrokeWidth;
-
-    private EditText editTextStrokeWidth;
     private RelativeLayout relativeLayoutStrokeWidth;
+    private TextView textViewStrokeWidthHeader;
+    private TextView textViewStrokeWidth;
 
-    // private SharedPreferences sharedPref;
+    private RelativeLayout relativeLayoutLanguages;
+    private TextView textViewLanguagesHeader;
+    private TextView textViewLanguages;
 
-    // TODO: DIe müssen in die String.xml Dateien ...
-    // private final CharSequence[] items = { "Extra Light", "Light", "Normal", "Bold", "Extra Bold" };
-    // private final float[] scaleFactors = new float[] { 0.6F, 0.8F, 1.0F, 1.2F, 1.4F };
+    private String[] scalefactorsDisplayNames;
+    private String[] languagesDisplayNames;
 
-    private int scaleFactor;
-    private int tmpScaleFactor;
+    private int indexScaleFactor;
+    private int indexTmpScaleFactor;
+    private int indexLanguageId;
+    private int indexTmpLanguageId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,20 +58,16 @@ public class SettingsActivity extends AppCompatActivity  implements View.OnClick
         }
 
         // retrieve control references
-        this.buttonEnglish = (Button) this.findViewById(R.id.button_englisch);
-        this.buttonGerman = (Button) this.findViewById(R.id.button_german);
-        this.buttonStrokeWidth = (Button) this.findViewById(R.id.button_strokewidth);
-        this.editTextStrokeWidth = (EditText) this.findViewById(R.id.edittext_strokewidth);
+        this.textViewStrokeWidthHeader = (TextView) this.findViewById(R.id.textview_header_strokewidth);
+        this.textViewStrokeWidth = (TextView) this.findViewById(R.id.textview_strokewidth);
+        this.textViewLanguagesHeader = (TextView) this.findViewById(R.id.textview_header_languages);
+        this.textViewLanguages = (TextView) this.findViewById(R.id.textview_languages);
 
         // setup controls
-        this.editTextStrokeWidth.setEnabled(false);
+        this.textViewStrokeWidthHeader.setText(R.string.settings_stroke_widths_title);
+        this.textViewLanguagesHeader.setText(R.string.settings_language_title);
 
-        // connect with event handlers
-        this.buttonEnglish.setOnClickListener(this);
-        this.buttonGerman.setOnClickListener(this);
-        this.buttonStrokeWidth.setOnClickListener(this);
-
-        // connect 'Strokewidth' dialog with a specific RelativeLayout region
+        // connect 'strokewidth' dialog with a specific RelativeLayout region
         this.relativeLayoutStrokeWidth = (RelativeLayout) this.findViewById(R.id.relative_layout_strokewidth);
         this.relativeLayoutStrokeWidth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,87 +76,187 @@ public class SettingsActivity extends AppCompatActivity  implements View.OnClick
             }
         });
 
-        // restoring shared preferences
+        // connect 'languages' dialog with another specific RelativeLayout region
+        this.relativeLayoutLanguages = (RelativeLayout) this.findViewById(R.id.relative_layout_languages);
+        this.relativeLayoutLanguages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SettingsActivity.this.showAlertDiologLanguage();
+            }
+        });
+
+        // read language-dependent names of stroke widths
+        Resources res = this.getResources();
+        this.scalefactorsDisplayNames = res.getStringArray(R.array.settings_stroke_widths);
+        this.languagesDisplayNames = res.getStringArray(R.array.settings_languages);
+
+        // read shared preferences (current stroke width)
         Context context = this.getApplicationContext();
-        this.scaleFactor = SharedPreferencesUtils.readScaleFactor(context);
-    }
+        this.indexScaleFactor = SharedPreferencesUtils.readScaleFactor(context);
+        String currentStrokeWidth = this.scalefactorsDisplayNames[this.indexScaleFactor];
+        this.textViewStrokeWidth.setText (currentStrokeWidth);
 
-    @Override
-    public void onClick(View view) {
-        if (view == this.buttonEnglish) {
-            Log.v("PeLo", "english");
-
-            this.setLocale("en");
-
-//            Locale myLocale = new Locale("en");
-//            this.updateConfig2 (myLocale);
-        } else if (view == this.buttonGerman) {
-
-            Log.v("PeLo", "german");
-
-            this.setLocale("de");
-
-//            Locale myLocale = new Locale("de");
-//            this.updateConfig2 (myLocale);
+        // read shared preferences (current app's language)
+        this.indexLanguageId = -1;
+        String language = SharedPreferencesUtils.readLanguage(context);
+        if (language.equals(BezierGlobals.LanguageEnglish)) {
+            this.indexLanguageId = 0;
         }
+        else if (language.equals(BezierGlobals.LanguageGerman)) {
+            this.indexLanguageId = 1;
+        }
+        if (this.indexLanguageId >= 0) {
+            String currentLanguage = this.languagesDisplayNames[this.indexLanguageId];
+            this.textViewLanguages.setText (currentLanguage);
+        }
+
+
+
+
+
+//        // retrieve current app's language setting
+//        Locale locale = this.getCurrentLocale();
+//        String languageDisplayName = locale.getDisplayLanguage();
+//        this.textViewLanguages.setText (languageDisplayName);
+
+//        Log.v("PeLo", "getLanguage ==> " + locale.getLanguage());
+//        Log.v("PeLo", "getCountry ==> " + locale.getCountry());
+//        Log.v("PeLo", "getDisplayLanguage ==> " + locale.getDisplayLanguage());
+//        Log.v("PeLo", "getDisplayCountry ==> " + locale.getDisplayCountry());
     }
 
+//    @Override
+//    public void onClick(View view) {
+//        if (view == this.buttonEnglish) {
+//            Log.v("PeLo", "english");
+//
+//            this.setLocale("en_US");
+//
+////            Locale myLocale = new Locale("en");
+////            this.updateConfig2 (myLocale);
+//        } else if (view == this.buttonGerman) {
+//
+//            Log.v("PeLo", "german");
+//
+//            this.setLocale("de_DE");
+//
+////            Locale myLocale = new Locale("de");
+////            this.updateConfig2 (myLocale);
+//        }
+//    }
 
     private void showAlertDiologStrokeWidth() {
 
         // need temporary variable in case of user cancels dialog
-        this.tmpScaleFactor = this.scaleFactor;
+        this.indexTmpScaleFactor = this.indexScaleFactor;
+
+        Resources res = this.getResources();
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Select Stroke Width");
-        alertDialog.setSingleChoiceItems(BezierGlobals.ScaleFactorDisplayNames, this.scaleFactor, new DialogInterface.OnClickListener() {
-
+        String title = res.getString(R.string.settings_stroke_widths_title);
+        alertDialog.setTitle(title);
+        alertDialog.setSingleChoiceItems(this.scalefactorsDisplayNames, this.indexScaleFactor, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-
-                Log.v("PeLo", "item --> " + Integer.toString(item));
-
-                switch(item)
-                {
-                    case 0:
-                        SettingsActivity.this.tmpScaleFactor = 0;
-                        break;
-                    case 1:
-                        SettingsActivity.this.tmpScaleFactor = 1;
-                        break;
-                    case 2:
-                        SettingsActivity.this.tmpScaleFactor = 2;
-                        break;
-                    case 3:
-                        SettingsActivity.this.tmpScaleFactor = 3;
-                        break;
-                    case 4:
-                        SettingsActivity.this.tmpScaleFactor = 4;
-                        break;
-                }
+                SettingsActivity.this.indexTmpScaleFactor = item;
             }
         });
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        String cancel = res.getString(R.string.settings_dialog_cancel);
+        alertDialog.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        String ok = res.getString(R.string.settings_dialog_ok);
+        alertDialog.setPositiveButton(ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
-                SettingsActivity.this.scaleFactor = SettingsActivity.this.tmpScaleFactor;
+                SettingsActivity.this.indexScaleFactor = SettingsActivity.this.indexTmpScaleFactor;
 
-                float newStrokeWidthControlPoints = BezierGlobals.StrokeWidthControlPointsDp * BezierGlobals.ScaleFactors[SettingsActivity.this.scaleFactor];
-                float newStrokeWidthCurveLine = BezierGlobals.StrokeWidthCurveLineDp * BezierGlobals.ScaleFactors[SettingsActivity.this.scaleFactor];
-                float newStrokeWidthConstructionLines = BezierGlobals.StrokeWidthConstructionLinesDp * BezierGlobals.ScaleFactors[SettingsActivity.this.scaleFactor];
+                float newStrokeWidthControlPoints = BezierGlobals.StrokeWidthControlPointsDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
+                float newStrokeWidthCurveLine = BezierGlobals.StrokeWidthCurveLineDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
+                float newStrokeWidthConstructionLines = BezierGlobals.StrokeWidthConstructionLinesDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
 
                 Context context = SettingsActivity.this.getApplicationContext();
-                SharedPreferencesUtils.writeScaleFactor(context, SettingsActivity.this.scaleFactor);
+                SharedPreferencesUtils.writeScaleFactor(context, SettingsActivity.this.indexScaleFactor);
                 SharedPreferencesUtils.writeSharedPreferences(context, newStrokeWidthControlPoints, newStrokeWidthCurveLine, newStrokeWidthConstructionLines);
+
+                String currentStrokeWidth = SettingsActivity.this.scalefactorsDisplayNames[SettingsActivity.this.indexScaleFactor];
+                SettingsActivity.this.textViewStrokeWidth.setText (currentStrokeWidth);
             }
         });
 
         AlertDialog strokewidthDialog = alertDialog.create();
         strokewidthDialog.show();
     }
+
+    private void showAlertDiologLanguage() {
+
+        Resources res = this.getResources();
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        String title = res.getString(R.string.settings_language_title);
+
+        // retrieve current locale
+        Locale current = this.getCurrentLocale();
+        SettingsActivity.this.indexTmpLanguageId = -1;
+        if (current.getLanguage().equals("en")) {
+            SettingsActivity.this.indexTmpLanguageId = 0;
+        }
+        else if (current.getLanguage().equals("de")) {
+            SettingsActivity.this.indexTmpLanguageId = 1;
+        }
+
+        alertDialog.setTitle(title);
+        alertDialog.setSingleChoiceItems(this.languagesDisplayNames, SettingsActivity.this.indexTmpLanguageId, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                SettingsActivity.this.indexTmpLanguageId = item;
+            }
+        });
+        String cancel = res.getString(R.string.settings_dialog_cancel);
+        alertDialog.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        String ok = res.getString(R.string.settings_dialog_ok);
+        alertDialog.setPositiveButton(ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                SettingsActivity.this.indexLanguageId = SettingsActivity.this.indexTmpLanguageId;
+
+                Context context = SettingsActivity.this.getApplicationContext();
+                if (SettingsActivity.this.indexLanguageId == 0) {
+                    SharedPreferencesUtils.writeLanguage(context, BezierGlobals.LanguageEnglish);
+                }
+                else if (SettingsActivity.this.indexLanguageId == 1) {
+                    SharedPreferencesUtils.writeLanguage(context, BezierGlobals.LanguageGerman);
+                }
+
+                String currentStrokeWidth = SettingsActivity.this.scalefactorsDisplayNames[SettingsActivity.this.indexScaleFactor];
+                SettingsActivity.this.textViewStrokeWidth.setText (currentStrokeWidth);
+
+                String currentLanguage = SettingsActivity.this.languagesDisplayNames[SettingsActivity.this.indexLanguageId];
+                SettingsActivity.this.textViewLanguages.setText (currentLanguage);
+
+                // switch language
+                SettingsActivity.this.setLocale ((SettingsActivity.this.indexLanguageId == 0) ? "en_US" : "de_DE" );
+            }
+        });
+
+        AlertDialog strokewidthDialog = alertDialog.create();
+        strokewidthDialog.show();
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    public Locale getCurrentLocale(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            return getResources().getConfiguration().getLocales().get(0);
+        } else{
+            // noinspection deprecation
+            return getResources().getConfiguration().locale;
+        }
+    }
+
+    // ALTES ZEUGS ....
+
 
     // private helper methods
     public void setLocale(String lang) {

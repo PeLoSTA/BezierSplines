@@ -15,6 +15,37 @@ import de.peterloos.beziersplines.views.BezierView;
 
 public class SharedPreferencesUtils {
 
+    //     <string name="shared_pref_language">Language</string>
+//    public static final String LanguageGerman = "German";
+//    public static final String LanguageEnglish = "English";
+//    public static final String DefaultLanguage = LanguageEnglish;
+
+    public static String readLanguage(Context context) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String key = context.getString(R.string.shared_pref_language);
+        String language = sharedPref.getString(key, BezierGlobals.DefaultLanguage);
+
+        String msg = String.format("reading language ==> %s", language);
+        Log.v("PeLo", msg);
+
+        return language;
+    }
+
+    public static void writeLanguage(Context context, String language) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String msg = String.format("writing language ==> %s", language);
+        Log.v("PeLo", msg);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        String key = context.getString(R.string.shared_pref_language);
+        editor.putString(key, language);
+        editor.commit();
+    }
+
     public static int readScaleFactor(Context context) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);

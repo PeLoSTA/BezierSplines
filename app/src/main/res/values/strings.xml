@@ -28,6 +28,7 @@
 
     <!-- shared preferences -->
     <string name="shared_pref_scalefactor">ScaleFactor</string>
+    <string name="shared_pref_language">Language</string>
     <string name="shared_pref_strokewidth_control_points">StrokeWidth_ControlPoints</string>
     <string name="shared_pref_strokewidth_curve_line">StrokeWidth_CurveLines</string>
     <string name="shared_pref_strokewidth_construction_lines">StrokeWidthConstructionLines</string>
@@ -38,6 +39,27 @@
         <item>Edit</item>
         <item>Delete</item>
         <item>Clear</item>
+    </string-array>
+
+    <!-- settings activity - languages -->
+    <string name="settings_language_title">Language</string>
+    <string name="settings_dialog_ok">Ok</string>
+    <string name="settings_dialog_cancel">Cancel</string>
+
+    <string-array name="settings_languages">
+        <item>English (United States)</item>
+        <item>Deutsch (Deutschland)</item>
+    </string-array>
+
+    <!-- settings activity - stroke widths -->
+    <string name="settings_stroke_widths_title">Stroke Width</string>
+
+    <string-array name="settings_stroke_widths">
+        <item>Extra Light</item>
+        <item>Light</item>
+        <item>Normal</item>
+        <item>Bold</item>
+        <item>Extra Bold</item>
     </string-array>
 
     <!-- documentation: header -->
@@ -52,7 +74,7 @@
     <string-array name="docs_app_modes_description">
         <item>
             <![CDATA[
-              Die Stützpunkte einer <b>BBBézier</b>-Kurve lassen sich durch simples Tippen auf dem Touchscreen eingeben. Die Stützpunkte werden in der Reihenfolge der Eingabe durchnummeriert.
+              Die Stützpunkte einer <b>Bézier</b>-Kurve lassen sich durch simples Tippen auf dem Touchscreen eingeben. Die Stützpunkte werden in der Reihenfolge der Eingabe durchnummeriert.
               Ab drei oder mehr Stützpunkten wird die aktuelle Bézier-Kurve dargestellt.
             ]]>
         </item>

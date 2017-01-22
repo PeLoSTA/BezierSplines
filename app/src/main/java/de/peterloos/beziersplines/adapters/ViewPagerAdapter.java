@@ -38,7 +38,6 @@ public class ViewPagerAdapter extends PagerAdapter {
         this.newLine = System.getProperty("line.separator");
 
         Resources res = this.context.getResources();
-
         this.docsHeaders = res.getStringArray(R.array.docs_app_modes_headers);
         this.docsDescriptions = res.getStringArray(R.array.docs_app_modes_description);
     }

@@ -33,6 +33,27 @@
         <item>Löschen</item>
     </string-array>
 
+    <!-- settings activity - languages -->
+    <string name="settings_language_title">Sprache</string>
+    <string name="settings_dialog_ok">Ok</string>
+    <string name="settings_dialog_cancel">Abbrechen</string>
+
+    <string-array name="settings_languages">
+        <item>English (United States)</item>
+        <item>Deutsch (Deutschland)</item>
+    </string-array>
+
+    <!-- settings activity - stroke widths -->
+    <string name="settings_stroke_widths_title">Linienstärke</string>
+
+    <string-array name="settings_stroke_widths">
+        <item>Extra Dünn</item>
+        <item>Dünn</item>
+        <item>Normal</item>
+        <item>Fett</item>
+        <item>Extra Fett</item>
+    </string-array>
+
     <!-- documentation: header -->
     <string-array name="docs_app_modes_headers">
         <item>Interaktives Erstellen einer\nBézier-Kurve</item>

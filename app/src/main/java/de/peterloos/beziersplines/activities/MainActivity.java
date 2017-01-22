@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // retrieve shared preferences
         Context context = this.getApplicationContext();
         SharedPreferencesUtils.readSharedPreferences(context, this.bezierView);
+
+        // TODO: Was ist wenn hier die Sprache der App und der SharedPreferences nicht übereinstimmen ................
     }
 
     @Override
