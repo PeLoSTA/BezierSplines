@@ -103,19 +103,26 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
                     DemonstrationActivity.this.width = DemonstrationActivity.this.bezierView.getWidth();
                     DemonstrationActivity.this.height = DemonstrationActivity.this.bezierView.getHeight();
 
-                    float centerX = DemonstrationActivity.this.width / 2;
-                    float centerY = DemonstrationActivity.this.height / 2;
-                    float squareLength = (DemonstrationActivity.this.width < DemonstrationActivity.this.height) ? DemonstrationActivity.this.width : DemonstrationActivity.this.height;
-                    float distance = squareLength / 6.5F;   /* so that number of circle doesn't touch border */
-                    int numEdges = 6;
-
-                    DemonstrationActivity.this.demoControlPoints = BezierUtils.getDemoRectangle(centerX - distance / 2, centerY - distance / 2, distance, numEdges);
-                    DemonstrationActivity.this.task = new DemonstrationActivity.DemoOperation();
-                    DemonstrationActivity.this.task.setRunning(true);
-                    DemonstrationActivity.this.task.execute("Let's go ...");
+                    DemonstrationActivity.this.computeDemoControlPoints();
                 }
             }
         });
+    }
+
+    private void computeDemoControlPoints() {
+
+        int numEdges = 8;
+
+        float deltaX = DemonstrationActivity.this.width / (float) numEdges;
+        float deltaY = DemonstrationActivity.this.height / (float) numEdges;
+
+        float centerX = DemonstrationActivity.this.width / 2;
+        float centerY = DemonstrationActivity.this.height / 2;
+
+        DemonstrationActivity.this.demoControlPoints = BezierUtils.getDemoRectangle(centerX, centerY, deltaX, deltaY, numEdges - 1);
+        DemonstrationActivity.this.task = new DemoOperation();
+        DemonstrationActivity.this.task.setRunning(true);
+        DemonstrationActivity.this.task.execute("Let's go ...");
     }
 
     // private helper methods

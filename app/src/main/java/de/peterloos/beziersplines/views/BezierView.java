@@ -181,7 +181,7 @@ public class BezierView extends View implements View.OnTouchListener {
     // public interface
     public void clear() {
         this.controlPoints.clear();
-        this.positionInfo = "                  ";
+        this.clearTouchPosition();
         this.invalidate();
     }
 
@@ -257,9 +257,20 @@ public class BezierView extends View implements View.OnTouchListener {
                     }
 
                     // remove this control point
+//                    p = this.controlPoints.get(index);
+//                    this.setTouchPosition((int) p.getX(), (int) p.getY());
+//                    this.removeControlPoint(index);
+
                     p = this.controlPoints.get(index);
-                    this.setTouchPosition((int) p.getX(), (int) p.getY());
+                    if (this.controlPoints.size() > 1) {
+                        this.setTouchPosition((int) p.getX(), (int) p.getY());
+                    }
+                    else {
+                        this.clearTouchPosition();
+                    }
                     this.removeControlPoint(index);
+
+
                 }
             }
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
@@ -435,6 +446,10 @@ public class BezierView extends View implements View.OnTouchListener {
         this.positionInfo = String.format(Locale.getDefault(), "%d, %d", x, y);
     }
 
+    private void clearTouchPosition() {
+        this.positionInfo = "                  ";
+    }
+
     private void drawPositionInfo(Canvas canvas) {
 
         // calculate coordinates of info text
@@ -549,11 +564,11 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     private List<BezierPoint> showScreenshot04() {
+        int numEdges = 8;
         float centerX = this.getWidth() / 2;
         float centerY = this.getHeight() / 2;
-        float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
-        float distance = squareLength / 6;
-        int numEdges = 6;
-        return BezierUtils.getDemoRectangle(centerX - distance / 2, centerY - distance / 2, distance, numEdges);
+        float deltaX = this.getWidth() / (float) numEdges;
+        float deltaY = this.getHeight() / (float) numEdges;
+        return BezierUtils.getDemoRectangle(centerX, centerY, deltaX, deltaY, numEdges - 1);
     }
 }

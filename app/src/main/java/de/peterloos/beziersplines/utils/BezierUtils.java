@@ -20,6 +20,65 @@ public class BezierUtils {
     private static float nextX;
     private static float nextY;
 
+    public static List<BezierPoint> getDemoRectangle(float centerX, float centerY, float deltaX, float deltaY, int numEdges) {
+
+        List<BezierPoint> result = new ArrayList<>();
+
+        currentX = centerX;
+        currentY = centerY;
+        nextX = currentX;
+        nextY = currentY;
+
+        Direction direction = Direction.ToTheRight;
+
+        for (int i = 1; i < numEdges; i++) {
+            computeLine(result, i, direction, deltaX, deltaY);
+            direction = switchDirection(direction);
+            computeLine(result, i, direction, deltaX, deltaY);
+            direction = switchDirection(direction);
+        }
+
+        return result;
+    }
+
+    private static void computeLine(List<BezierPoint> list, int count, Direction direction, float deltaX, float deltaY) {
+        for (int j = 0; j < count; j++) {
+            if (direction == Direction.ToTheRight) {
+                nextX += deltaX;
+            } else if (direction == Direction.ToTheBottom) {
+                nextY += deltaY;
+            } else if (direction == Direction.ToTheLeft) {
+                nextX -= deltaX;
+            } else if (direction == Direction.ToTheTop) {
+                nextY -= deltaY;
+            }
+
+            BezierPoint point = new BezierPoint(currentX, currentY);
+            list.add(point);
+
+            // advance last point
+            currentX = nextX;
+            currentY = nextY;
+        }
+    }
+
+    private static Direction switchDirection(Direction direction) {
+        // switch direction
+        if (direction == Direction.ToTheRight) {
+            return Direction.ToTheBottom;
+        } else if (direction == Direction.ToTheBottom) {
+            return Direction.ToTheLeft;
+        } else if (direction == Direction.ToTheLeft) {
+            return Direction.ToTheTop;
+        } else {
+            return Direction.ToTheRight;
+        }
+    }
+
+    // ============================================================================================
+    //  methods for test pictures
+    // ============================================================================================
+
     // schaut langweilig aus
     public static List<BezierPoint> getTotallyRandom(float width, float height, int number) {
 
@@ -165,65 +224,5 @@ public class BezierUtils {
         result.add(center);
 
         return result;
-    }
-
-    public static List<BezierPoint> getDemoRectangle(float centerX, float centerY, float squareLength, int numEdges) {
-
-        List<BezierPoint> result = new ArrayList<>();
-
-        currentX = centerX;
-        currentY = centerY;
-        nextX = currentX;
-        nextY = currentY;
-
-        Direction direction = Direction.ToTheRight;
-
-        for (int i = 1; i < numEdges; i++) {
-            computeLine(result, i, direction, squareLength);
-            direction = switchDirection(direction);
-            computeLine(result, i, direction, squareLength);
-            direction = switchDirection(direction);
-        }
-
-        return result;
-    }
-
-    private static void computeLine(List<BezierPoint> list, int count, Direction direction, float squareLength) {
-        for (int j = 0; j < count; j++) {
-            if (direction == Direction.ToTheRight) {
-                nextX += squareLength;
-            } else if (direction == Direction.ToTheBottom) {
-                nextY += squareLength;
-            } else if (direction == Direction.ToTheLeft) {
-                nextX -= squareLength;
-            } else if (direction == Direction.ToTheTop) {
-                nextY -= squareLength;
-            }
-
-            // paint
-//            String msg = String.format("%s   (%f,%f) ==> (%f,%f)",
-//                    direction.toString(), currentX, currentY, nextX, nextY);
-//            Log.v("PeLo", msg);
-
-            BezierPoint point = new BezierPoint(currentX, currentY);
-            list.add(point);
-
-            // advance last point
-            currentX = nextX;
-            currentY = nextY;
-        }
-    }
-
-    private static Direction switchDirection(Direction direction) {
-        // switch direction
-        if (direction == Direction.ToTheRight) {
-            return Direction.ToTheBottom;
-        } else if (direction == Direction.ToTheBottom) {
-            return Direction.ToTheLeft;
-        } else if (direction == Direction.ToTheLeft) {
-            return Direction.ToTheTop;
-        } else {
-            return Direction.ToTheRight;
-        }
     }
 }
