@@ -2,17 +2,12 @@ package de.peterloos.beziersplines.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
@@ -23,7 +18,6 @@ import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -33,19 +27,15 @@ import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
 import de.peterloos.beziersplines.views.BezierView;
 import de.peterloos.beziersplines.R;
 
-// TODO: Die Seekbars sind recht ungenau ... für schrittweise könnte man auch eine Stepwise Control benötigen#
-
 // TODO: Die AsyncTask sollte als dritten Paramer Void bekommen ...
 // TODO: Die AsyncTask sollte als ersten Paramer Void bekommen ...
 
-
-// TODO: Habe min version von 16 auf 17 hochgesetzt
-// TODO: a) Wieviele Cliens velieren ich dacurch
-// TODO: b) Dokumentaton der der Developers Console nachziehen
-
 /**
- * main activity of Bézier splines app
+ * Project: Bézier Splines Simulation
+ * Copyright (c) 2017 by PeLo on 23.01.2017. All rights reserved.
+ * Contact info: peterloos@gmx.de
  */
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, AdapterView.OnItemSelectedListener {
 
     private BezierView bezierView;
@@ -144,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if (id == R.id.menu_action_demo) {
             Context currentContext = this.getApplicationContext();
-            Intent demoIntent = new Intent(currentContext, DemoActivity.class);
+            Intent demoIntent = new Intent(currentContext, DemonstrationActivity.class);
             this.startActivity(demoIntent);
         }
         else if (id == R.id.menu_action_about) {

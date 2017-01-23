@@ -25,6 +25,12 @@ import de.peterloos.beziersplines.utils.BezierMode;
 import de.peterloos.beziersplines.utils.BezierPoint;
 import de.peterloos.beziersplines.utils.BezierUtils;
 
+/**
+ * Project: Bézier Splines Simulation
+ * Copyright (c) 2017 by PeLo on 23.01.2017. All rights reserved.
+ * Contact info: peterloos@gmx.de
+ */
+
 public class BezierView extends View implements View.OnTouchListener {
 
     // density-independent pixels for circles

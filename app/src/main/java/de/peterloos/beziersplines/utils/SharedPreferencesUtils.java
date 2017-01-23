@@ -10,7 +10,9 @@ import de.peterloos.beziersplines.activities.BezierGlobals;
 import de.peterloos.beziersplines.views.BezierView;
 
 /**
- * Created by Peter on 20.01.2017.
+ * Project: Bézier Splines Simulation
+ * Copyright (c) 2017 by PeLo on 23.01.2017. All rights reserved.
+ * Contact info: peterloos@gmx.de
  */
 
 public class SharedPreferencesUtils {

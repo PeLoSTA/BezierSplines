@@ -13,7 +13,9 @@ import de.peterloos.beziersplines.R;
 import de.peterloos.beziersplines.adapters.ViewPagerAdapter;
 
 /**
- * Created by Peter on 28.10.2016.
+ * Project: Bézier Splines Simulation
+ * Copyright (c) 2017 by PeLo on 23.01.2017. All rights reserved.
+ * Contact info: peterloos@gmx.de
  */
 public class DocumentationActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 

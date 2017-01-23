@@ -2,6 +2,12 @@ package de.peterloos.beziersplines.utils;
 
 import java.util.Locale;
 
+/**
+ * Project: Bézier Splines Simulation
+ * Copyright (c) 2017 by PeLo on 23.01.2017. All rights reserved.
+ * Contact info: peterloos@gmx.de
+ */
+
 public class BezierPoint {
 
     private float x;

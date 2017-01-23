@@ -7,8 +7,11 @@ import android.os.Bundle;
 import de.peterloos.beziersplines.R;
 
 /**
- * Created by Peter on 28.10.2016.
+ * Project: Bézier Splines Simulation
+ * Copyright (c) 2017 by PeLo on 23.01.2017. All rights reserved.
+ * Contact info: peterloos@gmx.de
  */
+
 public class AboutActivity extends AppCompatActivity {
 
     @Override

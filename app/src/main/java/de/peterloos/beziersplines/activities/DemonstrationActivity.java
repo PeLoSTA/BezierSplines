@@ -23,14 +23,17 @@ import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
 import de.peterloos.beziersplines.views.BezierView;
 
 /**
- * Created by Peter on 28.10.2016.
+ * Project: Bézier Splines Simulation
+ * Copyright (c) 2017 by PeLo on 23.01.2017. All rights reserved.
+ * Contact info: peterloos@gmx.de
  */
-public class DemoActivity extends AppCompatActivity implements View.OnClickListener {
+
+public class DemonstrationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int BezierViewResolution = 100;
     private static final int TaskDelay = 30;
 
-    private DemoActivity.DemoOperation task;
+    private DemonstrationActivity.DemoOperation task;
 
     private int width;
     private int height;
@@ -93,28 +96,28 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onGlobalLayout() {
 
-                if (DemoActivity.this.width == -1 && DemoActivity.this.bezierView.getWidth() > 0) {
+                if (DemonstrationActivity.this.width == -1 && DemonstrationActivity.this.bezierView.getWidth() > 0) {
 
                     /*
                      * first invocation with (hopefully) final layout data
                      */
-                    DemoActivity.this.width = DemoActivity.this.bezierView.getWidth();
-                    DemoActivity.this.height = DemoActivity.this.bezierView.getHeight();
+                    DemonstrationActivity.this.width = DemonstrationActivity.this.bezierView.getWidth();
+                    DemonstrationActivity.this.height = DemonstrationActivity.this.bezierView.getHeight();
 
-                    float centerX = DemoActivity.this.width / 2;
-                    float centerY = DemoActivity.this.height / 2;
-                    float squareLength = (DemoActivity.this.width < DemoActivity.this.height) ? DemoActivity.this.width : DemoActivity.this.height;
+                    float centerX = DemonstrationActivity.this.width / 2;
+                    float centerY = DemonstrationActivity.this.height / 2;
+                    float squareLength = (DemonstrationActivity.this.width < DemonstrationActivity.this.height) ? DemonstrationActivity.this.width : DemonstrationActivity.this.height;
                     float distance = squareLength / 6;
                     int numEdges = 6;
-                    DemoActivity.this.demoControlPoints = BezierUtils.getDemoRectangle(centerX - distance / 2, centerY - distance / 2, distance, numEdges);
+                    DemonstrationActivity.this.demoControlPoints = BezierUtils.getDemoRectangle(centerX - distance / 2, centerY - distance / 2, distance, numEdges);
 
-                    // DemoActivity.this.computeDemoControlPoints();
+                    // DemonstrationActivity.this.computeDemoControlPoints();
 
-                    Log.v("PeLo", "onGlobalLayout " + Integer.toString(DemoActivity.this.width) + ", " + Integer.toString(DemoActivity.this.height));
+                    Log.v("PeLo", "onGlobalLayout " + Integer.toString(DemonstrationActivity.this.width) + ", " + Integer.toString(DemonstrationActivity.this.height));
 
-                    DemoActivity.this.task = new DemoActivity.DemoOperation();
-                    DemoActivity.this.task.setRunning(true);
-                    DemoActivity.this.task.execute("Let's go ...");
+                    DemonstrationActivity.this.task = new DemonstrationActivity.DemoOperation();
+                    DemonstrationActivity.this.task.setRunning(true);
+                    DemonstrationActivity.this.task.execute("Let's go ...");
                 }
             }
         });
@@ -165,7 +168,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
                 this.bezierView.setT(0);
                 String t = String.format(Locale.getDefault(), "%1.2f", 0.0);
                 this.textViewT.setText(t);
-                this.task = new DemoActivity.DemoOperation();
+                this.task = new DemonstrationActivity.DemoOperation();
                 this.task.setRunning(true);
                 this.task.execute("Let's go ...");
             }
@@ -183,7 +186,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected String doInBackground(String... params) {
 
-            for (int i = 0; i < DemoActivity.this.demoControlPoints.size(); i++) {
+            for (int i = 0; i < DemonstrationActivity.this.demoControlPoints.size(); i++) {
 
                 if (!this.running)
                     return "Abort";
@@ -191,7 +194,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     Thread.sleep(10 * TaskDelay);
 
-                    BezierPoint p = DemoActivity.this.demoControlPoints.get(i);
+                    BezierPoint p = DemonstrationActivity.this.demoControlPoints.get(i);
                     UpdateDescriptor dsc = new UpdateDescriptor(p, (float) 0.0, true, false);
                     this.publishProgress(dsc);
 
@@ -243,7 +246,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(String result) {
 
             // enable another demo to run ...
-            DemoActivity.this.task = null;
+            DemonstrationActivity.this.task = null;
         }
 
         @Override
@@ -254,12 +257,12 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (dsc.isAddPoint()) {
                     // Log.v("PeLo", "onProgressUpdate --> " + dsc.getP().toString());
-                    DemoActivity.this.bezierView.addControlPoint(dsc.getP());
+                    DemonstrationActivity.this.bezierView.addControlPoint(dsc.getP());
                 } else if (dsc.isChangeT()) {
                     // Log.v("PeLo", "onProgressUpdate --> " + Double.toString(dsc.getT()));
-                    DemoActivity.this.bezierView.setT(dsc.getT());
+                    DemonstrationActivity.this.bezierView.setT(dsc.getT());
                     String t = String.format(Locale.getDefault(), "%1.2f", dsc.getT());
-                    DemoActivity.this.textViewT.setText(t);
+                    DemonstrationActivity.this.textViewT.setText(t);
                 }
             }
         }

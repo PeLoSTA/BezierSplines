@@ -26,7 +26,7 @@
             android:parentActivityName=".activities.MainActivity">
         </activity>
         <activity
-            android:name=".activities.DemoActivity"
+            android:name=".activities.DemonstrationActivity"
             android:label="@string/title_activity_demo"
             android:parentActivityName=".activities.MainActivity">
         </activity>

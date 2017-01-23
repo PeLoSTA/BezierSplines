@@ -16,7 +16,9 @@ import java.util.Locale;
 import de.peterloos.beziersplines.activities.SettingsActivity;
 
 /**
- * Created by Peter on 15.01.2017.
+ * Project: Bézier Splines Simulation
+ * Copyright (c) 2017 by PeLo on 23.01.2017. All rights reserved.
+ * Contact info: peterloos@gmx.de
  */
 
 public class LocaleUtils {

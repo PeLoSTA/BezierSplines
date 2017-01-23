@@ -1,10 +1,14 @@
 package de.peterloos.beziersplines.utils;
 
-// import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+/**
+ * Project: Bézier Splines Simulation
+ * Copyright (c) 2017 by PeLo on 23.01.2017. All rights reserved.
+ * Contact info: peterloos@gmx.de
+ */
 
 public class BezierUtils {
 
