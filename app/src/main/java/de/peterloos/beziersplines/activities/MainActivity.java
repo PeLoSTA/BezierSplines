@@ -28,6 +28,7 @@ import android.widget.Toast;
 import java.util.Locale;
 
 import de.peterloos.beziersplines.utils.BezierMode;
+import de.peterloos.beziersplines.utils.LocaleUtils;
 import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
 import de.peterloos.beziersplines.views.BezierView;
 import de.peterloos.beziersplines.R;
@@ -92,11 +93,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.checkboxConstruction.setChecked(false);
         this.tableRowConstruction.setVisibility(View.GONE);
 
-        // retrieve shared preferences
+        // sync shared preferences settings with bezier view
         Context context = this.getApplicationContext();
         SharedPreferencesUtils.readSharedPreferences(context, this.bezierView);
 
-        // TODO: Was ist wenn hier die Sprache der App und der SharedPreferences nicht übereinstimmen ................
+        // sync shared preferences settings with language
+        if (! SharedPreferencesUtils.existLanguagePrefences(context)) {
+
+            // no preferences available, create language preferences conform to language of this device
+            Locale localeOfDevice = LocaleUtils.getLocaleOfOS();
+            if (localeOfDevice.getLanguage().equals("de")) {
+                SharedPreferencesUtils.writeLanguage(context, BezierGlobals.LanguageGerman);
+            }
+            else {
+                SharedPreferencesUtils.writeLanguage(context, BezierGlobals.LanguageEnglish);
+            }
+        }
+        else {
+
+            // preferences available, sync language preference with language of this app
+            Resources res = this.getResources();
+            Locale localeOfApp = LocaleUtils.getLocaleOfApp(res);
+            String prefLanguage = SharedPreferencesUtils.readLanguage(this);
+
+            if (prefLanguage.equals(BezierGlobals.LanguageEnglish) && !localeOfApp.getLanguage().equals("en")) {
+                LocaleUtils.setLocale(MainActivity.this, MainActivity.class, "en");
+            }
+            else if (prefLanguage.equals(BezierGlobals.LanguageGerman) && !localeOfApp.getLanguage().equals("de")) {
+                LocaleUtils.setLocale(MainActivity.this, MainActivity.class, "de");
+            }
+        }
     }
 
     @Override

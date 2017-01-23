@@ -15,10 +15,12 @@ import de.peterloos.beziersplines.views.BezierView;
 
 public class SharedPreferencesUtils {
 
-    //     <string name="shared_pref_language">Language</string>
-//    public static final String LanguageGerman = "German";
-//    public static final String LanguageEnglish = "English";
-//    public static final String DefaultLanguage = LanguageEnglish;
+    public static boolean existLanguagePrefences(Context context) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        String key = context.getString(R.string.shared_pref_language);
+        return sharedPref.contains(key);
+    }
 
     public static String readLanguage(Context context) {
 

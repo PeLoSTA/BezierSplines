@@ -1,18 +1,14 @@
 package de.peterloos.beziersplines.activities;
 
-import android.annotation.TargetApi;
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -25,7 +21,7 @@ import de.peterloos.beziersplines.R;
 import de.peterloos.beziersplines.utils.LocaleUtils;
 import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
 
-public class SettingsActivity extends AppCompatActivity /** implements View.OnClickListener **/ {
+public class SettingsActivity extends AppCompatActivity {
 
     private static final int NumScaleFactors = 5;
 
@@ -81,7 +77,7 @@ public class SettingsActivity extends AppCompatActivity /** implements View.OnCl
         this.relativeLayoutLanguages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SettingsActivity.this.showAlertDiologLanguage();
+                SettingsActivity.this.showAlertDialogLanguage();
             }
         });
 
@@ -97,7 +93,7 @@ public class SettingsActivity extends AppCompatActivity /** implements View.OnCl
         this.textViewStrokeWidth.setText (currentStrokeWidth);
 
         // read shared preferences (current app's language)
-        this.indexLanguageId = -1;
+        this.indexLanguageId = 0; /* must be 0 or 1 */
         String language = SharedPreferencesUtils.readLanguage(context);
         if (language.equals(BezierGlobals.LanguageEnglish)) {
             this.indexLanguageId = 0;
@@ -105,24 +101,9 @@ public class SettingsActivity extends AppCompatActivity /** implements View.OnCl
         else if (language.equals(BezierGlobals.LanguageGerman)) {
             this.indexLanguageId = 1;
         }
-        if (this.indexLanguageId >= 0) {
-            String currentLanguage = this.languagesDisplayNames[this.indexLanguageId];
-            this.textViewLanguages.setText (currentLanguage);
-        }
 
-
-
-
-
-//        // retrieve current app's language setting
-//        Locale locale = this.getCurrentLocale();
-//        String languageDisplayName = locale.getDisplayLanguage();
-//        this.textViewLanguages.setText (languageDisplayName);
-
-//        Log.v("PeLo", "getLanguage ==> " + locale.getLanguage());
-//        Log.v("PeLo", "getCountry ==> " + locale.getCountry());
-//        Log.v("PeLo", "getDisplayLanguage ==> " + locale.getDisplayLanguage());
-//        Log.v("PeLo", "getDisplayCountry ==> " + locale.getDisplayCountry());
+        String currentLanguage = this.languagesDisplayNames[this.indexLanguageId];
+        this.textViewLanguages.setText (currentLanguage);
     }
 
 //    @Override
@@ -171,9 +152,14 @@ public class SettingsActivity extends AppCompatActivity /** implements View.OnCl
 
                 SettingsActivity.this.indexScaleFactor = SettingsActivity.this.indexTmpScaleFactor;
 
-                float newStrokeWidthControlPoints = BezierGlobals.StrokeWidthControlPointsDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
-                float newStrokeWidthCurveLine = BezierGlobals.StrokeWidthCurveLineDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
-                float newStrokeWidthConstructionLines = BezierGlobals.StrokeWidthConstructionLinesDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
+                float newStrokeWidthControlPoints =
+                        BezierGlobals.StrokeWidthControlPointsDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
+
+                float newStrokeWidthCurveLine =
+                        BezierGlobals.StrokeWidthCurveLineDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
+
+                float newStrokeWidthConstructionLines =
+                        BezierGlobals.StrokeWidthConstructionLinesDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
 
                 Context context = SettingsActivity.this.getApplicationContext();
                 SharedPreferencesUtils.writeScaleFactor(context, SettingsActivity.this.indexScaleFactor);
@@ -188,22 +174,15 @@ public class SettingsActivity extends AppCompatActivity /** implements View.OnCl
         strokewidthDialog.show();
     }
 
-    private void showAlertDiologLanguage() {
+    private void showAlertDialogLanguage() {
 
         Resources res = this.getResources();
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         String title = res.getString(R.string.settings_language_title);
 
-        // retrieve current locale
-        Locale current = this.getCurrentLocale();
-        SettingsActivity.this.indexTmpLanguageId = -1;
-        if (current.getLanguage().equals("en")) {
-            SettingsActivity.this.indexTmpLanguageId = 0;
-        }
-        else if (current.getLanguage().equals("de")) {
-            SettingsActivity.this.indexTmpLanguageId = 1;
-        }
+        // need temporary variable in case of user cancels dialog
+        SettingsActivity.this.indexTmpLanguageId = SettingsActivity.this.indexLanguageId;
 
         alertDialog.setTitle(title);
         alertDialog.setSingleChoiceItems(this.languagesDisplayNames, SettingsActivity.this.indexTmpLanguageId, new DialogInterface.OnClickListener() {
@@ -222,6 +201,7 @@ public class SettingsActivity extends AppCompatActivity /** implements View.OnCl
 
                 SettingsActivity.this.indexLanguageId = SettingsActivity.this.indexTmpLanguageId;
 
+                // update shared preferences
                 Context context = SettingsActivity.this.getApplicationContext();
                 if (SettingsActivity.this.indexLanguageId == 0) {
                     SharedPreferencesUtils.writeLanguage(context, BezierGlobals.LanguageEnglish);
@@ -230,62 +210,59 @@ public class SettingsActivity extends AppCompatActivity /** implements View.OnCl
                     SharedPreferencesUtils.writeLanguage(context, BezierGlobals.LanguageGerman);
                 }
 
-                String currentStrokeWidth = SettingsActivity.this.scalefactorsDisplayNames[SettingsActivity.this.indexScaleFactor];
-                SettingsActivity.this.textViewStrokeWidth.setText (currentStrokeWidth);
-
+                // update view
                 String currentLanguage = SettingsActivity.this.languagesDisplayNames[SettingsActivity.this.indexLanguageId];
                 SettingsActivity.this.textViewLanguages.setText (currentLanguage);
 
-                // switch language
-                SettingsActivity.this.setLocale ((SettingsActivity.this.indexLanguageId == 0) ? "en_US" : "de_DE" );
+                // switch language within app
+                String lang = (SettingsActivity.this.indexLanguageId == 0) ? "en" : "de";
+                LocaleUtils.setLocale(SettingsActivity.this, SettingsActivity.class, lang);
             }
         });
 
-        AlertDialog strokewidthDialog = alertDialog.create();
-        strokewidthDialog.show();
-    }
-
-    @TargetApi(Build.VERSION_CODES.N)
-    public Locale getCurrentLocale(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            return getResources().getConfiguration().getLocales().get(0);
-        } else{
-            // noinspection deprecation
-            return getResources().getConfiguration().locale;
-        }
+        AlertDialog languageDialog = alertDialog.create();
+        languageDialog.show();
     }
 
     // ALTES ZEUGS ....
 
 
     // private helper methods
-    public void setLocale(String lang) {
-
-        Locale myLocale = new Locale(lang);
-
-//        Resources res = getResources();
+//    public void setLocale(Context context, String lang) {
+//
+//        Locale myLocale = new Locale(lang);
+//
+////        Resources res = getResources();
+////        DisplayMetrics dm = res.getDisplayMetrics();
+//
+////        Configuration conf = res.getConfiguration();
+////        conf.locale = myLocale;
+//
+//        Configuration config = new Configuration();
+//        config.setLocale(myLocale);
+//
+//        // res.updateConfiguration(conf, dm);
+//
+//        // GEHT !!!!
+////        Application app = this.getApplication();
+////        Resources res = app.getBaseContext().getResources();
+////        DisplayMetrics dm = res.getDisplayMetrics();
+////        res.updateConfiguration(config, dm);
+//
+//
+//        Resources res = context.getResources();
 //        DisplayMetrics dm = res.getDisplayMetrics();
-
-//        Configuration conf = res.getConfiguration();
-//        conf.locale = myLocale;
-
-        Configuration config = new Configuration();
-        config.setLocale(myLocale);
-
-        // res.updateConfiguration(conf, dm);
-
-        Application app = this.getApplication();
-
-        Resources res = app.getBaseContext().getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        res.updateConfiguration(config, dm);
-
-     //   res.
-
-        Intent refresh = new Intent(this, SettingsActivity.class);
-        startActivity(refresh);
-        finish();
-    }
+//        res.updateConfiguration(config, dm);
+//
+//
+//        Intent refresh = new Intent(this, SettingsActivity.class);
+//
+//        // Intent refresh = new Intent(this.globalContext, SettingsActivity.class);
+//
+//
+//        startActivity(refresh);
+//        finish();
+//    }
 
     public void updateConfig2(Locale locale) {
         LocaleUtils.setLocale(locale);

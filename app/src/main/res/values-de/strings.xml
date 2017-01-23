@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">De Casteljau Bézierkurven Simulation</string>
-    <string name="app_name_for_app_drawer">Bézierkurven</string>
+    <string name="app_name_for_app_drawer">Bézier Kurven</string>
 
     <!-- activities -->
     <string name="app_main_title">Bézierkurven Simulation</string>
