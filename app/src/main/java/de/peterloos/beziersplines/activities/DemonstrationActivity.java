@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -107,14 +106,10 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
                     float centerX = DemonstrationActivity.this.width / 2;
                     float centerY = DemonstrationActivity.this.height / 2;
                     float squareLength = (DemonstrationActivity.this.width < DemonstrationActivity.this.height) ? DemonstrationActivity.this.width : DemonstrationActivity.this.height;
-                    float distance = squareLength / 6;
+                    float distance = squareLength / 6.5F;   /* so that number of circle doesn't touch border */
                     int numEdges = 6;
+
                     DemonstrationActivity.this.demoControlPoints = BezierUtils.getDemoRectangle(centerX - distance / 2, centerY - distance / 2, distance, numEdges);
-
-                    // DemonstrationActivity.this.computeDemoControlPoints();
-
-                    Log.v("PeLo", "onGlobalLayout " + Integer.toString(DemonstrationActivity.this.width) + ", " + Integer.toString(DemonstrationActivity.this.height));
-
                     DemonstrationActivity.this.task = new DemonstrationActivity.DemoOperation();
                     DemonstrationActivity.this.task.setRunning(true);
                     DemonstrationActivity.this.task.execute("Let's go ...");

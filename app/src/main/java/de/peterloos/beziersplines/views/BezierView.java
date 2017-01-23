@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.peterloos.beziersplines.activities.BezierGlobals;
 import de.peterloos.beziersplines.utils.BezierMode;
 import de.peterloos.beziersplines.utils.BezierPoint;
 import de.peterloos.beziersplines.utils.BezierUtils;
@@ -32,16 +33,6 @@ import de.peterloos.beziersplines.utils.BezierUtils;
  */
 
 public class BezierView extends View implements View.OnTouchListener {
-
-    // density-independent pixels for circles
-    private static final int StrokeWidthCircleRadiusDp = 10;
-    private static final int StrokeWidthBorderWidthDp = 2;
-    private static final int DistanceFromNumberDp = 12;
-    private static final int NearestDistanceMaximumDp = 16;
-
-    // density-independent pixels for text
-    private static final int StrokeWidthTextSizeDp = 18;
-    private static final int StrokeWidthInfoPaddingDp = 8;
 
     // color settings
     private static final int ColorLineBetweenControlPoints = 0xFF565656; /* inverted dark gray */
@@ -111,15 +102,14 @@ public class BezierView extends View implements View.OnTouchListener {
 
         this.setOnTouchListener(this);
 
-//        this.strokeWidthControlPoints = this.convertDpToPixel(StrokeWidthLineBetweenControlPointsDp);
-//        this.strokeWidthCurveLine = this.convertDpToPixel(StrokeWidthCurveLineDp);
-//        this.strokeWidthConstructionLine = this.convertDpToPixel(StrokeWidthConstructionLineDp);
-        this.strokeWidthCircle = this.convertDpToPixel(StrokeWidthCircleRadiusDp);
-        this.strokeWidthBorderWidth = this.convertDpToPixel(StrokeWidthBorderWidthDp);
-        this.strokeTextSize = this.convertDpToPixel(StrokeWidthTextSizeDp);
-        this.distanceFromNumber = this.convertDpToPixel(DistanceFromNumberDp);
-        this.nearestDistanceMaximum = this.convertDpToPixel(NearestDistanceMaximumDp);
+        // convert density independent pixels to real pixels
+        this.strokeWidthCircle = this.convertDpToPixel(BezierGlobals.StrokeWidthCircleRadiusDp);
+        this.strokeWidthBorderWidth = this.convertDpToPixel(BezierGlobals.StrokeWidthBorderWidthDp);
+        this.strokeTextSize = this.convertDpToPixel(BezierGlobals.StrokeWidthTextSizeDp);
+        this.distanceFromNumber = this.convertDpToPixel(BezierGlobals.DistanceFromNumberDp);
+        this.nearestDistanceMaximum = this.convertDpToPixel(BezierGlobals.NearestDistanceMaximumDp);
 
+        // setup Paint objects
         this.linePaint = new Paint();
         this.linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         this.linePaint.setStrokeCap(Paint.Cap.ROUND);
@@ -139,7 +129,7 @@ public class BezierView extends View implements View.OnTouchListener {
         this.positionBounds = null;
         this.xPosInfo = 0.0F;
         this.yPosInfo = 0.0F;
-        this.strokeWidthInfoPadding = this.convertDpToPixel(StrokeWidthInfoPaddingDp);
+        this.strokeWidthInfoPadding = this.convertDpToPixel(BezierGlobals.StrokeWidthInfoPaddingDp);
 
         //  need size of view (when view is visible)
         ViewTreeObserver vto = this.getViewTreeObserver();
@@ -441,7 +431,6 @@ public class BezierView extends View implements View.OnTouchListener {
         }
     }
 
-
     private void setTouchPosition(int x, int y) {
         this.positionInfo = String.format(Locale.getDefault(), "%d, %d", x, y);
     }
@@ -449,16 +438,6 @@ public class BezierView extends View implements View.OnTouchListener {
     private void drawPositionInfo(Canvas canvas) {
 
         // calculate coordinates of info text
-//        if (this.positionBounds == null) {
-//
-//            this.positionBounds = new Rect();
-//            String test = String.format(Locale.getDefault(), "%04d, %04d", 8888, 8888);
-//            this.textPaint.getTextBounds(test, 0, test.length(), this.positionBounds);
-//
-//            this.xPosInfo = (int) (this.getWidth() - this.positionBounds.width() - this.strokeWidthInfoPadding);
-//            this.yPosInfo = (int) (this.positionBounds.height() + this.strokeWidthInfoPadding);
-//        }
-
         if (this.positionBounds == null) {
 
             this.positionBounds = new Rect();

@@ -21,4 +21,14 @@ public class BezierGlobals {
     public static final float StrokeWidthControlPointsDp = 4F;
     public static final float StrokeWidthCurveLineDp = 5F;
     public static final float StrokeWidthConstructionLinesDp = 3F;
+
+    // density-independent pixels for circles
+    public static final int StrokeWidthCircleRadiusDp = 9;
+    public static final int StrokeWidthBorderWidthDp = 2;
+    public static final int DistanceFromNumberDp = 12;
+    public static final int NearestDistanceMaximumDp = 16;
+
+    // density-independent pixels for text
+    public static final int StrokeWidthTextSizeDp = 18;
+    public static final int StrokeWidthInfoPaddingDp = 8;
 }
