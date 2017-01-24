@@ -72,34 +72,34 @@
         </item>
         <item>
             <![CDATA[
-            Ja nach <b>Modus</b> der Bézier-Kurven Ansicht kann man entweder neue Stützpunkte <em>hinzufügen</em>,
+            Je nach <b>Modus</b> der Bézier-Kurven Ansicht kann man entweder neue Stützpunkte <em>hinzufügen</em>,
             bestehende Stützpunkte <em>verschieben</em> oder diese auch <em>löschen</em> (einzeln oder alle).
-            Eingestellt wird der App-Modus durch ein DropDown-Menü (Android-Jargon: Spinner):<br/><br/>
+            Eingestellt wird der App-Modus durch ein DropDown-Menü:<br/><br/>
             <br/>
-            <em>Create</em> - Eingabe von Stützpunkten<br/>
-            <em>Edit</em> - Verschieben von Stützpunkten<br/>
-            <em>Delete</em> - Löschen eines Stützpunktes<br/>
-            <em>Clear</em> - Löschen von allen Stützpunkten<br/>
+            <em>Neu</em> - Eingabe von Stützpunkten<br/>
+            <em>Verschieben</em> - Verschieben von Stützpunkten<br/>
+            <em>Entfernen</em> - Löschen eines Stützpunktes<br/>
+            <em>Löschen</em> - Löschen von allen Stützpunkten<br/>
             <br/>
-            Im <em>Create</em>-Modus lassen sich durch Tippen die Stützpunkte einer Bézier-Kurve eingeben. Im <em>Edit</em>Modus können Sie durch Wischen einen Stützpunkt verschieben.
-            Dazu müssen Sie den ausgesuchten Stützpunkte zunächst Berühren (Farbe wechselt von Rot nach Grün), dann können Sie den Punkt verschieben.<br/><br/>
+            Im <em>Neu</em>-Modus lassen sich durch Tippen die Stützpunkte einer Bézier-Kurve eingeben. Im <em>Verschieben</em>-Modus können Sie durch Wischen einen Stützpunkt verschieben.
+            Dazu müssen Sie den ausgesuchten Stützpunkte zunächst Berühren, dann können Sie den Punkt verschieben.<br/><br/>
             <b>Beachte</b>: Beim Verschieben eines Stützpunkts ist die App mit vielen Rechenoperationen ausgelastet (Aktualisierung der Bézier-Kurve).
             Deshalb kann bei zu schnellem Wischen die App ihren Bezugspunkt zur Touch-Gestik verlieren.
-            Zum Löschen eines Stützpunkts wechseln Sie in den <em>Delete</em>-Modus.
-            Selektieren Sie den zu löschenden Punkt mit einem Ein-Finger-Tipp. Sie können auch die komplette Bézier-Kurve löschen: Wechseln Sie dazu in den <em>Clear</em>-Modus.
-            Nach dem Löschen der Kurve wechselt die App automatisch in den <em>Eingabe</em>-Modus.
+            Zum Löschen eines Stützpunkts wechseln Sie in den <em>Entfernen</em>-Modus.
+            Selektieren Sie den zu löschenden Punkt mit einem Ein-Finger-Tipp. Sie können auch die komplette Bézier-Kurve löschen: Wechseln Sie dazu in den <em>Löschen</em>-Modus.
+            Nach dem Löschen der Kurve wechselt die App automatisch in den <em>Neu</em>-Modus.
             ]]>
         </item>
         <item>
             <![CDATA[
                 Für jedes <em>t</em> im Intervall von 0 bis 1 kann man prinzipiell einen Punkt der Bézier-Kurve berechnen.
                 In dieser App werden für maximal 100 äquidistante Werte die Punkte der Bézier-Kurve ermittelt.
-                Die genaue Anzahl (Auflösung) können Sie mit dem unteren Schiebebalken mit der Beschriftung &bdquo;<em>Auflösung</em>&ldquo; einstellen.
+                Die genaue Anzahl (<em>Auflösung</em>) können Sie mit dem unteren Schiebebalken mit der Beschriftung &bdquo;<em>Auflösung</em>&ldquo; einstellen.
             ]]>
         </item>
         <item>
             <![CDATA[
-                Eine Besonderheit in der Realisierung stellt die Auswahlbox &bdquo;<em>Show Construction</em>&ldquo; dar.
+                Eine Besonderheit in der Realisierung stellt die Auswahlbox &bdquo;<em>Konstruktion</em>&ldquo; dar.
                 Um die Arbeitsweise des Algorithmus von <em>de Casteljau</em> zu demonstrieren, werden in diesem Anzeigemodus
                 zusätzlich die für die Konstruktion des aktuellen Bézierpunktes berechneten Hilfspunkte
                 des <em>Casteljau</em>-Schemas mit angezeigt.<br/><br/>

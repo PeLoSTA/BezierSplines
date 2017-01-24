@@ -64,42 +64,56 @@
 
     <!-- documentation: header -->
     <string-array name="docs_app_modes_headers">
-        <item>Interaktives Erstellen einer\nBézier-Kurve</item>
-        <item>Modi der App</item>
-        <item>Auflösung der Kurve</item>
-        <item>Algorithmus von de Casteljau</item>
+        <item>Interactive creation of a \nBézier-curve</item>
+        <item>App modes</item>
+        <item>Curve resolution</item>
+        <item>Algorithm of de Casteljau</item>
     </string-array>
 
     <!-- documentation: description -->
     <string-array name="docs_app_modes_description">
         <item>
             <![CDATA[
-              Die Stützpunkte einer <b>Bézier</b>-Kurve lassen sich durch simples Tippen auf dem Touchscreen eingeben. Die Stützpunkte werden in der Reihenfolge der Eingabe durchnummeriert.
-              Ab drei oder mehr Stützpunkten wird die aktuelle Bézier-Kurve dargestellt.
+                The <em>control points</em> of a <b>Bézier</b> curve can be entered by simply tapping on the touch screen.
+                The control points are numbered in the order of their input.
+                The current Bézier curve is displayed, if three or more control points exist.
             ]]>
         </item>
         <item>
-            Ja nach Modus der Bézier-Kurven Ansicht kann man entweder neue Stützpunkte hinzufügen, bestehende Stützpunkte verschieben oder diese auch löschen (einzeln oder alle).
-            Eingestellt wird der App-Modus durch ein DropDown-Menü (Android-Jargon: Spinner):
-
-            "Create" - Eingabe von Stützpunkten
-            "Edit" - Verschieben von Stützpunkten
-            "Delete" - Löschen eines Stützpunktes
-            "Clear" - Löschen von allen Stützpunkten
-
-            Im Eingabe-Modus lassen sich durch Tippen die Stützpunkte einer Bézier-Kurve eingeben. Im Modus "Edit" können Sie durch Wischen einen Stützpunkt verschieben.
-            Dazu müssen Sie den ausgesuchten Stützpunkte zunächst Berühren (Farbe wechselt von Rot nach Grün), dann können Sie den Punkt verschieben.
-            Beachten Sie dabei: Beim Verschieben eines Stützpunkts ist die App mit vielen Rechenoperationen ausgelastet (Aktualisierung der Bézier-Kurve). Deshalb kann bei zu schnellem Wischen die App ihren Bezugspunkt zur Touch-Gestik verlieren.
-            Zum Löschen eines Stützpunkts wechseln Sie in den "Delete"-Modus. Selektieren Sie den zu löschenden Punkt mit einem Ein-Finger-Tipp. Sie können auch die komplette Bézier-Kurve löschen: Wechseln Sie dazu in den "Clear"-Modus. Nach dem Löschen der Kurve wechselt die App automatisch in den "Eingabe"-Modus.
+            <![CDATA[
+            Depending on the <b>mode</b> of the <b>Bézier</b> curves view, you can either <em>add</em> new control points,
+            <em>move</em> existing ones or <em>delete</em> them (individually or all). The app mode is set by a drop-down menu:<br/><br/>
+                <em>Create</em> - Input of control points<br/>
+                <em>Move</em> - Moving of control points<br/>
+                <em>Delete</em> - Deleting a control point<br/>
+                <em>Clear</em> - Clear all control points<br/>
+                <br/>
+                 In <em>Create</em>-mode, you can enter the control points of a Bézier curve by tapping.
+                 In <em>Move</em>-mode, you can move a control point by swiping. To do this,
+                 you must first touch the selected control point, then you can move the point.<br/><br/>
+                 <b>Note</b>: When moving a control point, the app is busy with a lot of computational operations (updating the Bézier curve).
+                 Therefore the app can loose its reference point to the touch gesture if wiping is too fast.
+                 To delete a control point, switch to the <em>Delete</em>-mode.
+                 Select the point you want to delete with a one-finger tip. You can also delete the whole Bézier curve:
+                 To do this, switch to the <em>Clear</em>-mode.
+                 After deleting the curve, the app automatically switches to the <em>Create</em>-mode.
+            ]]>
         </item>
         <item>
-            Für jedes t im Intervall von 0 bis 1 kann man einen Punkt der Bézier-Kurve berechnen.
-            In dieser App werden für maximal 100 äquidistante Werte von <em>t</em> im Intervall [0,1] die Punkte der Bézier-Kurve ermittelt.
-            Die genaue Anzahl können Sie mit dem unteren Schiebebalken mit der Beschriftung "Resolution" einstellen.
+            <![CDATA[
+                For each <em>t</em> in the interval from 0 to 1 you can calculate a point of the Bézier curve.
+                In this app, the points of the Bézier curve are determined for a maximum of 100 equidistant values of <em>t</em> in the interval [0,1].
+                The exact number can be set with the lower slider with the label &bdquo;<em>Resolution</em>&ldquo;
+            ]]>
         </item>
         <item>
-            Eine Besondertheit der Realisierung stellt die Auswahlbox "Show Construction" dar. Um die Arbeitsweise des Algorithmus von de Casteljau zu demonstrieren, werden in diesem Anzeigemodus die für die Konstruktion des aktuellen Bézierpunktes berechneten Hilfspunkte des Casteljau-Schemas zusätzlich mit angezeigt. Dies ist natürlich immer nur für einen bestimmten Parameter t aus dem Intervall [0,1] möglich.
-            Mit dem zweiten Schiebebalken am unteren Rand (Beschriftung <em>t</em>) stellen Sie diesen Wert ein.
+            <![CDATA[
+                 A special feature of this implementation is the combo box &bdquo;<em>Show Construction</em>&ldquo;.
+                 To demonstrate the internal operations of the algorithm of <em>de Casteljau</em>, the
+                 auxiliary points of the <em>Casteljau</em> scheme are calculated for the construction of the current Bézier point
+                 and additionally displayed in this view. This is of course only possible for a particular parameter <em>t</em> in the interval [0,1].
+                 Use the second slider bar at the bottom (labelled &bdquo;t&ldquo;) to set this value.
+            ]]>
         </item>
     </string-array>
 </resources>
