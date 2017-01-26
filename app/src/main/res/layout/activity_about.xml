@@ -8,57 +8,54 @@
     android:layout_height="match_parent"
     tools:context="de.peterloos.beziersplines.activities.AboutActivity">
 
-    <LinearLayout android:id="@+id/thumbnail_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:layout_centerVertical="true">
-
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/bezier_app_icon"
-            android:scaleType="centerCrop" />
-
-    </LinearLayout>
-
     <TextView
-        android:id="@+id/textview_title"
+        android:id="@+id/textview_website"
+        android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/thumbnail_image_view"
-        android:layout_centerVertical="true"
-        style="@style/ThemeOverlay.MyTextDetail"
-        android:textSize="25sp"
+        android:layout_marginTop="12dp"
+        android:textColorLink="@color/material_blue_A200"
+        android:textSize="15sp"
         android:gravity="center"
-        android:text="@string/app_main_title"/>
+        android:autoLink="web"
+        android:text="@string/about_link"/>
 
     <TextView
         android:id="@+id/textview_version"
-        android:layout_below="@id/textview_title"
+        android:layout_above="@id/textview_website"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="12dp"
         style="@style/ThemeOverlay.MyTextDetail"
         android:textSize="15sp"
         android:gravity="center"
         android:text="@string/app_version"/>
 
     <TextView
-        android:id="@+id/textview_website"
-        android:layout_below="@id/textview_version"
+        android:id="@+id/textview_title"
+        android:layout_above="@id/textview_version"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_centerVertical="true"
-        android:textColorLink="@color/material_blue_A200"
-        android:textSize="15sp"
+        android:layout_marginTop="12dp"
+        style="@style/ThemeOverlay.MyTextDetail"
+        android:textSize="25sp"
         android:gravity="center"
-        android:autoLink="web"
-        android:text="@string/about_link"/>
+        android:text="@string/app_main_title"/>
+
+    <LinearLayout android:id="@+id/thumbnail_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_above="@id/textview_title" >
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@mipmap/bezier_app_icon"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/bezier_app_icon_content_description" />
+
+    </LinearLayout>
 
 </RelativeLayout>
