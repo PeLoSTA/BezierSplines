@@ -112,11 +112,11 @@ public class BezierUtils {
 
 
 
-    public static List<BezierPoint> getDemoCircle(float centerX, float centerY, float radius, float arcLentgth) {
+    public static List<BezierPoint> getDemoCircle01(float centerX, float centerY, float radius, float arcLength) {
 
         List<BezierPoint> result = new ArrayList<>();
 
-        for (double z = 2 * Math.PI; z >= 0.1; z -= arcLentgth) {
+        for (double z = 2 * Math.PI; z >= 0.1; z -= arcLength) {
 
             float x = centerX + radius * (float) Math.sin(z);
             float y = centerY + radius * (float) Math.cos(z);
@@ -125,12 +125,46 @@ public class BezierUtils {
             result.add(p);
         }
 
-//        BezierPoint last = new BezierPoint(centerX + radius * (float) Math.sin(0.0), centerY + radius * (float) Math.cos(0.0));
-//        result.add(last);
-
         return result;
     }
 
+    public static List<BezierPoint> getDemoCircle02(float centerX, float centerY, float radius, float arcLength) {
+
+        List<BezierPoint> result = new ArrayList<>();
+
+        float x = centerX + radius * (float) Math.sin(2 * Math.PI);
+        float y = centerY + radius * (float) Math.cos(2 * Math.PI);
+        BezierPoint p = new BezierPoint(x, y);
+        result.add(p);
+
+        for (double z1 = 2 * Math.PI; z1 >= 2 * Math.PI * 3 / 4; z1 -= arcLength) {
+
+            float x1 = centerX + radius * (float) Math.sin(z1);
+            float y1 = centerY + radius * (float) Math.cos(z1);
+            BezierPoint p1 = new BezierPoint(x1, y1);
+            result.add(p1);
+
+            float x2 = centerX + radius * (float) Math.sin(Math.PI - z1);
+            float y2 = centerY + radius * (float) Math.cos(Math.PI - z1);
+            BezierPoint p2 = new BezierPoint(x2, y2);
+            result.add(p2);
+        }
+
+        for (double z1 = 2 * Math.PI / 4; z1 >= 0.1; z1 -= arcLength) {
+
+            float x1 = centerX + radius * (float) Math.sin(z1);
+            float y1 = centerY + radius * (float) Math.cos(z1);
+            BezierPoint p1 = new BezierPoint(x1, y1);
+            result.add(p1);
+
+            float x2 = centerX + radius * (float) Math.sin(Math.PI - z1);
+            float y2 = centerY + radius * (float) Math.cos(Math.PI - z1);
+            BezierPoint p2 = new BezierPoint(x2, y2);
+            result.add(p2);
+        }
+
+        return result;
+    }
 
     public static List<BezierPoint> getDemoConcentricCircles(float centerX, float centerY, float radius1, float radius2, float arcLentgth) {
 
@@ -156,7 +190,7 @@ public class BezierUtils {
         return result;
     }
 
-    public static List<BezierPoint> getDemoCircle01(float centerX, float centerY, float radius, int partitions) {
+    public static List<BezierPoint> getDemoCircle03(float centerX, float centerY, float radius, int partitions) {
 
         List<BezierPoint> result = new ArrayList<>();
 
@@ -192,7 +226,7 @@ public class BezierUtils {
         return result;
     }
 
-    public static List<BezierPoint> getDemoCircle02(float centerX, float centerY, float radius, int partition) {
+    public static List<BezierPoint> getDemoCircle04(float centerX, float centerY, float radius, int partition) {
 
         List<BezierPoint> result = new ArrayList<>();
 

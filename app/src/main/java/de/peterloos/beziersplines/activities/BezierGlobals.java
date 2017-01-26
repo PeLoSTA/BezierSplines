@@ -15,12 +15,12 @@ public class BezierGlobals {
 
     // scale factor for stroke widths
     public static final int DefaultScaleFactor = 2;
-    public static final float[] ScaleFactors = new float[] { 0.5F, 0.75F, 1.0F, 1.25F, 1.5F };
+    public static final float[] ScaleFactors = new float[]{0.5F, 0.75F, 1.0F, 1.25F, 1.5F};
 
     // density-independent pixels for lines
-    public static final float StrokeWidthControlPointsDp = 4F;
-    public static final float StrokeWidthCurveLineDp = 5F;
-    public static final float StrokeWidthConstructionLinesDp = 3F;
+    public static final float StrokeWidthControlPointsDp = 3.5F;
+    public static final float StrokeWidthCurveLineDp = 4.5F;
+    public static final float StrokeWidthConstructionLinesDp = 2.5F;
 
     // density-independent pixels for circles
     public static final int StrokeWidthCircleRadiusDp = 9;

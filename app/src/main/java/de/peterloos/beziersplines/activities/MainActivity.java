@@ -27,9 +27,6 @@ import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
 import de.peterloos.beziersplines.views.BezierView;
 import de.peterloos.beziersplines.R;
 
-// TODO: Die AsyncTask sollte als dritten Paramer Void bekommen ...
-// TODO: Die AsyncTask sollte als ersten Paramer Void bekommen ...
-
 /**
  * Project: Bézier Splines Simulation
  * Copyright (c) 2017 by PeLo on 23.01.2017. All rights reserved.

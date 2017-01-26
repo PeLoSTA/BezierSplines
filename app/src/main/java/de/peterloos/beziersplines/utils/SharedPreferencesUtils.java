@@ -2,6 +2,7 @@ package de.peterloos.beziersplines.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -91,9 +92,10 @@ public class SharedPreferencesUtils {
         Log.v("PeLo", msg);
 
         // setup Bezier view
-        view.setStrokeWidthControlPoints (strokewidthControlPoints);
-        view.setStrokeWidthCurveLines (strokewidthCurveLine);
-        view.setStrokeWidthConstructionLines (strokewidthConstructionLines);
+        Resources res = context.getResources();
+        view.setStrokeWidthControlPoints (res, strokewidthControlPoints);
+        view.setStrokeWidthCurveLines (res, strokewidthCurveLine);
+        view.setStrokeWidthConstructionLines (res, strokewidthConstructionLines);
     }
 
     public static void writeSharedPreferences(Context context, float strokeWidthControlPoints, float strokeWidthCurveLine, float strokeWidthConstructionLines) {

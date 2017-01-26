@@ -9,6 +9,7 @@ import de.peterloos.beziersplines.utils.BezierPoint;
  */
 
 public class UpdateDescriptor {
+
     private boolean addPoint;
     private boolean changeT;
     private BezierPoint p;

@@ -17,6 +17,7 @@ import de.peterloos.beziersplines.adapters.ViewPagerAdapter;
  * Copyright (c) 2017 by PeLo on 23.01.2017. All rights reserved.
  * Contact info: peterloos@gmx.de
  */
+
 public class DocumentationActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     private ViewPager viewPager;
@@ -26,10 +27,10 @@ public class DocumentationActivity extends AppCompatActivity implements ViewPage
     private ViewPagerAdapter viewPagerAdapter;
 
     private int[] imagesResources = {
-            R.mipmap.app_screenshot_1,
-            R.mipmap.app_screenshot_2,
-            R.mipmap.app_screenshot_3,
-            R.mipmap.app_screenshot_4
+            R.mipmap.device_2017_01,
+            R.mipmap.device_2017_02,
+            R.mipmap.device_2017_03,
+            R.mipmap.device_2017_04
     };
 
     @Override

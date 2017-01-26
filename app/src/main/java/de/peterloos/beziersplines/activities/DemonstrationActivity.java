@@ -1,6 +1,7 @@
 package de.peterloos.beziersplines.activities;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -29,8 +30,9 @@ import de.peterloos.beziersplines.views.BezierView;
 
 public class DemonstrationActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final int BezierViewResolution = 100;
-    private static final int TaskDelay = 30;
+    private static final int DemoViewResolution = 100; // resolution of demonstration view
+    private static final int TaskDelay = 30; // animation velocity
+    private static final float OffsetFromBorderDp = 15F; // density-independent pixels: offset from border
 
     private DemonstrationActivity.DemoOperation task;
 
@@ -70,7 +72,7 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
 
         // initialize bezier view
         this.bezierView.setMode(BezierMode.Demo);
-        this.bezierView.setResolution(BezierViewResolution);
+        this.bezierView.setResolution(DemoViewResolution);
         this.bezierView.setT(0);
         this.bezierView.setShowConstruction(true);
 
@@ -79,7 +81,7 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
         SharedPreferencesUtils.readSharedPreferences(context, this.bezierView);
 
         // initialize controls
-        String resolution = String.format(Locale.getDefault(), "%d", BezierViewResolution);
+        String resolution = String.format(Locale.getDefault(), "%d", DemoViewResolution);
         this.textViewResolution.setText(resolution);
         String t = String.format(Locale.getDefault(), "%1.2f", 0.0);
         this.textViewT.setText(t);
@@ -104,12 +106,18 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
                     DemonstrationActivity.this.height = DemonstrationActivity.this.bezierView.getHeight();
 
                     DemonstrationActivity.this.computeDemoControlPoints();
+                    // DemonstrationActivity.this.computeControlPointsTest_VariantWithCircle();
                 }
             }
         });
     }
 
+    // private helper methods
+    @SuppressWarnings("unused")
     private void computeDemoControlPoints() {
+
+        if (this.width == -1 || this.height == -1)
+            return;
 
         int numEdges = 8;
 
@@ -122,35 +130,31 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
         DemonstrationActivity.this.demoControlPoints = BezierUtils.getDemoRectangle(centerX, centerY, deltaX, deltaY, numEdges - 1);
         DemonstrationActivity.this.task = new DemoOperation();
         DemonstrationActivity.this.task.setRunning(true);
-        DemonstrationActivity.this.task.execute("Let's go ...");
+        DemonstrationActivity.this.task.execute();
     }
 
-    // private helper methods
-//    private void computeControlPointsTest_Circle() {
-//
-//        if (this.width == -1 && this.height == -1)
-//            return;
-//
-//        this.demoControlPoints.clear();
-//
-//        int squareLength = (this.width < this.height) ? this.width : this.height;
-//        double radius = squareLength / 2 - 2 * OffsetFromBorder;
-//
-//        double cX = this.width / 2;
-//        double cY = this.height / 2;
-//
-//        for (double z = 0.0; z < 2 * Math.PI; z += 0.1) {
-//            double x = cX + radius * Math.sin(z);
-//            double y = cY + radius * Math.cos(z);
-//
-//            String s = String.format("PeLo", "%f,%f", x, y);
-//            Log.v("PeLo", s);
-//
-//            BezierPoint p = new BezierPoint((int) x, (int) y);
-//            this.demoControlPoints.add(p);
-//        }
-//    }
+    @SuppressWarnings("unused")
+    private void computeControlPointsTest_VariantWithCircle() {
 
+        if (this.width == -1 || this.height == -1)
+            return;
+
+        int squareLength = (this.width < this.height) ? this.width : this.height;
+
+        Resources res = this.getResources();
+        float offsetFromBorder = BezierView.convertDpToPixel(res, OffsetFromBorderDp);
+        float radius = squareLength / 2 - 2 * offsetFromBorder;
+
+        float centerX = this.width / 2;
+        float centerY = this.height / 2;
+
+        float arcLength = (float) (2 * Math.PI / 40);
+
+        DemonstrationActivity.this.demoControlPoints = BezierUtils.getDemoCircle02(centerX, centerY, radius, arcLength);
+        DemonstrationActivity.this.task = new DemoOperation();
+        DemonstrationActivity.this.task.setRunning(true);
+        DemonstrationActivity.this.task.execute();
+    }
 
     @Override
     public void onClick(View view) {
@@ -172,12 +176,12 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
                 this.textViewT.setText(t);
                 this.task = new DemonstrationActivity.DemoOperation();
                 this.task.setRunning(true);
-                this.task.execute("Let's go ...");
+                this.task.execute();
             }
         }
     }
 
-    private class DemoOperation extends AsyncTask<String, UpdateDescriptor, String> {
+    private class DemoOperation extends AsyncTask<Void, UpdateDescriptor, Void> {
 
         private boolean running;
 
@@ -186,12 +190,12 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
         }
 
         @Override
-        protected String doInBackground(String... params) {
+        protected Void doInBackground(Void... voids) {
 
             for (int i = 0; i < DemonstrationActivity.this.demoControlPoints.size(); i++) {
 
                 if (!this.running)
-                    return "Abort";
+                    return null;
 
                 try {
                     Thread.sleep(10 * TaskDelay);
@@ -208,7 +212,7 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
             for (int i = 0; i <= 100; i++) {
 
                 if (!this.running)
-                    return "Abort";
+                    return null;
 
                 try {
                     Thread.sleep(TaskDelay);
@@ -224,7 +228,7 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
             for (int i = 100; i >= 0; i--) {
 
                 if (!this.running)
-                    return "Abort";
+                    return null;
 
                 try {
                     Thread.sleep(TaskDelay);
@@ -237,7 +241,7 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
                 }
             }
 
-            return "Executed";
+            return null;
         }
 
         @Override
@@ -245,7 +249,7 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(Void voids) {
 
             // enable another demo to run ...
             DemonstrationActivity.this.task = null;
@@ -255,13 +259,12 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
         protected void onProgressUpdate(UpdateDescriptor... values) {
 
             if (values.length == 1) {
+
                 UpdateDescriptor dsc = values[0];
 
                 if (dsc.isAddPoint()) {
-                    // Log.v("PeLo", "onProgressUpdate --> " + dsc.getP().toString());
                     DemonstrationActivity.this.bezierView.addControlPoint(dsc.getP());
                 } else if (dsc.isChangeT()) {
-                    // Log.v("PeLo", "onProgressUpdate --> " + Double.toString(dsc.getT()));
                     DemonstrationActivity.this.bezierView.setT(dsc.getT());
                     String t = String.format(Locale.getDefault(), "%1.2f", dsc.getT());
                     DemonstrationActivity.this.textViewT.setText(t);

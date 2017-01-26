@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:layout_weight="12"
         android:layout_width="wrap_content"
-        tools:src="@mipmap/app_screenshot_1"
+        tools:src="@mipmap/device_2017_01"
         android:id="@+id/img_pager_item"
         android:scaleType="centerInside"
         android:layout_gravity="center"

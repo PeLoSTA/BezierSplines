@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">De Casteljau Bézier Curve Simulation</string>
     <string name="app_name_for_app_drawer">Bézier Splines</string>
+    <string name="app_version">Version 1.1 &#8213; &#169; Peter Loos</string>
 
     <!-- activities -->
     <string name="app_main_title">Bézier Curve Simulation</string>
@@ -89,10 +90,10 @@
                 <em>Clear</em> - Clear all control points<br/>
                 <br/>
                  In <em>Create</em>-mode, you can enter the control points of a Bézier curve by tapping.
-                 In <em>Move</em>-mode, you can move a control point by swiping. To do this,
-                 you must first touch the selected control point, then you can move the point.<br/><br/>
+                 In <em>Move</em>-mode, you can move a specific control point by swiping. To do this,
+                 you must first touch the control point, then you can move the point.<br/><br/>
                  <b>Note</b>: When moving a control point, the app is busy with a lot of computational operations (updating the Bézier curve).
-                 Therefore the app can loose its reference point to the touch gesture if wiping is too fast.
+                 Therefore the app can loose its reference point to the touch gesture if wiping is too fast.<br/><br/>
                  To delete a control point, switch to the <em>Delete</em>-mode.
                  Select the point you want to delete with a one-finger tip. You can also delete the whole Bézier curve:
                  To do this, switch to the <em>Clear</em>-mode.
