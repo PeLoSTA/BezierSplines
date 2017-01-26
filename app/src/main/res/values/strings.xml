@@ -54,6 +54,7 @@
 
     <!-- settings activity - stroke widths -->
     <string name="settings_stroke_widths_title">Stroke Width</string>
+    <string name="bezier_app_icon_content_description">bezier app icon</string>
 
     <string-array name="settings_stroke_widths">
         <item>Extra Light</item>

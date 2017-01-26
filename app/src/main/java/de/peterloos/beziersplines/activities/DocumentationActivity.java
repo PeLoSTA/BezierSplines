@@ -20,7 +20,6 @@ import de.peterloos.beziersplines.adapters.ViewPagerAdapter;
 
 public class DocumentationActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
-    private ViewPager viewPager;
     private LinearLayout layoutPagerIndicator;
     private int dotsCount;
     private ImageView[] dots;
@@ -46,16 +45,16 @@ public class DocumentationActivity extends AppCompatActivity implements ViewPage
         }
 
         // retrieve control references
-        this.viewPager = (ViewPager) this.findViewById(R.id.pager_documentation);
+        ViewPager viewPager = (ViewPager) this.findViewById(R.id.pager_documentation);
         this.layoutPagerIndicator = (LinearLayout) this.findViewById(R.id.view_pager_count_dots);
 
         // setup pager's adapter
         this.viewPagerAdapter = new ViewPagerAdapter(this, this.imagesResources);
-        this.viewPager.setAdapter(this.viewPagerAdapter);
-        this.viewPager.setCurrentItem(0);
+        viewPager.setAdapter(this.viewPagerAdapter);
+        viewPager.setCurrentItem(0);
 
         // connect with event handlers
-        this.viewPager.addOnPageChangeListener(this);
+        viewPager.addOnPageChangeListener(this);
 
         this.setUiPageViewController();
     }
@@ -76,7 +75,6 @@ public class DocumentationActivity extends AppCompatActivity implements ViewPage
             );
 
             params.setMargins(4, 0, 4, 0);
-
             this.layoutPagerIndicator.addView(this.dots[i], params);
         }
 

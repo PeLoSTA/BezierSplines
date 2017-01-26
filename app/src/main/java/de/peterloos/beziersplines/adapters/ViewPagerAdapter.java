@@ -28,16 +28,12 @@ public class ViewPagerAdapter extends PagerAdapter {
     private Context context;
     private int[] resources;
 
-    private String newLine;
-
     private String[] docsHeaders;
     private String[] docsDescriptions;
 
     public ViewPagerAdapter(Context context, int[] resources) {
         this.context = context;
         this.resources = resources;
-
-        this.newLine = System.getProperty("line.separator");
 
         Resources res = this.context.getResources();
         this.docsHeaders = res.getStringArray(R.array.docs_app_modes_headers);
@@ -67,39 +63,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         textViewDocs.setMovementMethod(new ScrollingMovementMethod());
 
         textViewHeader.setText(this.docsHeaders[position]);
-
-
-
-        // this.docsDescriptions = Html.fromHtml(res.getStringArray(R.array.docs_app_modes_description));
-        // textViewDocs.setText(Html.fromHtml(this.docsDescriptions[position], Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE));
-
         Spanned description = this.fromHtml (this.docsDescriptions[position]);
         textViewDocs.setText(description);
-
-
-
-//        textViewHeader.setText("Header");
-//
-//        textViewDocs.append("eins");
-//        textViewDocs.append(this.newLine);
-//        textViewDocs.append("zwei");
-//        textViewDocs.append(this.newLine);
-//        textViewDocs.append("drei");
-//        textViewDocs.append(this.newLine);
-//        textViewDocs.append("vier");
-//        textViewDocs.append(this.newLine);
-//        textViewDocs.append("fuenf");
-//        textViewDocs.append(this.newLine);
-//        textViewDocs.append("sechs");
-//        textViewDocs.append(this.newLine);
-//        textViewDocs.append("sieben");
-//        textViewDocs.append(this.newLine);
-//        textViewDocs.append("acht");
-//        textViewDocs.append(this.newLine);
-//        textViewDocs.append("nein");
-//        textViewDocs.append(this.newLine);
-//        textViewDocs.append("zwhn");
-//        textViewDocs.append(this.newLine);
 
         imageView.setImageResource(this.resources[position]);
         container.addView(itemView);

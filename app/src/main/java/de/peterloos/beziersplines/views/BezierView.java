@@ -104,11 +104,11 @@ public class BezierView extends View implements View.OnTouchListener {
 
         // convert density independent pixels to real pixels
         Resources res = this.getResources();
-        this.strokeWidthCircle = this.convertDpToPixel(res, BezierGlobals.StrokeWidthCircleRadiusDp);
-        this.strokeWidthBorderWidth = this.convertDpToPixel(res, BezierGlobals.StrokeWidthBorderWidthDp);
-        this.strokeTextSize = this.convertDpToPixel(res, BezierGlobals.StrokeWidthTextSizeDp);
-        this.distanceFromNumber = this.convertDpToPixel(res, BezierGlobals.DistanceFromNumberDp);
-        this.nearestDistanceMaximum = this.convertDpToPixel(res, BezierGlobals.NearestDistanceMaximumDp);
+        this.strokeWidthCircle = convertDpToPixel(res, BezierGlobals.StrokeWidthCircleRadiusDp);
+        this.strokeWidthBorderWidth = convertDpToPixel(res, BezierGlobals.StrokeWidthBorderWidthDp);
+        this.strokeTextSize = convertDpToPixel(res, BezierGlobals.StrokeWidthTextSizeDp);
+        this.distanceFromNumber = convertDpToPixel(res, BezierGlobals.DistanceFromNumberDp);
+        this.nearestDistanceMaximum = convertDpToPixel(res, BezierGlobals.NearestDistanceMaximumDp);
 
         // setup Paint objects
         this.linePaint = new Paint();
@@ -130,7 +130,7 @@ public class BezierView extends View implements View.OnTouchListener {
         this.positionBounds = null;
         this.xPosInfo = 0.0F;
         this.yPosInfo = 0.0F;
-        this.strokeWidthInfoPadding = this.convertDpToPixel(res, BezierGlobals.StrokeWidthInfoPaddingDp);
+        this.strokeWidthInfoPadding = convertDpToPixel(res, BezierGlobals.StrokeWidthInfoPaddingDp);
 
         //  need size of view (when view is visible)
         ViewTreeObserver vto = this.getViewTreeObserver();
@@ -168,15 +168,15 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     public void setStrokeWidthControlPoints(Resources res, float valueDp) {
-        this.strokeWidthControlPoints = this.convertDpToPixel(res, valueDp);
+        this.strokeWidthControlPoints = convertDpToPixel(res, valueDp);
     }
 
     public void setStrokeWidthCurveLines(Resources res, float valueDp) {
-        this.strokeWidthCurveLines = this.convertDpToPixel(res, valueDp);
+        this.strokeWidthCurveLines = convertDpToPixel(res, valueDp);
     }
 
     public void setStrokeWidthConstructionLines(Resources res, float valueDp) {
-        this.strokeWidthConstructionLines = this.convertDpToPixel(res, valueDp);
+        this.strokeWidthConstructionLines = convertDpToPixel(res, valueDp);
     }
 
     // public interface
@@ -191,6 +191,7 @@ public class BezierView extends View implements View.OnTouchListener {
         this.invalidate();
     }
 
+    @SuppressWarnings("unused")
     public void addControlPoints(List<BezierPoint> points) {
         this.controlPoints = points;
         this.invalidate();
@@ -485,7 +486,7 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     private void drawCurveLine(Canvas canvas, BezierPoint p0, BezierPoint p1) {
-        this.drawLine(canvas, p0, p1, this.ColorCurveLine, this.strokeWidthCurveLines);
+        this.drawLine(canvas, p0, p1, ColorCurveLine, this.strokeWidthCurveLines);
     }
 
     private void drawLineBetweenControlPoints(Canvas canvas, BezierPoint p0, BezierPoint p1) {
@@ -504,6 +505,7 @@ public class BezierView extends View implements View.OnTouchListener {
         return strokeWidth;
     }
 
+    @SuppressWarnings("unused")
     public static float convertDpToPixel_V2(Resources res, int dpSize) {
         DisplayMetrics dm = res.getDisplayMetrics();
         float strokeWidth = dpSize * dm.density + 0.5f;
@@ -520,12 +522,13 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     // test interface
+    @SuppressWarnings("unused")
     public void showScreenshot() {
 
-        List<BezierPoint> circleList;
+        // List<BezierPoint> circleList;
 
         // screen-shot (totally random)
-        circleList = showScreenshot01();
+        // circleList = showScreenshot01();
 
         // screen-shot (lines)
         // circleList = showScreenshot02();
@@ -536,13 +539,15 @@ public class BezierView extends View implements View.OnTouchListener {
         // screet-shot (bunch of lines)
         // circleList = showScreenshot04();
 
-        this.addControlPoints(circleList);
+        // this.addControlPoints(circleList);
     }
 
+    @SuppressWarnings("unused")
     private List<BezierPoint> showScreenshot01() {
         return BezierUtils.getTotallyRandom(this.getWidth(), this.getHeight(), 70);
     }
 
+    @SuppressWarnings("unused")
     private List<BezierPoint> showScreenshot02() {
         float centerX = this.getWidth() / 2;
         float centerY = this.getHeight() / 2;
@@ -551,6 +556,7 @@ public class BezierView extends View implements View.OnTouchListener {
         return BezierUtils.getDemoCircle01(centerX, centerY, squareLength / 2 - 50, partitions);
     }
 
+    @SuppressWarnings("unused")
     private List<BezierPoint> showScreenshot03() {
         float centerX = this.getWidth() / 2;
         float centerY = this.getHeight() / 2;
@@ -559,6 +565,7 @@ public class BezierView extends View implements View.OnTouchListener {
         return BezierUtils.getDemoConcentricCircles(centerX, centerY, squareLength / 5, squareLength / 2 - 50, arcLentgth);
     }
 
+    @SuppressWarnings("unused")
     private List<BezierPoint> showScreenshot04() {
         int numEdges = 8;
         float centerX = this.getWidth() / 2;

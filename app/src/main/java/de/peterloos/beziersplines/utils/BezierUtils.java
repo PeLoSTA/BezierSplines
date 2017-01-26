@@ -190,6 +190,7 @@ public class BezierUtils {
         return result;
     }
 
+    @SuppressWarnings("unused")
     public static List<BezierPoint> getDemoCircle03(float centerX, float centerY, float radius, int partitions) {
 
         List<BezierPoint> result = new ArrayList<>();
@@ -226,6 +227,7 @@ public class BezierUtils {
         return result;
     }
 
+    @SuppressWarnings("unused")
     public static List<BezierPoint> getDemoCircle04(float centerX, float centerY, float radius, int partition) {
 
         List<BezierPoint> result = new ArrayList<>();
