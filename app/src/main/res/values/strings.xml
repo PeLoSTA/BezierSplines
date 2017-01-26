@@ -44,7 +44,7 @@
 
     <!-- settings activity - languages -->
     <string name="settings_language_title">Language</string>
-    <string name="settings_dialog_ok">Ok</string>
+    <string name="settings_dialog_ok">OK</string>
     <string name="settings_dialog_cancel">Cancel</string>
 
     <string-array name="settings_languages">
@@ -55,6 +55,7 @@
     <!-- settings activity - stroke widths -->
     <string name="settings_stroke_widths_title">Stroke Width</string>
     <string name="bezier_app_icon_content_description">bezier app icon</string>
+    <string name="documentation_image">documentation image</string>
 
     <string-array name="settings_stroke_widths">
         <item>Extra Light</item>

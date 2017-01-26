@@ -24,6 +24,7 @@
     <string name="show_construction">Konstruktion</string>
     <string name="button_english">Englisch</string>
     <string name="button_german">Deutsch</string>
+    <string name="stroke_width">Linienstärke</string>
 
     <!-- main spinner -->
     <string-array name="editor_modes">
@@ -35,7 +36,7 @@
 
     <!-- settings activity - languages -->
     <string name="settings_language_title">Sprache</string>
-    <string name="settings_dialog_ok">Ok</string>
+    <string name="settings_dialog_ok">OK</string>
     <string name="settings_dialog_cancel">Abbrechen</string>
 
     <string-array name="settings_languages">

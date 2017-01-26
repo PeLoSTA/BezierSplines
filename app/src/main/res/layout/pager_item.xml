@@ -18,7 +18,7 @@
         android:layout_gravity="center"
         android:clickable="false"
         android:layout_margin="20dp"
-        android:contentDescription="documentation image" />
+        android:contentDescription="@string/documentation_image" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import java.util.Locale;
+
 import de.peterloos.beziersplines.R;
 import de.peterloos.beziersplines.activities.BezierGlobals;
 import de.peterloos.beziersplines.views.BezierView;
@@ -18,14 +20,17 @@ import de.peterloos.beziersplines.views.BezierView;
 
 public class SharedPreferencesUtils {
 
-    public static boolean existLanguagePrefences(Context context) {
+    /*
+     * language settings
+     */
+    public static boolean existsLanguagePreference(Context context) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String key = context.getString(R.string.shared_pref_language);
         return sharedPref.contains(key);
     }
 
-    public static String readLanguage(Context context) {
+    public static String getPersistedLanguage(Context context) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -38,7 +43,7 @@ public class SharedPreferencesUtils {
         return language;
     }
 
-    public static void writeLanguage(Context context, String language) {
+    public static void persistLanguage(Context context, String language) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -48,36 +53,39 @@ public class SharedPreferencesUtils {
         SharedPreferences.Editor editor = sharedPref.edit();
         String key = context.getString(R.string.shared_pref_language);
         editor.putString(key, language);
-        editor.commit();
+        editor.apply();
     }
 
-    public static int readScaleFactor(Context context) {
+    /*
+     * language settings
+     */
+    public static int getPersistedScaleFactor(Context context) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
         String key = context.getString(R.string.shared_pref_scalefactor);
         int scaleFactor = sharedPref.getInt(key, BezierGlobals.DefaultScaleFactor);
 
-        String msg = String.format("reading scaleFactor ==> %d", scaleFactor);
+        String msg = String.format(Locale.getDefault(), "reading scaleFactor ==> %d", scaleFactor);
         Log.v("PeLo", msg);
 
         return scaleFactor;
     }
 
-    public static void writeScaleFactor(Context context, int scaleFactor) {
+    public static void persistScaleFactor(Context context, int scaleFactor) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
-        String msg = String.format("writing scaleFactor ==> %d", scaleFactor);
+        String msg = String.format(Locale.getDefault(), "writing scaleFactor ==> %d", scaleFactor);
         Log.v("PeLo", msg);
 
         SharedPreferences.Editor editor = sharedPref.edit();
         String key = context.getString(R.string.shared_pref_scalefactor);
         editor.putInt(key, scaleFactor);
-        editor.commit();
+        editor.apply();
     }
 
-    public static void readSharedPreferences(Context context, BezierView view) {
+    public static void getPersistedStrokeWidths(Context context, BezierView view) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -88,7 +96,7 @@ public class SharedPreferencesUtils {
         key = context.getString(R.string.shared_pref_strokewidth_construction_lines);
         float strokewidthConstructionLines = sharedPref.getFloat(key, BezierGlobals.StrokeWidthConstructionLinesDp);
 
-        String msg = String.format("read SharedPreferences: ==> %f, %f, %f", strokewidthControlPoints, strokewidthCurveLine, strokewidthConstructionLines);
+        String msg = String.format(Locale.getDefault(), "read SharedPreferences: ==> %f, %f, %f", strokewidthControlPoints, strokewidthCurveLine, strokewidthConstructionLines);
         Log.v("PeLo", msg);
 
         // setup Bezier view
@@ -98,9 +106,9 @@ public class SharedPreferencesUtils {
         view.setStrokeWidthConstructionLines (res, strokewidthConstructionLines);
     }
 
-    public static void writeSharedPreferences(Context context, float strokeWidthControlPoints, float strokeWidthCurveLine, float strokeWidthConstructionLines) {
+    public static void persistStrokeWidths(Context context, float strokeWidthControlPoints, float strokeWidthCurveLine, float strokeWidthConstructionLines) {
 
-        String msg = String.format("write SharedPreferences: ==> %f, %f, %f", strokeWidthControlPoints, strokeWidthCurveLine, strokeWidthConstructionLines);
+        String msg = String.format(Locale.getDefault(), "write SharedPreferences: ==> %f, %f, %f", strokeWidthControlPoints, strokeWidthCurveLine, strokeWidthConstructionLines);
         Log.v("PeLo", msg);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -114,6 +122,6 @@ public class SharedPreferencesUtils {
         key = context.getString(R.string.shared_pref_strokewidth_construction_lines);
         editor.putFloat(key, strokeWidthConstructionLines);
 
-        editor.commit();
+        editor.apply();
     }
 }

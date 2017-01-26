@@ -79,7 +79,7 @@ public class BezierUtils {
     //  methods for test pictures
     // ============================================================================================
 
-    // schaut langweilig aus
+    // looks boring
     public static List<BezierPoint> getTotallyRandom(float width, float height, int number) {
 
         Random rand = new Random();
@@ -166,12 +166,12 @@ public class BezierUtils {
         return result;
     }
 
-    public static List<BezierPoint> getDemoConcentricCircles(float centerX, float centerY, float radius1, float radius2, float arcLentgth) {
+    public static List<BezierPoint> getDemoConcentricCircles(float centerX, float centerY, float radius1, float radius2, float arcLength) {
 
         List<BezierPoint> result = new ArrayList<>();
 
         // inner circle
-        for (double z = 2 * Math.PI; z >= 0.0; z = z - arcLentgth) {
+        for (double z = 2 * Math.PI; z >= 0.0; z = z - arcLength) {
             float x = centerX + radius1 * (float) Math.sin(z);
             float y = centerY + radius1 * (float) Math.cos(z);
 
@@ -179,7 +179,7 @@ public class BezierUtils {
             result.add(p);
         }
 
-        for (double z = 0.0; z < 2 * Math.PI - 0.1; z = z + arcLentgth / 1.5) {
+        for (double z = 0.0; z < 2 * Math.PI - 0.1; z = z + arcLength / 1.5) {
             float x = centerX + radius2 * (float) Math.sin(z);
             float y = centerY + radius2 * (float) Math.cos(z);
 

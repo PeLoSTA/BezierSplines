@@ -536,7 +536,7 @@ public class BezierView extends View implements View.OnTouchListener {
         // screen-shot (two concentric circles)
         // circleList = showScreenshot03();
 
-        // screet-shot (bunch of lines)
+        // screen-shot (bunch of lines)
         // circleList = showScreenshot04();
 
         // this.addControlPoints(circleList);
@@ -561,8 +561,8 @@ public class BezierView extends View implements View.OnTouchListener {
         float centerX = this.getWidth() / 2;
         float centerY = this.getHeight() / 2;
         float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
-        float arcLentgth = 0.5f;
-        return BezierUtils.getDemoConcentricCircles(centerX, centerY, squareLength / 5, squareLength / 2 - 50, arcLentgth);
+        float arcLength = 0.5f;
+        return BezierUtils.getDemoConcentricCircles(centerX, centerY, squareLength / 5, squareLength / 2 - 50, arcLength);
     }
 
     @SuppressWarnings("unused")

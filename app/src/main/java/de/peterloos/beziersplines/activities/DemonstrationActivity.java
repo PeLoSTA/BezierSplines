@@ -78,7 +78,7 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
 
         // retrieve shared preferences
         Context context = this.getApplicationContext();
-        SharedPreferencesUtils.readSharedPreferences(context, this.bezierView);
+        SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierView);
 
         // initialize controls
         String resolution = String.format(Locale.getDefault(), "%d", DemoViewResolution);

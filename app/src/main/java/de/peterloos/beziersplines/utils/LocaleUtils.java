@@ -2,18 +2,14 @@ package de.peterloos.beziersplines.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.util.DisplayMetrics;
-import android.view.ContextThemeWrapper;
 
 import java.util.Locale;
-
-import de.peterloos.beziersplines.activities.SettingsActivity;
 
 /**
  * Project: Bézier Splines Simulation
@@ -23,58 +19,69 @@ import de.peterloos.beziersplines.activities.SettingsActivity;
 
 public class LocaleUtils {
 
-    // TODO: sLocale umbenennen
-    private static Locale sLocale;
-
     @TargetApi(Build.VERSION_CODES.N)
     public static Locale getLocaleOfApp(Resources res){
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            return res.getConfiguration().getLocales().get(0);
+            return getLocale(res);
         } else{
-            // noinspection deprecation
-            return res.getConfiguration().locale;
+            return getLocaleLegacy(res);
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private static Locale getLocale (Resources res) {
+        return res.getConfiguration().getLocales().get(0);
+    }
+
+    @SuppressWarnings("deprecation")
+    private static Locale getLocaleLegacy (Resources res) {
+        return res.getConfiguration().locale;
     }
 
     public static Locale getLocaleOfOS(){
         return Locale.getDefault();
     }
 
+    public static void setLocale(Activity activity, Class cls, String language) {
 
-    public static void setLocale(Locale locale) {
-        sLocale = locale;
-        if(sLocale != null) {
-            Locale.setDefault(sLocale);
+        Context context = activity.getApplicationContext();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            updateResources(context, language);
         }
-    }
-
-    public static void updateConfig(ContextThemeWrapper wrapper) {
-        if(sLocale != null) {
-            Configuration configuration = new Configuration();
-            configuration.setLocale(sLocale);
-            wrapper.applyOverrideConfiguration(configuration);
+        else {
+            updateResourcesLegacy(context, language);
         }
-    }
-
-
-    public static void setLocale(Activity activity, Class cls, String lang) {
-
-        Locale myLocale = new Locale(lang);
-        Configuration config = new Configuration();
-        config.setLocale(myLocale);
-
-        Resources res = activity.getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        res.updateConfiguration(config, dm);
-
 
         Intent refresh = new Intent(activity, cls);
-
-        // Intent refresh = new Intent(this.globalContext, SettingsActivity.class)
-
         activity.startActivity(refresh);
         activity.finish();
     }
 
+    @TargetApi(Build.VERSION_CODES.N)
+    private static void updateResources(Context context, String language) {
+
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+
+        Resources res = context.getResources();
+        Configuration configuration = res.getConfiguration();
+        configuration.setLocale(locale);
+
+        context.createConfigurationContext(configuration);
+    }
+
+    @SuppressWarnings("deprecation")
+    private static void updateResourcesLegacy(Context context, String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+
+        Resources res = context.getResources();
+        Configuration configuration = res.getConfiguration();
+        configuration.locale = locale;
+
+        DisplayMetrics dm = res.getDisplayMetrics();
+        res.updateConfiguration(configuration, dm);
+    }
 }

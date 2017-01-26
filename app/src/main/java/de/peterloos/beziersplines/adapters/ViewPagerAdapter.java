@@ -63,7 +63,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         textViewDocs.setMovementMethod(new ScrollingMovementMethod());
 
         textViewHeader.setText(this.docsHeaders[position]);
-        Spanned description = this.fromHtml (this.docsDescriptions[position]);
+        Spanned description = fromHtml (this.docsDescriptions[position]);
         textViewDocs.setText(description);
 
         imageView.setImageResource(this.resources[position]);
@@ -85,9 +85,7 @@ public class ViewPagerAdapter extends PagerAdapter {
             Log.v("PeLo", "NEW API");
             result = Html.fromHtml(html, Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE);
 
-            // TODO: Den Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE auf dem Samsung testen !!!
-            // TODO: Es gäbe da auch einen LEGACY Parameter ... was immer der tut ?!?!
-
+            // TODO: Needs to be tested with Nougat !!! Maybe Html.FROM_HTML_MODE_LEGACY is correct ?!?
         }
         else {
             Log.v("PeLo", "OLD API");

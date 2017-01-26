@@ -82,18 +82,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // sync shared preferences settings with bezier view
         Context context = this.getApplicationContext();
-        SharedPreferencesUtils.readSharedPreferences(context, this.bezierView);
+        SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierView);
 
         // sync shared preferences settings with language
-        if (! SharedPreferencesUtils.existLanguagePrefences(context)) {
+        if (! SharedPreferencesUtils.existsLanguagePreference(context)) {
 
             // no preferences available, create language preferences conform to language of this device
             Locale localeOfDevice = LocaleUtils.getLocaleOfOS();
             if (localeOfDevice.getLanguage().equals("de")) {
-                SharedPreferencesUtils.writeLanguage(context, BezierGlobals.LanguageGerman);
+                SharedPreferencesUtils.persistLanguage(context, BezierGlobals.LanguageGerman);
             }
             else {
-                SharedPreferencesUtils.writeLanguage(context, BezierGlobals.LanguageEnglish);
+                SharedPreferencesUtils.persistLanguage(context, BezierGlobals.LanguageEnglish);
             }
         }
         else {
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // preferences available, sync language preference with language of this app
             Resources res = this.getResources();
             Locale localeOfApp = LocaleUtils.getLocaleOfApp(res);
-            String prefLanguage = SharedPreferencesUtils.readLanguage(this);
+            String prefLanguage = SharedPreferencesUtils.getPersistedLanguage(this);
 
             if (prefLanguage.equals(BezierGlobals.LanguageEnglish) && !localeOfApp.getLanguage().equals("en")) {
                 LocaleUtils.setLocale(MainActivity.this, MainActivity.class, "en");
