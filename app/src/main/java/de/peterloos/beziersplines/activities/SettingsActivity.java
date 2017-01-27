@@ -72,6 +72,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         // connect 'languages' dialog with another specific RelativeLayout region
         this.relativeLayoutLanguages = (RelativeLayout) this.findViewById(R.id.relative_layout_languages);
+
+        // because I didn't succeed to implement app local language selection settings,
+        // make this setting invisible. Tests with Nougat (Android N) failed !
+        this.relativeLayoutLanguages.setVisibility(View.INVISIBLE);
+
         this.relativeLayoutLanguages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -194,7 +199,8 @@ public class SettingsActivity extends AppCompatActivity {
 
                 // switch language within app
                 String lang = (SettingsActivity.this.indexLanguageId == 0) ? "en" : "de";
-                LocaleUtils.setLocale(SettingsActivity.this, SettingsActivity.class, lang);
+                Context currentContext = SettingsActivity.this.getApplicationContext();
+                LocaleUtils.setLocale(currentContext, SettingsActivity.this, SettingsActivity.class, lang);
             }
         });
 

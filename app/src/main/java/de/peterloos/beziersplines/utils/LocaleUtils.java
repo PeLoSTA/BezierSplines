@@ -43,9 +43,7 @@ public class LocaleUtils {
         return Locale.getDefault();
     }
 
-    public static void setLocale(Activity activity, Class cls, String language) {
-
-        Context context = activity.getApplicationContext();
+    public static void setLocale(Context context, Activity activity, Class cls, String language) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             updateResources(context, language);
@@ -54,7 +52,7 @@ public class LocaleUtils {
             updateResourcesLegacy(context, language);
         }
 
-        Intent refresh = new Intent(activity, cls);
+        Intent refresh = new Intent(context, cls);
         activity.startActivity(refresh);
         activity.finish();
     }

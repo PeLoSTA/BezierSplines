@@ -85,31 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierView);
 
         // sync shared preferences settings with language
-        if (! SharedPreferencesUtils.existsLanguagePreference(context)) {
-
-            // no preferences available, create language preferences conform to language of this device
-            Locale localeOfDevice = LocaleUtils.getLocaleOfOS();
-            if (localeOfDevice.getLanguage().equals("de")) {
-                SharedPreferencesUtils.persistLanguage(context, BezierGlobals.LanguageGerman);
-            }
-            else {
-                SharedPreferencesUtils.persistLanguage(context, BezierGlobals.LanguageEnglish);
-            }
-        }
-        else {
-
-            // preferences available, sync language preference with language of this app
-            Resources res = this.getResources();
-            Locale localeOfApp = LocaleUtils.getLocaleOfApp(res);
-            String prefLanguage = SharedPreferencesUtils.getPersistedLanguage(this);
-
-            if (prefLanguage.equals(BezierGlobals.LanguageEnglish) && !localeOfApp.getLanguage().equals("en")) {
-                LocaleUtils.setLocale(MainActivity.this, MainActivity.class, "en");
-            }
-            else if (prefLanguage.equals(BezierGlobals.LanguageGerman) && !localeOfApp.getLanguage().equals("de")) {
-                LocaleUtils.setLocale(MainActivity.this, MainActivity.class, "de");
-            }
-        }
+        // this.syncSharedPrefsWithLanguage(context);
     }
 
     @Override
@@ -233,5 +209,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         Log.v("PeLo", "onNothingSelected");
+    }
+
+    // private helper methods
+    @SuppressWarnings("unused")
+    private void syncSharedPrefsWithLanguage(Context context) {
+        if (! SharedPreferencesUtils.existsLanguagePreference(context)) {
+
+            // no preferences available, create language preferences conform to language of this device
+            Locale localeOfDevice = LocaleUtils.getLocaleOfOS();
+            if (localeOfDevice.getLanguage().equals("de")) {
+                SharedPreferencesUtils.persistLanguage(context, BezierGlobals.LanguageGerman);
+            }
+            else {
+                SharedPreferencesUtils.persistLanguage(context, BezierGlobals.LanguageEnglish);
+            }
+        }
+        else {
+
+            // preferences available, sync language preference with language of this app
+            Resources res = this.getResources();
+            Locale localeOfApp = LocaleUtils.getLocaleOfApp(res);
+            String prefLanguage = SharedPreferencesUtils.getPersistedLanguage(this);
+
+            if (prefLanguage.equals(BezierGlobals.LanguageEnglish) && !localeOfApp.getLanguage().equals("en")) {
+                LocaleUtils.setLocale(context, MainActivity.this, MainActivity.class, "en");
+            }
+            else if (prefLanguage.equals(BezierGlobals.LanguageGerman) && !localeOfApp.getLanguage().equals("de")) {
+                LocaleUtils.setLocale(context, MainActivity.this, MainActivity.class, "de");
+            }
+        }
     }
 }
