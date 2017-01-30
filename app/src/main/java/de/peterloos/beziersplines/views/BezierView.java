@@ -9,8 +9,11 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Shader;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.peterloos.beziersplines.R;
 import de.peterloos.beziersplines.activities.BezierGlobals;
 import de.peterloos.beziersplines.utils.BezierMode;
 import de.peterloos.beziersplines.utils.BezierPoint;
@@ -34,10 +38,7 @@ import de.peterloos.beziersplines.utils.BezierUtils;
 
 public class BezierView extends View implements View.OnTouchListener {
 
-    // color settings
-    private static final int ColorLineBetweenControlPoints = 0xFF565656; /* inverted dark gray */
-    private static final int ColorCurveLine = Color.RED;
-    private static final int ColorConstructionLine = Color.BLUE;
+    private static final String TAG = "PeLo";
 
     private BezierMode mode;
 
@@ -52,26 +53,32 @@ public class BezierView extends View implements View.OnTouchListener {
 
     private float touchSlop;
 
+    // paint objects
     private Paint linePaint;
     private Paint circlePaint;
     private Paint textPaint;
 
-    //  real pixel densities for lines
+    // colors
+    private int colorControlPoints;
+    private int colorCurveLine;
+    private int colorConstructionLine;
+
+    // real pixel densities for lines
     private float strokeWidthControlPoints;
     private float strokeWidthCurveLines;
     private float strokeWidthConstructionLines;
 
-    //  real pixel densities for circles
+    // real pixel densities for circles
     private float strokeWidthCircle;
     private float strokeWidthBorderWidth;
     private float distanceFromNumber;
     private float nearestDistanceMaximum;
 
-    //  real pixel densities for text
+    // real pixel densities for text
     private float strokeTextSize;
     private float strokeWidthInfoPadding;
 
-    //  bézier curve specific parameters
+    // bézier curve specific parameters
     private int resolution;
     private float constructionPosition;
 
@@ -81,9 +88,13 @@ public class BezierView extends View implements View.OnTouchListener {
     private float xPosInfo;
     private float yPosInfo;
 
-    // size of this view
+    // size of this view (numbers of digits)
     private int viewDigitsOfWidth;
     private int viewDigitsOfHeight;
+
+    // size of this view
+    protected int viewWidth;
+    protected int viewHeight;
 
     // c'tor
     public BezierView(Context context, AttributeSet attrs) {
@@ -109,6 +120,11 @@ public class BezierView extends View implements View.OnTouchListener {
         this.strokeTextSize = convertDpToPixel(res, BezierGlobals.StrokeWidthTextSizeDp);
         this.distanceFromNumber = convertDpToPixel(res, BezierGlobals.DistanceFromNumberDp);
         this.nearestDistanceMaximum = convertDpToPixel(res, BezierGlobals.NearestDistanceMaximumDp);
+
+        // color settings
+        this.colorControlPoints = getColorWrapper(context, R.color.material_blue_grey_500);
+        this.colorCurveLine = getColorWrapper(context, R.color.material_red_700);
+        this.colorConstructionLine = getColorWrapper(context, R.color.material_blue_700);
 
         // setup Paint objects
         this.linePaint = new Paint();
@@ -141,10 +157,20 @@ public class BezierView extends View implements View.OnTouchListener {
 
                 int width = BezierView.this.getMeasuredWidth();
                 int height = BezierView.this.getMeasuredHeight();
-                BezierView.this.viewDigitsOfWidth = BezierView.this.digitsOfNumber(width);
-                BezierView.this.viewDigitsOfHeight = BezierView.this.digitsOfNumber(height);
+
+                BezierView.this.setActualSize(width, height);
             }
         });
+    }
+
+    protected void setActualSize(int width, int height) {
+        Log.v(TAG, "setActualSize ==> BezierView");
+
+        this.viewWidth = width;
+        this.viewHeight = height;
+
+        this.viewDigitsOfWidth = this.digitsOfNumber(this.viewWidth);
+        this.viewDigitsOfHeight = this.digitsOfNumber(this.viewHeight);
     }
 
     // getter/setter
@@ -186,7 +212,11 @@ public class BezierView extends View implements View.OnTouchListener {
         this.invalidate();
     }
 
+    // XXXXXXXXXXXXXXXXXXXX
     public void addControlPoint(BezierPoint p) {
+
+        Log.v(TAG, "======> base::addControlPoint");
+
         this.controlPoints.add(p);
         this.invalidate();
     }
@@ -259,10 +289,6 @@ public class BezierView extends View implements View.OnTouchListener {
                     }
 
                     // remove this control point
-//                    p = this.controlPoints.get(index);
-//                    this.setTouchPosition((int) p.getX(), (int) p.getY());
-//                    this.removeControlPoint(index);
-
                     p = this.controlPoints.get(index);
                     if (this.controlPoints.size() > 1) {
                         this.setTouchPosition((int) p.getX(), (int) p.getY());
@@ -270,8 +296,6 @@ public class BezierView extends View implements View.OnTouchListener {
                         this.clearTouchPosition();
                     }
                     this.removeControlPoint(index);
-
-
                 }
             }
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
@@ -482,15 +506,15 @@ public class BezierView extends View implements View.OnTouchListener {
 
     // drawing helper methods for lines
     private void drawConstructionLine(Canvas canvas, BezierPoint p0, BezierPoint p1) {
-        this.drawLine(canvas, p0, p1, ColorConstructionLine, this.strokeWidthConstructionLines);
+        this.drawLine(canvas, p0, p1, this.colorConstructionLine, this.strokeWidthConstructionLines);
     }
 
     private void drawCurveLine(Canvas canvas, BezierPoint p0, BezierPoint p1) {
-        this.drawLine(canvas, p0, p1, ColorCurveLine, this.strokeWidthCurveLines);
+        this.drawLine(canvas, p0, p1, this.colorCurveLine, this.strokeWidthCurveLines);
     }
 
     private void drawLineBetweenControlPoints(Canvas canvas, BezierPoint p0, BezierPoint p1) {
-        this.drawLine(canvas, p0, p1, ColorLineBetweenControlPoints, this.strokeWidthControlPoints);
+        this.drawLine(canvas, p0, p1, this.colorControlPoints, this.strokeWidthControlPoints);
     }
 
     private void drawLine(Canvas canvas, BezierPoint p0, BezierPoint p1, int color, float strokeWidth) {
@@ -519,6 +543,16 @@ public class BezierView extends View implements View.OnTouchListener {
             result++;
         }
         return result;
+    }
+
+    public static final int getColorWrapper(Context context, int id) {
+        final int version = Build.VERSION.SDK_INT;
+        if (version >= Build.VERSION_CODES.M) {
+            return ContextCompat.getColor(context, id);
+        } else {
+            //noinspection deprecation
+            return context.getResources().getColor(id);
+        }
     }
 
     // test interface

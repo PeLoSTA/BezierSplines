@@ -22,7 +22,7 @@ public class BezierPoint {
         return x;
     }
 
-    private void setX(float x) {
+    public void setX(float x) {
         this.x = x;
     }
 
@@ -30,7 +30,7 @@ public class BezierPoint {
         return y;
     }
 
-    private void setY(float y) {
+    public void setY(float y) {
         this.y = y;
     }
 
@@ -51,6 +51,6 @@ public class BezierPoint {
 
     @Override
     public String toString() {
-        return String.format(Locale.getDefault(), "(%.3f,%.3f)", this.x, this.y);
+        return String.format(Locale.getDefault(), "{%.1f - %.1f{", this.x, this.y);
     }
 }

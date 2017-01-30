@@ -89,6 +89,7 @@
 
     <color name="material_blue_grey_50">#ffeceff1</color>
     <color name="material_blue_grey_100">#ffcfd8dc</color>
+    <color name="material_blue_grey_200">#ffb0bec5</color>
     <color name="material_blue_grey_300">#ff90a4ae</color>
     <color name="material_blue_grey_400">#ff78909c</color>
     <color name="material_blue_grey_500">#ff607d8b</color>

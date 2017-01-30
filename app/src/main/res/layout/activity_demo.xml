@@ -9,6 +9,10 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+
     tools:context="de.peterloos.beziersplines.activities.DemonstrationActivity">
 
     <TableLayout
@@ -93,10 +97,9 @@
 
     <de.peterloos.beziersplines.views.BezierView
         android:id="@+id/bezier_view"
-        android:background="#ffe9e9e9"
-        android:paddingBottom="40dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:background="@color/material_blue_grey_200"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/footer"
