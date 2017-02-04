@@ -18,12 +18,15 @@ import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ViewSwitcher;
 
 import java.util.Locale;
 
 import de.peterloos.beziersplines.utils.BezierMode;
 import de.peterloos.beziersplines.utils.LocaleUtils;
 import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
+import de.peterloos.beziersplines.views.BezierGridView;
+import de.peterloos.beziersplines.views.BezierLogging;
 import de.peterloos.beziersplines.views.BezierView;
 import de.peterloos.beziersplines.R;
 
@@ -33,10 +36,18 @@ import de.peterloos.beziersplines.R;
  * Contact info: peterloos@gmx.de
  */
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, AdapterView.OnItemSelectedListener {
+public class MainActivity
+    extends AppCompatActivity
+    implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, AdapterView.OnItemSelectedListener, BezierLogging {
 
-    private BezierView bezierView;
+    private static final String TAG = "PeLo";
+
+    private ViewSwitcher viewSwitcher;
+    private BezierView bezierViewWithoutGrid;
+    private BezierGridView bezierViewWithGrid;
     private CheckBox checkboxConstruction;
+    private CheckBox checkboxSnaptogrid;
+    private TextView textViewInfo;
     private SeekBar seekBarResolution;
     private SeekBar seekBarT;
     private TextView textViewResolution;
@@ -57,8 +68,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // retrieve control references
-        this.bezierView = (BezierView) this.findViewById(R.id.bezier_view);
+        this.viewSwitcher = (ViewSwitcher) findViewById(R.id.viewswitcher);
+        this.bezierViewWithoutGrid = (BezierView) this.findViewById(R.id.bezier_view_withoutgrid);
+        this.bezierViewWithGrid = (BezierGridView) this.findViewById(R.id.bezier_view_withgrid);
         this.checkboxConstruction = (CheckBox) this.findViewById(R.id.checkbox_show_construction);
+        this.checkboxSnaptogrid = (CheckBox) this.findViewById(R.id.checkbox_show_snaptogrid);
+        this.textViewInfo = (TextView) this.findViewById(R.id.textview_info);
         this.seekBarResolution = (SeekBar) this.findViewById(R.id.seekbar_resolution);
         this.seekBarT = (SeekBar) this.findViewById(R.id.seekbar_t);
         this.textViewResolution = (TextView) this.findViewById(R.id.textview_resolution);
@@ -68,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // connect with event handlers
         this.checkboxConstruction.setOnClickListener(this);
+        this.checkboxSnaptogrid.setOnClickListener(this);
         this.seekBarResolution.setOnSeekBarChangeListener(this);
         this.seekBarT.setOnSeekBarChangeListener(this);
         this.spinnerMode.setOnItemSelectedListener(this);
@@ -75,16 +91,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // initialize controls
         this.seekBarResolution.setProgress(50);
         this.seekBarT.setProgress(50);
-        this.bezierView.setShowConstruction(false);
+        this.bezierViewWithoutGrid.setShowConstruction(false);
+        this.bezierViewWithGrid.setShowConstruction(false);
 
         this.checkboxConstruction.setChecked(false);
         this.tableRowConstruction.setVisibility(View.GONE);
 
         // sync shared preferences settings with bezier view
         Context context = this.getApplicationContext();
-        SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierView);
+        SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierViewWithoutGrid, this.bezierViewWithGrid);
 
-        // sync shared preferences settings with language
+        // connect event sink with clients
+        this.bezierViewWithoutGrid.registerListener(this);
+        this.bezierViewWithGrid.registerListener(this);
+
+        // sync shared preferences settings with language:
+        // implemented - but didn't work with Android 'Nougat'
         // this.syncSharedPrefsWithLanguage(context);
     }
 
@@ -104,18 +126,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Context currentContext = this.getApplicationContext();
             Intent settingsIntent = new Intent(currentContext, SettingsActivity.class);
             this.startActivity(settingsIntent);
-        }
-        else if (id == R.id.menu_action_demo) {
+        } else if (id == R.id.menu_action_demo) {
             Context currentContext = this.getApplicationContext();
             Intent demoIntent = new Intent(currentContext, DemonstrationActivity.class);
             this.startActivity(demoIntent);
-        }
-        else if (id == R.id.menu_action_about) {
+        } else if (id == R.id.menu_action_about) {
             Context currentContext = this.getApplicationContext();
             Intent demoIntent = new Intent(currentContext, AboutActivity.class);
             this.startActivity(demoIntent);
-        }
-        else if (id == R.id.menu_action_docs) {
+        } else if (id == R.id.menu_action_docs) {
             Context currentContext = this.getApplicationContext();
             Intent demoIntent = new Intent(currentContext, DocumentationActivity.class);
             this.startActivity(demoIntent);
@@ -133,12 +152,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (view == this.checkboxConstruction) {
             if (this.checkboxConstruction.isChecked()) {
-                this.bezierView.setShowConstruction(true);
+                this.bezierViewWithoutGrid.setShowConstruction(true);
+                this.bezierViewWithGrid.setShowConstruction(true);
                 this.tableRowConstruction.setVisibility(View.VISIBLE);
             } else {
-                this.bezierView.setShowConstruction(false);
+                this.bezierViewWithoutGrid.setShowConstruction(false);
+                this.bezierViewWithGrid.setShowConstruction(false);
                 this.tableRowConstruction.setVisibility(View.GONE);
             }
+        } else if (view == this.checkboxSnaptogrid) {
+            if (this.checkboxSnaptogrid.isChecked()) {
+                Log.v(TAG, "Switch Normal View to Grid View");
+                this.bezierViewWithGrid.setMode(BezierMode.Create);
+                this.bezierViewWithGrid.clear();
+                this.viewSwitcher.showNext();
+
+            } else {
+                Log.v(TAG, "Switch Grid View to Normal View");
+                this.bezierViewWithoutGrid.clear();
+                this.bezierViewWithoutGrid.setMode(BezierMode.Create);
+                this.viewSwitcher.showPrevious();
+            }
+
+            // needed for both views
+            this.seekBarResolution.setProgress(50);
+            this.seekBarT.setProgress(50);
+            this.spinnerMode.setSelection(0);
         }
     }
 
@@ -153,13 +192,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             String s = Integer.toString(i);
             this.textViewResolution.setText(s);
-            this.bezierView.setResolution(i);
+            this.bezierViewWithoutGrid.setResolution(i);
+            this.bezierViewWithGrid.setResolution(i);
         } else if (seekBar == this.seekBarT) {
 
             float constructionPosition = (float) 0.01 * i;
             String pos = String.format(Locale.getDefault(), "%.2f", constructionPosition);
             this.textViewT.setText(pos);
-            this.bezierView.setT(constructionPosition);
+            this.bezierViewWithoutGrid.setT(constructionPosition);
+            this.bezierViewWithGrid.setT(constructionPosition);
         }
     }
 
@@ -181,17 +222,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (i) {
             case 0:
-                this.bezierView.setMode(BezierMode.Create);
+                this.bezierViewWithoutGrid.setMode(BezierMode.Create);
+                this.bezierViewWithGrid.setMode(BezierMode.Create);
                 break;
             case 1:
-                this.bezierView.setMode(BezierMode.Edit);
+                this.bezierViewWithoutGrid.setMode(BezierMode.Edit);
+                this.bezierViewWithGrid.setMode(BezierMode.Edit);
                 break;
             case 2:
-                this.bezierView.setMode(BezierMode.Delete);
+                this.bezierViewWithoutGrid.setMode(BezierMode.Delete);
+                this.bezierViewWithGrid.setMode(BezierMode.Delete);
                 break;
             case 3:
-                this.bezierView.clear();
-                this.bezierView.setMode(BezierMode.Create);
+                this.bezierViewWithoutGrid.clear();
+                this.bezierViewWithGrid.clear();
+                this.bezierViewWithoutGrid.setMode(BezierMode.Create);
+                this.bezierViewWithGrid.setMode(BezierMode.Create);
                 this.seekBarResolution.setProgress(50);
                 this.seekBarT.setProgress(50);
                 this.spinnerMode.setSelection(0);
@@ -201,7 +247,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // JUST FOR MAKING SCREENSHOTS: End
                 break;
             case 4:
-                this.bezierView.setMode(BezierMode.Demo);
+                this.bezierViewWithoutGrid.setMode(BezierMode.Demo);
+                this.bezierViewWithGrid.setMode(BezierMode.Demo);
                 break;
         }
     }
@@ -211,21 +258,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.v("PeLo", "onNothingSelected");
     }
 
+    /*
+     * implementing interface 'BezierLogging'
+     */
+
+    @Override
+    public void setCurrentInfo(String info) {
+        this.textViewInfo.setText(info);
+    }
+
     // private helper methods
     @SuppressWarnings("unused")
     private void syncSharedPrefsWithLanguage(Context context) {
-        if (! SharedPreferencesUtils.existsLanguagePreference(context)) {
+        if (!SharedPreferencesUtils.existsLanguagePreference(context)) {
 
             // no preferences available, create language preferences conform to language of this device
             Locale localeOfDevice = LocaleUtils.getLocaleOfOS();
             if (localeOfDevice.getLanguage().equals("de")) {
                 SharedPreferencesUtils.persistLanguage(context, BezierGlobals.LanguageGerman);
-            }
-            else {
+            } else {
                 SharedPreferencesUtils.persistLanguage(context, BezierGlobals.LanguageEnglish);
             }
-        }
-        else {
+        } else {
 
             // preferences available, sync language preference with language of this app
             Resources res = this.getResources();
@@ -234,8 +288,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (prefLanguage.equals(BezierGlobals.LanguageEnglish) && !localeOfApp.getLanguage().equals("en")) {
                 LocaleUtils.setLocale(context, MainActivity.this, MainActivity.class, "en");
-            }
-            else if (prefLanguage.equals(BezierGlobals.LanguageGerman) && !localeOfApp.getLanguage().equals("de")) {
+            } else if (prefLanguage.equals(BezierGlobals.LanguageGerman) && !localeOfApp.getLanguage().equals("de")) {
                 LocaleUtils.setLocale(context, MainActivity.this, MainActivity.class, "de");
             }
         }

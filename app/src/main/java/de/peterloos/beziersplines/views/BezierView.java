@@ -76,17 +76,17 @@ public class BezierView extends View implements View.OnTouchListener {
 
     // real pixel densities for text
     private float strokeTextSize;
-    private float strokeWidthInfoPadding;
+    // private float strokeWidthInfoPadding;
 
     // bézier curve specific parameters
     private int resolution;
     private float constructionPosition;
 
-    // position info for touch gestures
-    private String positionInfo;
-    private Rect positionBounds;
-    private float xPosInfo;
-    private float yPosInfo;
+//    // position info for touch gestures
+//    // private String positionInfo;
+//    private Rect positionBounds;
+//    private float xPosInfo;
+//    private float yPosInfo;
 
     // size of this view (numbers of digits)
     private int viewDigitsOfWidth;
@@ -95,6 +95,10 @@ public class BezierView extends View implements View.OnTouchListener {
     // size of this view
     protected int viewWidth;
     protected int viewHeight;
+
+    // miscellaneous
+    private List<BezierLogging> listeners;
+
 
     // c'tor
     public BezierView(Context context, AttributeSet attrs) {
@@ -142,11 +146,8 @@ public class BezierView extends View implements View.OnTouchListener {
         this.resolution = 50;
         this.constructionPosition = (float) 0.5;
 
-        this.positionInfo = "";
-        this.positionBounds = null;
-        this.xPosInfo = 0.0F;
-        this.yPosInfo = 0.0F;
-        this.strokeWidthInfoPadding = convertDpToPixel(res, BezierGlobals.StrokeWidthInfoPaddingDp);
+        // miscellaneous
+        this.listeners = new ArrayList<>();
 
         //  need size of view (when view is visible)
         ViewTreeObserver vto = this.getViewTreeObserver();
@@ -164,7 +165,6 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     protected void setActualSize(int width, int height) {
-        Log.v(TAG, "setActualSize ==> BezierView");
 
         this.viewWidth = width;
         this.viewHeight = height;
@@ -212,11 +212,9 @@ public class BezierView extends View implements View.OnTouchListener {
         this.invalidate();
     }
 
-    // XXXXXXXXXXXXXXXXXXXX
     public void addControlPoint(BezierPoint p) {
 
         Log.v(TAG, "======> base::addControlPoint");
-
         this.controlPoints.add(p);
         this.invalidate();
     }
@@ -224,6 +222,11 @@ public class BezierView extends View implements View.OnTouchListener {
     @SuppressWarnings("unused")
     public void addControlPoints(List<BezierPoint> points) {
         this.controlPoints = points;
+        this.invalidate();
+    }
+
+    public void moveControlPoint(int index, BezierPoint p) {
+        this.controlPoints.set(index, p);
         this.invalidate();
     }
 
@@ -247,8 +250,6 @@ public class BezierView extends View implements View.OnTouchListener {
             this.drawBezierCurve(canvas);
         if (this.showConstruction)
             this.drawConstructionPoints(canvas);
-
-        this.drawPositionInfo(canvas);
     }
 
     @Override
@@ -257,48 +258,71 @@ public class BezierView extends View implements View.OnTouchListener {
         if (this.mode == BezierMode.Demo)
             return true;
 
-        // prevent touch events outside the bounds of the view
-        if (event.getX() <= this.strokeWidthCircle)
-            return true;
-        if (event.getX() >= this.getWidth() - this.strokeWidthCircle)
-            return true;
-        if (event.getY() <= this.strokeWidthCircle)
-            return true;
-        if (event.getY() >= this.getHeight() - this.strokeWidthCircle)
-            return true;
+        String help = String.format("%d --- %d", (int) event.getX(), (int) event.getY());
+        Log.v (TAG, help);
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        int action = event.getAction();
+
+        // prevent touch events during moving outside the bounds of the view
+        if (action == MotionEvent.ACTION_MOVE) {
+            if (event.getX() <= this.strokeWidthCircle)
+                return true;
+            if (event.getX() >= this.getWidth() - this.strokeWidthCircle)
+                return true;
+            if (event.getY() <= this.strokeWidthCircle)
+                return true;
+            if (event.getY() >= this.getHeight() - this.strokeWidthCircle)
+                return true;
+        }
+
+        if (action == MotionEvent.ACTION_DOWN) {
+
             this.startX = event.getX();
             this.startY = event.getY();
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            float endX = event.getX();
-            float endY = event.getY();
-            float dX = Math.abs(endX - this.startX);
-            float dY = Math.abs(endY - this.startY);
+        } else if (action == MotionEvent.ACTION_UP) {
 
-            if (Math.sqrt(dX * dX + dY * dY) <= this.touchSlop) {
-                BezierPoint p = new BezierPoint(this.startX, this.startY);
-                if (this.mode == BezierMode.Create) {
-                    // add new control point
-                    this.addControlPoint(p);
-                    this.setTouchPosition((int) p.getX(), (int) p.getY());
-                } else if (this.mode == BezierMode.Delete) {
-                    int index = this.getNearestPointIndex(p);
-                    if (index == -1) {
+            if (this.mode == BezierMode.Create || this.mode == BezierMode.Delete) {
+                float endX = event.getX();
+                float endY = event.getY();
+                float dX = Math.abs(endX - this.startX);
+                float dY = Math.abs(endY - this.startY);
+
+                if (Math.sqrt(dX * dX + dY * dY) <= this.touchSlop) {
+                    BezierPoint p = new BezierPoint(this.startX, this.startY);
+                    if (this.mode == BezierMode.Create) {
+                        // add new control point
+                        this.addControlPoint(p);
+                        this.setTouchPosition((int) p.getX(), (int) p.getY());
+                    } else if (this.mode == BezierMode.Delete) {
+                        int index = this.getNearestPointIndex(p);
+                        if (index == -1) {
+                            return true;
+                        }
+
+                        // remove this control point
+                        p = this.controlPoints.get(index);
+                        if (this.controlPoints.size() > 1) {
+                            this.setTouchPosition((int) p.getX(), (int) p.getY());
+                        } else {
+                            this.clearTouchPosition();
+                        }
+                        this.removeControlPoint(index);
+                    }
+                }
+            } else if (this.mode == BezierMode.Edit) {
+                BezierPoint p = new BezierPoint((int) event.getX(), (int) event.getY());
+                if (this.mode == BezierMode.Edit) {
+                    int dragIndex = this.getNearestPointIndex(p);
+                    if (dragIndex == -1) {
                         return true;
                     }
 
-                    // remove this control point
-                    p = this.controlPoints.get(index);
-                    if (this.controlPoints.size() > 1) {
-                        this.setTouchPosition((int) p.getX(), (int) p.getY());
-                    } else {
-                        this.clearTouchPosition();
-                    }
-                    this.removeControlPoint(index);
+                    // update control point
+                    this.updateControlPoint(dragIndex, p);
+                    this.setTouchPosition((int) p.getX(), (int) p.getY());
                 }
             }
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+        } else if (action == MotionEvent.ACTION_MOVE) {
             BezierPoint p = new BezierPoint((int) event.getX(), (int) event.getY());
             if (this.mode == BezierMode.Edit) {
                 int dragIndex = this.getNearestPointIndex(p);
@@ -308,7 +332,7 @@ public class BezierView extends View implements View.OnTouchListener {
 
                 // update control point
                 this.setTouchPosition((int) p.getX(), (int) p.getY());
-                this.updateControlPoint(dragIndex, p);
+                this.moveControlPoint(dragIndex, p);
             }
         }
 
@@ -444,13 +468,13 @@ public class BezierView extends View implements View.OnTouchListener {
     private void drawPoint(Canvas canvas, float cx, float cy, int colorStart, int colorEnd, String text, boolean drawBorder) {
 
         Shader shader = new LinearGradient(
-                cx,
-                cy,
-                cx + this.strokeWidthCircle,
-                cy + this.strokeWidthCircle,
-                colorStart,
-                colorEnd,
-                Shader.TileMode.CLAMP);
+            cx,
+            cy,
+            cx + this.strokeWidthCircle,
+            cy + this.strokeWidthCircle,
+            colorStart,
+            colorEnd,
+            Shader.TileMode.CLAMP);
 
         this.circlePaint.setShader(shader);
         this.circlePaint.setStyle(Paint.Style.FILL);
@@ -468,40 +492,12 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     private void setTouchPosition(int x, int y) {
-        this.positionInfo = String.format(Locale.getDefault(), "%d, %d", x, y);
+        String info = String.format(Locale.getDefault(), "%d, %d", x, y);
+        this.onBezierPointChanged(info);
     }
 
     private void clearTouchPosition() {
-        this.positionInfo = "                  ";
-    }
-
-    private void drawPositionInfo(Canvas canvas) {
-
-        // calculate coordinates of info text
-        if (this.positionBounds == null) {
-
-            this.positionBounds = new Rect();
-
-            // build dummy string: maximum number of digits, plus one comma, plus one space
-            String fmt = "%d, %d";
-
-            // want numbers consisting of '8s
-            int dummy1 = 0;
-            for (int i = 0; i < this.viewDigitsOfWidth; i++)
-                dummy1 = 10 * dummy1 + 8;
-
-            int dummy2 = 0;
-            for (int i = 0; i < this.viewDigitsOfHeight; i++)
-                dummy2 = 10 * dummy2 + 8;
-
-            String test = String.format(Locale.getDefault(), fmt, dummy1, dummy2);
-            this.textPaint.getTextBounds(test, 0, test.length(), this.positionBounds);
-
-            this.xPosInfo = (int) (this.getWidth() - this.positionBounds.width() - this.strokeWidthInfoPadding);
-            this.yPosInfo = (int) (this.positionBounds.height() + this.strokeWidthInfoPadding);
-        }
-
-        canvas.drawText(this.positionInfo, this.xPosInfo, this.yPosInfo, this.textPaint);
+        this.onBezierPointChanged("");
     }
 
     // drawing helper methods for lines
@@ -554,6 +550,21 @@ public class BezierView extends View implements View.OnTouchListener {
             return context.getResources().getColor(id);
         }
     }
+
+    // support handling of interface 'BezierLogging'
+     public void registerListener(BezierLogging listener) {
+         this.listeners.add(listener);
+     }
+
+     public void unregisterListener(BezierLogging listener) {
+         this.listeners.remove(listener);
+     }
+
+     private void onBezierPointChanged(String info) {
+         for (BezierLogging listener : this.listeners) {
+             listener.setCurrentInfo(info);
+         }
+     }
 
     // test interface
     @SuppressWarnings("unused")

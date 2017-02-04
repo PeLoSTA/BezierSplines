@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import de.peterloos.beziersplines.utils.BezierPoint;
 
@@ -19,8 +18,8 @@ public class BezierGridView extends BezierView {
 
     private static final String TAG = "PeLo";
 
-    private static final int NumCellRows = 16;
-    private static final int NumCellCols = 16;
+    private static final int NumCellRows = 8;
+    private static final int NumCellCols = 8;
 
     private float cellHeight;
     private float cellWidth;
@@ -40,41 +39,35 @@ public class BezierGridView extends BezierView {
         this.linePaint = new Paint();
         this.linePaint.setStrokeWidth(2);
         this.linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        // this.linePaint.setStyle(Paint.Style.FILL_AND_STROKE);   // TODO ??????? Was tut das ????
         this.linePaint.setColor(Color.WHITE);
-        // this.linePaint.setStrokeCap(Paint.Cap.ROUND);  // TODO ??????? Evtl besser damit ????
+        this.linePaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     @Override
     protected void setActualSize(int width, int height) {
-        Log.v(TAG, "setActualSize ==> BezierGridView");
 
         super.setActualSize(width, height);
 
         this.cellWidth = width / NumCellCols;
         this.cellHeight = height / NumCellRows;
-
         this.cellWidthHalf = this.cellWidth / 2.0F;
         this.cellHeightHalf = this.cellHeight / 2.0F;
     }
 
-    // properties
-    // TODO
-
-
+    @Override
     public void addControlPoint(BezierPoint p) {
-        Log.v(TAG, "======> child::addControlPoint");
-
-        this.snapPoint(p);   // TODO
-
+        this.snapPoint(p);
         super.addControlPoint(p);
+    }
 
-        // super.addControlPoint(p);
+    @Override
+    public void updateControlPoint(int index, BezierPoint p) {
+        this.snapPoint(p);
+        super.updateControlPoint(index, p);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         this.drawGrid (canvas);
         super.onDraw(canvas);
     }
@@ -96,43 +89,11 @@ public class BezierGridView extends BezierView {
         }
     }
 
-//    private BezierPoint computeSnapPoint (float xPos, float yPos) {
-//
-//        float leftX =  xPos / (float) this.cellWidth;
-//
-//        float snapX = (xPos <= leftX + (this.cellWidth * 0.5F)) ? leftX : leftX + this.cellWidth;
-//
-//        float upperY = yPos / (float) this.cellHeight;
-//
-//        float snapY = (yPos <= upperY + (this.cellHeight * 0.5F)) ? upperY : upperY + this.cellHeight;
-//
-//        return new BezierPoint(snapX, snapY);
-//    }
-
-//    private void snapPoint (BezierPoint p) {
-//
-//        float realLeft = (float) Math.floor((p.getX() / (float) this.cellWidth)) * this.cellWidth;
-//        float snapX = (p.getX() <= realLeft + (this.cellWidth * 0.5F)) ? realLeft : realLeft + this.cellWidth;
-//
-//        float realUpper = (float) Math.floor((p.getY() / (float) this.cellHeight)) * this.cellHeight;
-//        float snapY = (p.getY() <= realUpper + (this.cellHeight * 0.5F)) ? realUpper : realUpper + this.cellHeight;
-//
-//        p.setX(snapX);
-//        p.setY(snapY);
-//
-////        private float cellHeightHalf;
-////        private float cellWidthHalf;
-////
-////
-//        // return new BezierPoint(snapX, snapY);
-//    }
-
     private void snapPoint (BezierPoint p) {
 
-        float realLeft = (float) Math.floor((p.getX() / (float) this.cellWidth)) * this.cellWidth;
+        float realLeft = (float) Math.floor((p.getX() / this.cellWidth)) * this.cellWidth;
         float snapX = (p.getX() <= realLeft + this.cellWidthHalf) ? realLeft : realLeft + this.cellWidth;
-
-        float realUpper = (float) Math.floor((p.getY() / (float) this.cellHeight)) * this.cellHeight;
+        float realUpper = (float) Math.floor((p.getY() / this.cellHeight)) * this.cellHeight;
         float snapY = (p.getY() <= realUpper + this.cellHeightHalf) ? realUpper : realUpper + this.cellHeight;
 
         p.setX(snapX);

@@ -9,10 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-
     tools:context="de.peterloos.beziersplines.activities.DemonstrationActivity">
 
     <TableLayout
@@ -27,17 +25,17 @@
             <Button
                 android:id="@+id/button_stop"
                 style="@style/robotoButtonStyle"
+                android:minHeight="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:textSize="18sp"
                 android:textAllCaps="false"
                 android:text="@string/button_stop" />
 
             <Button
                 android:id="@+id/button_restart"
                 style="@style/robotoButtonStyle"
+                android:minHeight="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
                 android:textAllCaps="false"
                 android:text="@string/button_restart" />
 
@@ -53,15 +51,17 @@
         android:layout_height="wrap_content"
         android:stretchColumns="1,3"
         android:shrinkColumns="0,2"
-        android:layout_margin="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_alignParentBottom="true" >
 
         <TableRow>
             <TextView
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:layout_marginRight="5dp"
-                android:textSize="20sp"
                 android:text="@string/resolution"
                 android:textAlignment="center"
                 android:layout_gravity="center_vertical" />
@@ -69,34 +69,31 @@
             <TextView
                 android:id="@+id/textview_resolution"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:layout_marginRight="5dp"
-                android:textSize="20sp"
                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:layout_marginRight="5dp"
-                android:textSize="20sp"
                 android:text="@string/t"
                 android:layout_gravity="center_vertical" />
 
             <TextView
                 android:id="@+id/textview_t"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:layout_marginRight="5dp"
-                android:textSize="20sp"
                 android:layout_gravity="center_vertical"/>
 
         </TableRow>
     </TableLayout>
 
     <de.peterloos.beziersplines.views.BezierView
-        android:id="@+id/bezier_view"
+        android:id="@+id/bezier_view_demo"
         android:background="@color/material_blue_grey_200"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"

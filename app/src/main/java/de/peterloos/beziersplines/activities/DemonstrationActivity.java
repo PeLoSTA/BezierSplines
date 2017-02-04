@@ -60,7 +60,7 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
         }
 
         // retrieve control references
-        this.bezierView = (BezierView) this.findViewById(R.id.bezier_view);
+        this.bezierView = (BezierView) this.findViewById(R.id.bezier_view_demo);
         this.textViewResolution = (TextView) this.findViewById(R.id.textview_resolution);
         this.textViewT = (TextView) this.findViewById(R.id.textview_t);
         this.buttonStop = (Button) this.findViewById(R.id.button_stop);
@@ -78,7 +78,7 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
 
         // retrieve shared preferences
         Context context = this.getApplicationContext();
-        SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierView);
+        SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierView, null);
 
         // initialize controls
         String resolution = String.format(Locale.getDefault(), "%d", DemoViewResolution);

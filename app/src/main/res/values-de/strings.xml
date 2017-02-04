@@ -23,6 +23,7 @@
     <string name="button_stop">Stop</string>
     <string name="button_restart">Start</string>
     <string name="show_construction">Konstruktion</string>
+    <string name="show_snaptogrid">Gitternetzlinien</string>
     <string name="button_english">Englisch</string>
     <string name="button_german">Deutsch</string>
     <string name="stroke_width">Linienstärke</string>

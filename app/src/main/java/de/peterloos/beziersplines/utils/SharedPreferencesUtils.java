@@ -85,7 +85,7 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
-    public static void getPersistedStrokeWidths(Context context, BezierView view) {
+    public static void getPersistedStrokeWidths(Context context, BezierView view1, BezierView view2) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -101,9 +101,15 @@ public class SharedPreferencesUtils {
 
         // setup Bezier view
         Resources res = context.getResources();
-        view.setStrokeWidthControlPoints (res, strokewidthControlPoints);
-        view.setStrokeWidthCurveLines (res, strokewidthCurveLine);
-        view.setStrokeWidthConstructionLines (res, strokewidthConstructionLines);
+        view1.setStrokeWidthControlPoints(res, strokewidthControlPoints);
+        view1.setStrokeWidthCurveLines(res, strokewidthCurveLine);
+        view1.setStrokeWidthConstructionLines(res, strokewidthConstructionLines);
+
+        if (view2 != null) {
+            view2.setStrokeWidthControlPoints(res, strokewidthControlPoints);
+            view2.setStrokeWidthCurveLines(res, strokewidthCurveLine);
+            view2.setStrokeWidthConstructionLines(res, strokewidthConstructionLines);
+        }
     }
 
     public static void persistStrokeWidths(Context context, float strokeWidthControlPoints, float strokeWidthCurveLine, float strokeWidthConstructionLines) {

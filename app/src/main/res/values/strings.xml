@@ -23,6 +23,7 @@
     <string name="button_stop">Stop</string>
     <string name="button_restart">Restart</string>
     <string name="show_construction">Show Construction</string>
+    <string name="show_snaptogrid">Snap to Grid</string>
     <string name="button_english">English</string>
     <string name="button_german">German</string>
     <string name="stroke_width">Stroke Width</string>

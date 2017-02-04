@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -12,35 +14,6 @@
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
     tools:context="de.peterloos.beziersplines.activities.MainActivity">
-
-    <TableLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="1"
-        android:shrinkColumns="0,2"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" >
-
-        <TableRow>
-
-            <Spinner
-                android:id="@+id/spinner_editormode"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:entries="@array/editor_modes" />
-
-            <TextView
-                android:layout_height="match_parent" />
-
-            <CheckBox
-                android:id="@+id/checkbox_show_construction"
-                android:layout_height="match_parent"
-                android:textSize="18sp"
-                android:text="@string/show_construction" />
-
-        </TableRow>
-    </TableLayout>
 
     <TableLayout
         android:id="@+id/footer"
@@ -57,10 +30,8 @@
             <TextView
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginRight="5dp"
-                android:textSize="20sp"
+                android:layout_marginEnd="5dp"
                 android:text="@string/resolution"
-                android:textAlignment="center"
                 android:layout_gravity="center_vertical" />
 
             <TextView
@@ -69,12 +40,11 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="5dp"
-                android:textSize="20sp"
                 android:layout_gravity="center_vertical" />
 
             <SeekBar
                 android:id="@+id/seekbar_resolution"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_gravity="center_vertical"
@@ -86,8 +56,7 @@
             <TextView
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginRight="5dp"
-                android:textSize="20sp"
+                android:layout_marginEnd="5dp"
                 android:text="@string/t"
                 android:textStyle="italic"
                 android:layout_gravity="center_vertical" />
@@ -98,12 +67,11 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginRight="5dp"
-                android:textSize="20sp"
                 android:layout_gravity="center_vertical"/>
 
             <SeekBar
                 android:id="@+id/seekbar_t"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_gravity="center_vertical"
@@ -112,25 +80,74 @@
         </TableRow>
     </TableLayout>
 
-    <!--<de.peterloos.beziersplines.views.BezierView-->
-        <!--android:id="@+id/bezier_view"-->
-        <!--android:background="#ffe9e9e9"-->
-        <!--android:paddingBottom="40dp"-->
-        <!--android:paddingLeft="20dp"-->
-        <!--android:paddingRight="20dp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_above="@id/footer"-->
-        <!--android:layout_below="@id/header" />-->
-
-    <de.peterloos.beziersplines.views.BezierGridView
-        android:id="@+id/bezier_view"
-        android:background="@color/material_blue_grey_200"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+    <ViewSwitcher
+        android:id="@+id/viewswitcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_above="@id/footer"
-        android:layout_below="@id/header" />
+        android:layout_below="@id/header"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right">
 
+        <de.peterloos.beziersplines.views.BezierView
+            android:id="@+id/bezier_view_withoutgrid"
+            android:background="@color/material_blue_grey_200"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <de.peterloos.beziersplines.views.BezierGridView
+            android:id="@+id/bezier_view_withgrid"
+            android:background="@color/material_blue_grey_200"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </ViewSwitcher>
+
+    <TableLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1"
+        android:shrinkColumns="0,2"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/viewswitcher">
+
+        <TableRow
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="1dp">
+            <Spinner
+                android:id="@+id/spinner_editormode"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:entries="@array/editor_modes" />
+
+            <TextView
+                android:layout_height="match_parent" />
+
+            <CheckBox
+                android:id="@+id/checkbox_show_construction"
+                android:layout_height="match_parent"
+                android:text="@string/show_construction" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="1dp">
+            <TextView
+                android:id="@+id/textview_info"
+                android:fontFamily="sans-serif-light"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_height="match_parent" />
+
+            <CheckBox
+                android:id="@+id/checkbox_show_snaptogrid"
+                android:layout_height="match_parent"
+                android:text="@string/show_snaptogrid" />
+        </TableRow>
+    </TableLayout>
 </RelativeLayout>
