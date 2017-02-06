@@ -20,6 +20,7 @@ import de.peterloos.beziersplines.utils.BezierPoint;
 import de.peterloos.beziersplines.R;
 import de.peterloos.beziersplines.utils.BezierUtils;
 import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
+import de.peterloos.beziersplines.views.BezierGridView;
 import de.peterloos.beziersplines.views.BezierView;
 
 /**
@@ -39,7 +40,8 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
     private int width;
     private int height;
 
-    private BezierView bezierView;
+    // private BezierView bezierView;
+    private BezierGridView bezierView;
     private Button buttonStop;
     private Button buttonRestart;
     private TextView textViewResolution;
@@ -60,7 +62,10 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
         }
 
         // retrieve control references
-        this.bezierView = (BezierView) this.findViewById(R.id.bezier_view_demo);
+        // this.bezierView = (BezierView) this.findViewById(R.id.bezier_view_demo);
+        this.bezierView = (BezierGridView) this.findViewById(R.id.bezier_view_demo);
+        this.bezierView.setDensityOfGridlines(2);
+
         this.textViewResolution = (TextView) this.findViewById(R.id.textview_resolution);
         this.textViewT = (TextView) this.findViewById(R.id.textview_t);
         this.buttonStop = (Button) this.findViewById(R.id.button_stop);

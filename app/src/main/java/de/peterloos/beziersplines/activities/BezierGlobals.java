@@ -17,6 +17,12 @@ public class BezierGlobals {
     public static final int DefaultScaleFactor = 2;
     public static final float[] ScaleFactors = new float[]{0.5F, 0.75F, 1.0F, 1.25F, 1.5F};
 
+    // gridlines factor
+    public static final int DefaultGridlineFactor = 1;   // 0 (low), 1 (normal) or 2 (high)
+    public static final int GridlinesDensityLow = 20;
+    public static final int GridlinesDensityNormal = 30;
+    public static final int GridlinesDensityHigh = 40;
+
     // density-independent pixels for lines
     public static final float StrokeWidthControlPointsDp = 3.5F;
     public static final float StrokeWidthCurveLineDp = 4.5F;
@@ -30,5 +36,4 @@ public class BezierGlobals {
 
     // density-independent pixels for text
     public static final int StrokeWidthTextSizeDp = 18;
-    public static final int StrokeWidthInfoPaddingDp = 8;
 }

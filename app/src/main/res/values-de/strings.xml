@@ -53,10 +53,12 @@
         <item>Deutsch (Deutschland)</item>
     </string-array>
 
-    <!-- settings activity - stroke widths -->
-    <string name="settings_stroke_widths_title">Linienstärke</string>
+    <!-- miscellaneous -->
     <string name="bezier_app_icon_content_description">bezier app icon</string>
     <string name="documentation_image">documentation image</string>
+
+    <!-- settings activity - stroke widths -->
+    <string name="settings_stroke_widths_title">Linienstärke</string>
 
     <string-array name="settings_stroke_widths">
         <item>Extra Dünn</item>
@@ -64,6 +66,15 @@
         <item>Normal</item>
         <item>Fett</item>
         <item>Extra Fett</item>
+    </string-array>
+
+    <!-- settings activity - number of grid lines -->
+    <string name="settings_gridlines_title">Gitternetzlinien</string>
+
+    <string-array name="settings_gridlines">
+        <item>Weniger</item>
+        <item>Normal</item>
+        <item>Mehr</item>
     </string-array>
 
     <!-- documentation: header -->
@@ -88,10 +99,10 @@
             bestehende Stützpunkte <em>verschieben</em> oder diese auch <em>löschen</em> (einzeln oder alle).
             Eingestellt wird der App-Modus durch ein DropDown-Menü:<br/><br/>
             <br/>
-            <em>Neu</em> - Eingabe von Stützpunkten<br/>
-            <em>Verschieben</em> - Verschieben von Stützpunkten<br/>
-            <em>Entfernen</em> - Löschen eines Stützpunktes<br/>
-            <em>Löschen</em> - Löschen von allen Stützpunkten<br/>
+            <em>Neu</em> &#8213; Eingabe von Stützpunkten<br/>
+            <em>Verschieben</em> &#8213; Verschieben von Stützpunkten<br/>
+            <em>Entfernen</em> &#8213; Löschen eines Stützpunktes<br/>
+            <em>Löschen</em> &#8213; Löschen von allen Stützpunkten<br/>
             <br/>
             Im <em>Neu</em>-Modus lassen sich durch Tippen die Stützpunkte einer Bézier-Kurve eingeben. Im <em>Verschieben</em>-Modus können Sie durch Wischen einen Stützpunkt verschieben.
             Dazu müssen Sie den ausgesuchten Stützpunkte zunächst Berühren, dann können Sie den Punkt verschieben.<br/><br/>

@@ -76,17 +76,10 @@ public class BezierView extends View implements View.OnTouchListener {
 
     // real pixel densities for text
     private float strokeTextSize;
-    // private float strokeWidthInfoPadding;
 
     // bézier curve specific parameters
     private int resolution;
     private float constructionPosition;
-
-//    // position info for touch gestures
-//    // private String positionInfo;
-//    private Rect positionBounds;
-//    private float xPosInfo;
-//    private float yPosInfo;
 
     // size of this view (numbers of digits)
     private int viewDigitsOfWidth;
@@ -98,7 +91,6 @@ public class BezierView extends View implements View.OnTouchListener {
 
     // miscellaneous
     private List<BezierLogging> listeners;
-
 
     // c'tor
     public BezierView(Context context, AttributeSet attrs) {

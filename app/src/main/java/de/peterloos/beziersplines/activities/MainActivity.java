@@ -58,6 +58,10 @@ public class MainActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.v(TAG, "==============================================================================");
+        Log.v(TAG, "onCreate");
+
         this.setContentView(R.layout.activity_main);
 
         // prefer action bar title with two lines
@@ -95,11 +99,16 @@ public class MainActivity
         this.bezierViewWithGrid.setShowConstruction(false);
 
         this.checkboxConstruction.setChecked(false);
+        this.checkboxSnaptogrid.setChecked(false);
         this.tableRowConstruction.setVisibility(View.GONE);
 
         // sync shared preferences settings with bezier view
         Context context = this.getApplicationContext();
         SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierViewWithoutGrid, this.bezierViewWithGrid);
+
+        // read shared preferences (gridlines factor)
+        int gridlinesFactor = SharedPreferencesUtils.getPersistedGridlinesFactor(context);
+        this.bezierViewWithGrid.setDensityOfGridlines(gridlinesFactor);
 
         // connect event sink with clients
         this.bezierViewWithoutGrid.registerListener(this);
@@ -109,6 +118,23 @@ public class MainActivity
         // implemented - but didn't work with Android 'Nougat'
         // this.syncSharedPrefsWithLanguage(context);
     }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // Save the values you need from your textview into "outState"-object
+        Log.v(TAG, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.v(TAG, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        this.checkboxConstruction.setChecked(false);
+        this.checkboxSnaptogrid.setChecked(false);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -92,7 +92,7 @@
         </TableRow>
     </TableLayout>
 
-    <de.peterloos.beziersplines.views.BezierView
+    <de.peterloos.beziersplines.views.BezierGridView
         android:id="@+id/bezier_view_demo"
         android:background="@color/material_blue_grey_200"
         android:layout_marginLeft="10dp"
@@ -101,5 +101,15 @@
         android:layout_height="match_parent"
         android:layout_above="@id/footer"
         android:layout_below="@id/header" />
+
+    <!--<de.peterloos.beziersplines.views.BezierView-->
+        <!--android:id="@+id/bezier_view_demo"-->
+        <!--android:background="@color/material_blue_grey_200"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_above="@id/footer"-->
+        <!--android:layout_below="@id/header" />-->
 
 </RelativeLayout>

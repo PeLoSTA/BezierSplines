@@ -24,18 +24,25 @@ import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
 public class SettingsActivity extends AppCompatActivity {
 
     private RelativeLayout relativeLayoutStrokeWidth;
-    private TextView textViewStrokeWidthHeader;
-    private TextView textViewStrokeWidth;
+    private TextView textviewStrokeWidthHeader;
+    private TextView textviewStrokeWidth;
+
+    private RelativeLayout relativeLayoutGridlines;
+    private TextView textviewGridlinesHeader;
+    private TextView textviewGridlines;
 
     private RelativeLayout relativeLayoutLanguages;
     private TextView textViewLanguagesHeader;
     private TextView textViewLanguages;
 
     private String[] scalefactorsDisplayNames;
+    private String[] gridlinesDisplayNames;
     private String[] languagesDisplayNames;
 
     private int indexScaleFactor;
     private int indexTmpScaleFactor;
+    private int indexGridlines;
+    private int indexTmpGridlines;
     private int indexLanguageId;
     private int indexTmpLanguageId;
 
@@ -52,13 +59,16 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         // retrieve control references
-        this.textViewStrokeWidthHeader = (TextView) this.findViewById(R.id.textview_header_strokewidth);
-        this.textViewStrokeWidth = (TextView) this.findViewById(R.id.textview_strokewidth);
+        this.textviewStrokeWidthHeader = (TextView) this.findViewById(R.id.textview_header_strokewidth);
+        this.textviewStrokeWidth = (TextView) this.findViewById(R.id.textview_strokewidth);
+        this.textviewGridlinesHeader = (TextView) this.findViewById(R.id.textview_header_gridlines);
+        this.textviewGridlines = (TextView) this.findViewById(R.id.textview_gridlines);
         this.textViewLanguagesHeader = (TextView) this.findViewById(R.id.textview_header_languages);
         this.textViewLanguages = (TextView) this.findViewById(R.id.textview_languages);
 
         // setup controls
-        this.textViewStrokeWidthHeader.setText(R.string.settings_stroke_widths_title);
+        this.textviewStrokeWidthHeader.setText(R.string.settings_stroke_widths_title);
+        this.textviewGridlinesHeader.setText(R.string.settings_gridlines_title);
         this.textViewLanguagesHeader.setText(R.string.settings_language_title);
 
         // connect 'strokewidth' dialog with a specific RelativeLayout region
@@ -67,6 +77,15 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SettingsActivity.this.showAlertDialogStrokeWidth();
+            }
+        });
+
+        // connect 'gridlines' dialog with a specific RelativeLayout region
+        this.relativeLayoutGridlines = (RelativeLayout) this.findViewById(R.id.relative_layout_gridlines);
+        this.relativeLayoutGridlines.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SettingsActivity.this.showAlertDialogGridlines();
             }
         });
 
@@ -87,13 +106,19 @@ public class SettingsActivity extends AppCompatActivity {
         // read language-dependent names of stroke widths
         Resources res = this.getResources();
         this.scalefactorsDisplayNames = res.getStringArray(R.array.settings_stroke_widths);
+        this.gridlinesDisplayNames = res.getStringArray(R.array.settings_gridlines);
         this.languagesDisplayNames = res.getStringArray(R.array.settings_languages);
 
         // read shared preferences (current stroke width)
         Context context = this.getApplicationContext();
         this.indexScaleFactor = SharedPreferencesUtils.getPersistedScaleFactor(context);
         String currentStrokeWidth = this.scalefactorsDisplayNames[this.indexScaleFactor];
-        this.textViewStrokeWidth.setText (currentStrokeWidth);
+        this.textviewStrokeWidth.setText (currentStrokeWidth);
+
+        // read shared preferences (gridlines factor)
+        this.indexGridlines = SharedPreferencesUtils.getPersistedGridlinesFactor(context);
+        String currentGridlinesFactor = this.gridlinesDisplayNames[this.indexGridlines];
+        this.textviewGridlines.setText (currentGridlinesFactor);
 
         // read shared preferences (current app's language)
         this.indexLanguageId = 0; /* must be 0 or 1 */
@@ -149,12 +174,50 @@ public class SettingsActivity extends AppCompatActivity {
                 SharedPreferencesUtils.persistStrokeWidths(context, newStrokeWidthControlPoints, newStrokeWidthCurveLine, newStrokeWidthConstructionLines);
 
                 String currentStrokeWidth = SettingsActivity.this.scalefactorsDisplayNames[SettingsActivity.this.indexScaleFactor];
-                SettingsActivity.this.textViewStrokeWidth.setText (currentStrokeWidth);
+                SettingsActivity.this.textviewStrokeWidth.setText (currentStrokeWidth);
             }
         });
 
         AlertDialog strokewidthDialog = alertDialog.create();
         strokewidthDialog.show();
+    }
+
+    private void showAlertDialogGridlines() {
+
+        // need temporary variable in case of user cancels dialog
+        this.indexTmpGridlines = this.indexGridlines;
+
+        Resources res = this.getResources();
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        String title = res.getString(R.string.settings_gridlines_title);
+        alertDialog.setTitle(title);
+        alertDialog.setSingleChoiceItems(this.gridlinesDisplayNames, this.indexGridlines, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                SettingsActivity.this.indexTmpGridlines = item;
+            }
+        });
+        String cancel = res.getString(R.string.settings_dialog_cancel);
+        alertDialog.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        String ok = res.getString(R.string.settings_dialog_ok);
+        alertDialog.setPositiveButton(ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                SettingsActivity.this.indexGridlines = SettingsActivity.this.indexTmpGridlines;
+
+                Context context = SettingsActivity.this.getApplicationContext();
+                SharedPreferencesUtils.persistGridlinesFactor(context, SettingsActivity.this.indexGridlines);
+
+                String currentGridlinesFactor = SettingsActivity.this.gridlinesDisplayNames[SettingsActivity.this.indexGridlines];
+                SettingsActivity.this.textviewGridlines.setText (currentGridlinesFactor);
+            }
+        });
+
+        AlertDialog gridlinesDialog = alertDialog.create();
+        gridlinesDialog.show();
     }
 
     private void showAlertDialogLanguage() {

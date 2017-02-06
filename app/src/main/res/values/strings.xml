@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="app_name">De Casteljau Bézier Curve Simulation</string>
     <string name="app_name_for_app_drawer">Bézier Splines</string>
@@ -30,6 +31,7 @@
 
     <!-- shared preferences -->
     <string name="shared_pref_scalefactor">ScaleFactor</string>
+    <string name="shared_pref_gridlines">Gridlines</string>
     <string name="shared_pref_language">Language</string>
     <string name="shared_pref_strokewidth_control_points">StrokeWidth_ControlPoints</string>
     <string name="shared_pref_strokewidth_curve_line">StrokeWidth_CurveLines</string>
@@ -53,10 +55,12 @@
         <item>Deutsch (Deutschland)</item>
     </string-array>
 
-    <!-- settings activity - stroke widths -->
-    <string name="settings_stroke_widths_title">Stroke Width</string>
+    <!-- miscellaneous -->
     <string name="bezier_app_icon_content_description">bezier app icon</string>
     <string name="documentation_image">documentation image</string>
+
+    <!-- settings activity - stroke widths -->
+    <string name="settings_stroke_widths_title">Stroke Width</string>
 
     <string-array name="settings_stroke_widths">
         <item>Extra Light</item>
@@ -64,6 +68,15 @@
         <item>Normal</item>
         <item>Bold</item>
         <item>Extra Bold</item>
+    </string-array>
+
+    <!-- settings activity - number of grid lines -->
+    <string name="settings_gridlines_title">Gridlines Density</string>
+
+    <string-array name="settings_gridlines">
+        <item>Low</item>
+        <item>Normal</item>
+        <item>High</item>
     </string-array>
 
     <!-- documentation: header -->
@@ -87,10 +100,10 @@
             <![CDATA[
             Depending on the <b>mode</b> of the <b>Bézier</b> curves view, you can either <em>add</em> new control points,
             <em>move</em> existing ones or <em>delete</em> them (individually or all). The app mode is set by a drop-down menu:<br/><br/>
-                <em>Create</em> - Input of control points<br/>
-                <em>Move</em> - Moving of control points<br/>
-                <em>Delete</em> - Deleting a control point<br/>
-                <em>Clear</em> - Clear all control points<br/>
+                <em>Create</em> &#8213; Input of control points<br/>
+                <em>Move</em> &#8213; Moving of control points<br/>
+                <em>Delete</em> &#8213; Deleting a control point<br/>
+                <em>Clear</em> &#8213; Clear all control points<br/>
                 <br/>
                  In <em>Create</em>-mode, you can enter the control points of a Bézier curve by tapping.
                  In <em>Move</em>-mode, you can move a specific control point by swiping. To do this,
