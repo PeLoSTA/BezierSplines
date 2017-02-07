@@ -144,6 +144,32 @@ public class MainActivity
     }
 
     @Override
+    // GEHT GEHT --- Will aber von den Settings jetzt ne Info zurückbekommen ....
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        int id = item.getItemId();
+//
+//        if (id == R.id.menu_action_settings) {
+//            Context currentContext = this.getApplicationContext();
+//            Intent settingsIntent = new Intent(currentContext, SettingsActivity.class);
+//            this.startActivity(settingsIntent);
+//        } else if (id == R.id.menu_action_demo) {
+//            Context currentContext = this.getApplicationContext();
+//            Intent demoIntent = new Intent(currentContext, DemonstrationActivity.class);
+//            this.startActivity(demoIntent);
+//        } else if (id == R.id.menu_action_about) {
+//            Context currentContext = this.getApplicationContext();
+//            Intent demoIntent = new Intent(currentContext, AboutActivity.class);
+//            this.startActivity(demoIntent);
+//        } else if (id == R.id.menu_action_docs) {
+//            Context currentContext = this.getApplicationContext();
+//            Intent demoIntent = new Intent(currentContext, DocumentationActivity.class);
+//            this.startActivity(demoIntent);
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
@@ -151,7 +177,7 @@ public class MainActivity
         if (id == R.id.menu_action_settings) {
             Context currentContext = this.getApplicationContext();
             Intent settingsIntent = new Intent(currentContext, SettingsActivity.class);
-            this.startActivity(settingsIntent);
+            this.startActivityForResult(settingsIntent, 1);
         } else if (id == R.id.menu_action_demo) {
             Context currentContext = this.getApplicationContext();
             Intent demoIntent = new Intent(currentContext, DemonstrationActivity.class);
@@ -167,6 +193,16 @@ public class MainActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                String stredittext=data.getStringExtra("edittextvalue");
+            }
+        }
     }
 
     /*

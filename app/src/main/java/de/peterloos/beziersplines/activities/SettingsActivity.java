@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
  */
 
 public class SettingsActivity extends AppCompatActivity {
+
+    private static final String TAG = "PeLo";
 
     private RelativeLayout relativeLayoutStrokeWidth;
     private TextView textviewStrokeWidthHeader;
@@ -218,6 +221,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         AlertDialog gridlinesDialog = alertDialog.create();
         gridlinesDialog.show();
+
+        Log.v(TAG, "AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
     }
 
     private void showAlertDialogLanguage() {
