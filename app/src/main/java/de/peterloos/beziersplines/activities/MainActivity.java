@@ -55,6 +55,9 @@ public class MainActivity
     private Spinner spinnerMode;
     private TableRow tableRowConstruction;
 
+    private String resultGridlines;
+    private String[] resultGridlineMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +105,11 @@ public class MainActivity
         this.checkboxSnaptogrid.setChecked(false);
         this.tableRowConstruction.setVisibility(View.GONE);
 
+        // read language independent strings for settings activity result handshake
+        Resources res = this.getResources();
+        this.resultGridlines = res.getString(R.string.result_gridlines);
+        this.resultGridlineMode = res.getStringArray(R.array.result_gridlines_modes);
+
         // sync shared preferences settings with bezier view
         Context context = this.getApplicationContext();
         SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierViewWithoutGrid, this.bezierViewWithGrid);
@@ -123,14 +131,14 @@ public class MainActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         // Save the values you need from your textview into "outState"-object
-        Log.v(TAG, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        Log.v(TAG, "###########################");
     }
 
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.v(TAG, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        Log.v(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         this.checkboxConstruction.setChecked(false);
         this.checkboxSnaptogrid.setChecked(false);
     }
@@ -177,7 +185,7 @@ public class MainActivity
         if (id == R.id.menu_action_settings) {
             Context currentContext = this.getApplicationContext();
             Intent settingsIntent = new Intent(currentContext, SettingsActivity.class);
-            this.startActivityForResult(settingsIntent, 1);
+            this.startActivityForResult(settingsIntent, 1);   // TODO Die 1 hier und weiter unten symbolisch definieren !!!
         } else if (id == R.id.menu_action_demo) {
             Context currentContext = this.getApplicationContext();
             Intent demoIntent = new Intent(currentContext, DemonstrationActivity.class);
@@ -195,12 +203,26 @@ public class MainActivity
         return super.onOptionsItemSelected(item);
     }
 
+    // TODO KLÄREN Da muss bei der Density ein Invalidate rein ?!?!?!
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK){
-                String stredittext=data.getStringExtra("edittextvalue");
+                String result = data.getStringExtra(this.resultGridlines);
+                Log.v(TAG, "In Main wieder: RESULT_OK Antwort = " + result);
+                if (result.equals(MainActivity.this.resultGridlineMode[0])) {
+                    this.bezierViewWithGrid.setDensityOfGridlines(0);
+                }
+                else if (result.equals(MainActivity.this.resultGridlineMode[1])) {
+                    this.bezierViewWithGrid.setDensityOfGridlines(1);
+                }
+                else if (result.equals(MainActivity.this.resultGridlineMode[2])) {
+                    this.bezierViewWithGrid.setDensityOfGridlines(2);
+                }
+            } else if(resultCode == RESULT_CANCELED){
+                Log.v(TAG, "In Main wieder: RESULT_CANCELED");
             }
         }
     }

@@ -2,6 +2,7 @@ package de.peterloos.beziersplines.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -49,6 +50,9 @@ public class SettingsActivity extends AppCompatActivity {
     private int indexLanguageId;
     private int indexTmpLanguageId;
 
+    private String resultGridlines;
+    private String[] resultGridlineMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +77,11 @@ public class SettingsActivity extends AppCompatActivity {
         this.textviewStrokeWidthHeader.setText(R.string.settings_stroke_widths_title);
         this.textviewGridlinesHeader.setText(R.string.settings_gridlines_title);
         this.textViewLanguagesHeader.setText(R.string.settings_language_title);
+
+        // read language independent strings for settings activity result handshake
+        Resources res = this.getResources();
+        this.resultGridlines = res.getString(R.string.result_gridlines);
+        this.resultGridlineMode = res.getStringArray(R.array.result_gridlines_modes);
 
         // connect 'strokewidth' dialog with a specific RelativeLayout region
         this.relativeLayoutStrokeWidth = (RelativeLayout) this.findViewById(R.id.relative_layout_strokewidth);
@@ -107,7 +116,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         // read language-dependent names of stroke widths
-        Resources res = this.getResources();
         this.scalefactorsDisplayNames = res.getStringArray(R.array.settings_stroke_widths);
         this.gridlinesDisplayNames = res.getStringArray(R.array.settings_gridlines);
         this.languagesDisplayNames = res.getStringArray(R.array.settings_languages);
@@ -203,6 +211,10 @@ public class SettingsActivity extends AppCompatActivity {
         String cancel = res.getString(R.string.settings_dialog_cancel);
         alertDialog.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
         String ok = res.getString(R.string.settings_dialog_ok);
@@ -216,13 +228,16 @@ public class SettingsActivity extends AppCompatActivity {
 
                 String currentGridlinesFactor = SettingsActivity.this.gridlinesDisplayNames[SettingsActivity.this.indexGridlines];
                 SettingsActivity.this.textviewGridlines.setText (currentGridlinesFactor);
+
+                Intent intent = new Intent();
+                intent.putExtra(SettingsActivity.this.resultGridlines, SettingsActivity.this.resultGridlineMode[SettingsActivity.this.indexGridlines]);
+                SettingsActivity.this.setResult(RESULT_OK, intent);
+                SettingsActivity.this.finish();
             }
         });
 
         AlertDialog gridlinesDialog = alertDialog.create();
         gridlinesDialog.show();
-
-        Log.v(TAG, "AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
     }
 
     private void showAlertDialogLanguage() {
