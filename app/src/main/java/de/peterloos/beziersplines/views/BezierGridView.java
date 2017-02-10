@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import de.peterloos.beziersplines.activities.BezierGlobals;
 import de.peterloos.beziersplines.utils.BezierPoint;
@@ -33,6 +32,7 @@ public class BezierGridView extends BezierView {
 
     private Paint linePaint;
 
+    // c'tor
     public BezierGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -60,7 +60,7 @@ public class BezierGridView extends BezierView {
     protected void setActualSize(int width, int height) {
 
         super.setActualSize(width, height);
-        this.calculateCellSize(width, height);
+        this.calculateCellSize();
     }
 
     @Override
@@ -84,26 +84,26 @@ public class BezierGridView extends BezierView {
     // public interface
     public void setDensityOfGridlines (int density) {
         this.density = density;
-        this.calculateCellSize(this.viewWidth, this.viewHeight);
+        this.calculateCellSize();
         this.invalidate();
     }
 
     // private helper methods
-    private void calculateCellSize(int width, int height) {
+    private void calculateCellSize() {
         // calculate cell sizes (according to portrait or landscape mode)
         int numCells = this.densities[this.density];
-        if (width <= height) {
+        if (this.viewWidth <= this.viewHeight) {
 
             this.numCellCols = numCells;
-            this.numCellRows = Math.round((float) height / width * numCells);
+            this.numCellRows = Math.round((float) this.viewHeight / this.viewWidth * numCells);
         }
         else {
             this.numCellRows = numCells;
-            this.numCellCols = Math.round((float) width / height * numCells);
+            this.numCellCols = Math.round((float) this.viewWidth / this.viewHeight * numCells);
         }
 
-        this.cellWidth = (double) width / (double) this.numCellCols;
-        this.cellHeight = (double) height / (double) this.numCellRows;
+        this.cellWidth = (double) this.viewWidth / (double) this.numCellCols;
+        this.cellHeight = (double) this.viewHeight / (double) this.numCellRows;
         this.cellWidthHalf = this.cellWidth / 2.0;
         this.cellHeightHalf = this.cellHeight / 2.0;
     }

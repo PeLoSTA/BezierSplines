@@ -28,13 +28,6 @@
     <string name="button_german">Deutsch</string>
     <string name="stroke_width">Linienstärke</string>
 
-    <!-- shared preferences -->
-    <string name="shared_pref_scalefactor">ScaleFactor</string>
-    <string name="shared_pref_language">Language</string>
-    <string name="shared_pref_strokewidth_control_points">StrokeWidth_ControlPoints</string>
-    <string name="shared_pref_strokewidth_curve_line">StrokeWidth_CurveLines</string>
-    <string name="shared_pref_strokewidth_construction_lines">StrokeWidthConstructionLines</string>
-
     <!-- main spinner -->
     <string-array name="editor_modes">
         <item>Neu</item>

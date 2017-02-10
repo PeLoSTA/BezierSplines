@@ -14,8 +14,8 @@ public class BezierGlobals {
     public static final String DefaultLanguage = LanguageEnglish;
 
     // scale factor for stroke widths
-    public static final int DefaultScaleFactor = 2;
-    public static final float[] ScaleFactors = new float[]{0.5F, 0.75F, 1.0F, 1.25F, 1.5F};
+    public static final int DefaultStrokewidthFactor = 2;
+    public static final float[] StrokewidthFactors = new float[]{0.5F, 0.75F, 1.0F, 1.25F, 1.5F};
 
     // gridlines factor
     public static final int DefaultGridlineFactor = 1;   // 0 (low), 1 (normal) or 2 (high)

@@ -7,7 +7,6 @@ import android.graphics.Color;
 
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Shader;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
@@ -81,20 +80,19 @@ public class BezierView extends View implements View.OnTouchListener {
     private int resolution;
     private float constructionPosition;
 
-    // size of this view (numbers of digits)
-    private int viewDigitsOfWidth;
-    private int viewDigitsOfHeight;
-
     // size of this view
     protected int viewWidth;
     protected int viewHeight;
 
     // miscellaneous
     private List<BezierLogging> listeners;
+    private Resources res;
 
     // c'tor
     public BezierView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        this.res = this.getResources();
 
         this.mode = BezierMode.Create;
 
@@ -110,19 +108,18 @@ public class BezierView extends View implements View.OnTouchListener {
         this.setOnTouchListener(this);
 
         // convert density independent pixels to real pixels
-        Resources res = this.getResources();
-        this.strokeWidthCircle = convertDpToPixel(res, BezierGlobals.StrokeWidthCircleRadiusDp);
-        this.strokeWidthBorderWidth = convertDpToPixel(res, BezierGlobals.StrokeWidthBorderWidthDp);
-        this.strokeTextSize = convertDpToPixel(res, BezierGlobals.StrokeWidthTextSizeDp);
-        this.distanceFromNumber = convertDpToPixel(res, BezierGlobals.DistanceFromNumberDp);
-        this.nearestDistanceMaximum = convertDpToPixel(res, BezierGlobals.NearestDistanceMaximumDp);
+        this.strokeWidthCircle = convertDpToPixel(this.res, BezierGlobals.StrokeWidthCircleRadiusDp);
+        this.strokeWidthBorderWidth = convertDpToPixel(this.res, BezierGlobals.StrokeWidthBorderWidthDp);
+        this.strokeTextSize = convertDpToPixel(this.res, BezierGlobals.StrokeWidthTextSizeDp);
+        this.distanceFromNumber = convertDpToPixel(this.res, BezierGlobals.DistanceFromNumberDp);
+        this.nearestDistanceMaximum = convertDpToPixel(this.res, BezierGlobals.NearestDistanceMaximumDp);
 
         // color settings
         this.colorControlPoints = getColorWrapper(context, R.color.material_blue_grey_500);
         this.colorCurveLine = getColorWrapper(context, R.color.material_red_700);
         this.colorConstructionLine = getColorWrapper(context, R.color.material_blue_700);
 
-        // setup Paint objects
+        // setup paint objects
         this.linePaint = new Paint();
         this.linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         this.linePaint.setStrokeCap(Paint.Cap.ROUND);
@@ -135,11 +132,10 @@ public class BezierView extends View implements View.OnTouchListener {
         this.textPaint.setColor(Color.BLACK);
         this.textPaint.setTextSize(this.strokeTextSize);
 
-        this.resolution = 50;
-        this.constructionPosition = (float) 0.5;
-
         // miscellaneous
         this.listeners = new ArrayList<>();
+        this.resolution = 50;
+        this.constructionPosition = (float) 0.5;
 
         //  need size of view (when view is visible)
         ViewTreeObserver vto = this.getViewTreeObserver();
@@ -160,9 +156,6 @@ public class BezierView extends View implements View.OnTouchListener {
 
         this.viewWidth = width;
         this.viewHeight = height;
-
-        this.viewDigitsOfWidth = this.digitsOfNumber(this.viewWidth);
-        this.viewDigitsOfHeight = this.digitsOfNumber(this.viewHeight);
     }
 
     // getter/setter
@@ -185,16 +178,22 @@ public class BezierView extends View implements View.OnTouchListener {
         this.mode = mode;
     }
 
-    public void setStrokeWidthControlPoints(Resources res, float valueDp) {
-        this.strokeWidthControlPoints = convertDpToPixel(res, valueDp);
-    }
+    public void setStrokewidthFactor(int setStrokewidthFactor) {
 
-    public void setStrokeWidthCurveLines(Resources res, float valueDp) {
-        this.strokeWidthCurveLines = convertDpToPixel(res, valueDp);
-    }
+        float strokeWidthControlPointsDp =
+            BezierGlobals.StrokeWidthControlPointsDp *
+            BezierGlobals.StrokewidthFactors[setStrokewidthFactor];
+        this.strokeWidthControlPoints = convertDpToPixel(this.res, strokeWidthControlPointsDp);
 
-    public void setStrokeWidthConstructionLines(Resources res, float valueDp) {
-        this.strokeWidthConstructionLines = convertDpToPixel(res, valueDp);
+        float strokeWidthCurveLineDp =
+            BezierGlobals.StrokeWidthCurveLineDp *
+            BezierGlobals.StrokewidthFactors[setStrokewidthFactor];
+        this.strokeWidthCurveLines = convertDpToPixel(this.res, strokeWidthCurveLineDp);
+
+        float strokeWidthConstructionLinesDp =
+            BezierGlobals.StrokeWidthConstructionLinesDp *
+            BezierGlobals.StrokewidthFactors[setStrokewidthFactor];
+        this.strokeWidthConstructionLines = convertDpToPixel(this.res, strokeWidthConstructionLinesDp);
     }
 
     // public interface
