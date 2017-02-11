@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import de.peterloos.beziersplines.activities.BezierGlobals;
 import de.peterloos.beziersplines.utils.BezierPoint;
@@ -20,11 +19,6 @@ public class BezierGridView extends BezierView {
 
     private static final String TAG = "PeLo";
 
-//    private static final int NumCellRows = 8;
-//    private static final int NumCellCols = 8;
-
-    // private static final int NumCells = 8;
-
     private int density;
     private int densities[];
 
@@ -38,6 +32,7 @@ public class BezierGridView extends BezierView {
 
     private Paint linePaint;
 
+    // c'tor
     public BezierGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -65,23 +60,7 @@ public class BezierGridView extends BezierView {
     protected void setActualSize(int width, int height) {
 
         super.setActualSize(width, height);
-
-        // calculate cell sizes (according to portrait or landscape mode)
-        int numCells = this.densities[this.density];
-        if (width <= height) {
-
-            this.numCellCols = numCells;
-            this.numCellRows = Math.round((float) height / width * numCells);
-        }
-        else {
-            this.numCellRows = numCells;
-            this.numCellCols = Math.round((float) width / height * numCells);
-        }
-
-        this.cellWidth = (double) width / (double) this.numCellCols;
-        this.cellHeight = (double) height / (double) this.numCellRows;
-        this.cellWidthHalf = this.cellWidth / 2.0;
-        this.cellHeightHalf = this.cellHeight / 2.0;
+        this.calculateCellSize();
     }
 
     @Override
@@ -105,9 +84,30 @@ public class BezierGridView extends BezierView {
     // public interface
     public void setDensityOfGridlines (int density) {
         this.density = density;
+        this.calculateCellSize();
+        this.invalidate();
     }
 
     // private helper methods
+    private void calculateCellSize() {
+        // calculate cell sizes (according to portrait or landscape mode)
+        int numCells = this.densities[this.density];
+        if (this.viewWidth <= this.viewHeight) {
+
+            this.numCellCols = numCells;
+            this.numCellRows = Math.round((float) this.viewHeight / this.viewWidth * numCells);
+        }
+        else {
+            this.numCellRows = numCells;
+            this.numCellCols = Math.round((float) this.viewWidth / this.viewHeight * numCells);
+        }
+
+        this.cellWidth = (double) this.viewWidth / (double) this.numCellCols;
+        this.cellHeight = (double) this.viewHeight / (double) this.numCellRows;
+        this.cellWidthHalf = this.cellWidth / 2.0;
+        this.cellHeightHalf = this.cellHeight / 2.0;
+    }
+
     private void drawGrid (Canvas canvas) {
 
         if (this.cellWidth == 0 || this.cellHeight == 0)

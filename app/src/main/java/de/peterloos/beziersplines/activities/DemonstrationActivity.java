@@ -1,6 +1,7 @@
 package de.peterloos.beziersplines.activities;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // prefer action bar title with two lines
         ActionBar actionBar = this.getSupportActionBar();
@@ -83,7 +85,9 @@ public class DemonstrationActivity extends AppCompatActivity implements View.OnC
 
         // retrieve shared preferences
         Context context = this.getApplicationContext();
-        SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierView, null);
+        // SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierView, null);
+        int strokewidthFactor = SharedPreferencesUtils.getPersistedStrokewidthFactor(context);
+        this.bezierView.setStrokewidthFactor(strokewidthFactor);
 
         // initialize controls
         String resolution = String.format(Locale.getDefault(), "%d", DemoViewResolution);

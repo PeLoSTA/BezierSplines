@@ -2,11 +2,13 @@ package de.peterloos.beziersplines.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +24,8 @@ import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
  */
 
 public class SettingsActivity extends AppCompatActivity {
+
+    private static final String TAG = "PeLo";
 
     private RelativeLayout relativeLayoutStrokeWidth;
     private TextView textviewStrokeWidthHeader;
@@ -39,12 +43,15 @@ public class SettingsActivity extends AppCompatActivity {
     private String[] gridlinesDisplayNames;
     private String[] languagesDisplayNames;
 
-    private int indexScaleFactor;
-    private int indexTmpScaleFactor;
+    private int indexStrokewidthFactor;
+    private int indexTmpStrokewidthFactor;
     private int indexGridlines;
     private int indexTmpGridlines;
     private int indexLanguageId;
     private int indexTmpLanguageId;
+
+    private String resultGridlines;
+    private String resultStrokewidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,11 @@ public class SettingsActivity extends AppCompatActivity {
         this.textviewStrokeWidthHeader.setText(R.string.settings_stroke_widths_title);
         this.textviewGridlinesHeader.setText(R.string.settings_gridlines_title);
         this.textViewLanguagesHeader.setText(R.string.settings_language_title);
+
+        // read language independent strings for settings activity result handshake
+        Resources res = this.getResources();
+        this.resultGridlines = res.getString(R.string.result_gridlines);
+        this.resultStrokewidth = res.getString(R.string.result_strokewidth);
 
         // connect 'strokewidth' dialog with a specific RelativeLayout region
         this.relativeLayoutStrokeWidth = (RelativeLayout) this.findViewById(R.id.relative_layout_strokewidth);
@@ -104,15 +116,14 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         // read language-dependent names of stroke widths
-        Resources res = this.getResources();
         this.scalefactorsDisplayNames = res.getStringArray(R.array.settings_stroke_widths);
         this.gridlinesDisplayNames = res.getStringArray(R.array.settings_gridlines);
         this.languagesDisplayNames = res.getStringArray(R.array.settings_languages);
 
         // read shared preferences (current stroke width)
         Context context = this.getApplicationContext();
-        this.indexScaleFactor = SharedPreferencesUtils.getPersistedScaleFactor(context);
-        String currentStrokeWidth = this.scalefactorsDisplayNames[this.indexScaleFactor];
+        this.indexStrokewidthFactor = SharedPreferencesUtils.getPersistedStrokewidthFactor(context);
+        String currentStrokeWidth = this.scalefactorsDisplayNames[this.indexStrokewidthFactor];
         this.textviewStrokeWidth.setText (currentStrokeWidth);
 
         // read shared preferences (gridlines factor)
@@ -137,44 +148,46 @@ public class SettingsActivity extends AppCompatActivity {
     private void showAlertDialogStrokeWidth() {
 
         // need temporary variable in case of user cancels dialog
-        this.indexTmpScaleFactor = this.indexScaleFactor;
+        this.indexTmpStrokewidthFactor = this.indexStrokewidthFactor;
 
         Resources res = this.getResources();
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         String title = res.getString(R.string.settings_stroke_widths_title);
         alertDialog.setTitle(title);
-        alertDialog.setSingleChoiceItems(this.scalefactorsDisplayNames, this.indexScaleFactor, new DialogInterface.OnClickListener() {
+        alertDialog.setSingleChoiceItems(this.scalefactorsDisplayNames, this.indexStrokewidthFactor, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-                SettingsActivity.this.indexTmpScaleFactor = item;
+                SettingsActivity.this.indexTmpStrokewidthFactor = item;
             }
         });
         String cancel = res.getString(R.string.settings_dialog_cancel);
         alertDialog.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
         String ok = res.getString(R.string.settings_dialog_ok);
         alertDialog.setPositiveButton(ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
-                SettingsActivity.this.indexScaleFactor = SettingsActivity.this.indexTmpScaleFactor;
+                SettingsActivity.this.indexStrokewidthFactor = SettingsActivity.this.indexTmpStrokewidthFactor;
 
-                float newStrokeWidthControlPoints =
-                        BezierGlobals.StrokeWidthControlPointsDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
-
-                float newStrokeWidthCurveLine =
-                        BezierGlobals.StrokeWidthCurveLineDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
-
-                float newStrokeWidthConstructionLines =
-                        BezierGlobals.StrokeWidthConstructionLinesDp * BezierGlobals.ScaleFactors[SettingsActivity.this.indexScaleFactor];
-
+                // persist strokewidth factor
                 Context context = SettingsActivity.this.getApplicationContext();
-                SharedPreferencesUtils.persistScaleFactor(context, SettingsActivity.this.indexScaleFactor);
-                SharedPreferencesUtils.persistStrokeWidths(context, newStrokeWidthControlPoints, newStrokeWidthCurveLine, newStrokeWidthConstructionLines);
+                SharedPreferencesUtils.persistStrokewidthFactor(context, SettingsActivity.this.indexStrokewidthFactor);
 
-                String currentStrokeWidth = SettingsActivity.this.scalefactorsDisplayNames[SettingsActivity.this.indexScaleFactor];
+                // update display
+                String currentStrokeWidth = SettingsActivity.this.scalefactorsDisplayNames[SettingsActivity.this.indexStrokewidthFactor];
                 SettingsActivity.this.textviewStrokeWidth.setText (currentStrokeWidth);
+
+                // return to main activity
+                Intent intent = new Intent();
+                intent.putExtra(SettingsActivity.this.resultStrokewidth, SettingsActivity.this.indexStrokewidthFactor);
+                SettingsActivity.this.setResult(RESULT_OK, intent);
+                SettingsActivity.this.finish();
             }
         });
 
@@ -200,6 +213,10 @@ public class SettingsActivity extends AppCompatActivity {
         String cancel = res.getString(R.string.settings_dialog_cancel);
         alertDialog.setNegativeButton(cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         });
         String ok = res.getString(R.string.settings_dialog_ok);
@@ -208,11 +225,19 @@ public class SettingsActivity extends AppCompatActivity {
 
                 SettingsActivity.this.indexGridlines = SettingsActivity.this.indexTmpGridlines;
 
+                // persist gridlines factor
                 Context context = SettingsActivity.this.getApplicationContext();
                 SharedPreferencesUtils.persistGridlinesFactor(context, SettingsActivity.this.indexGridlines);
 
+                // update display
                 String currentGridlinesFactor = SettingsActivity.this.gridlinesDisplayNames[SettingsActivity.this.indexGridlines];
                 SettingsActivity.this.textviewGridlines.setText (currentGridlinesFactor);
+
+                // return to main activity
+                Intent intent = new Intent();
+                intent.putExtra(SettingsActivity.this.resultGridlines, SettingsActivity.this.indexGridlines);
+                SettingsActivity.this.setResult(RESULT_OK, intent);
+                SettingsActivity.this.finish();
             }
         });
 
