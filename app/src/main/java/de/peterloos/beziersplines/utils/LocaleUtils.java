@@ -20,26 +20,26 @@ import java.util.Locale;
 public class LocaleUtils {
 
     @TargetApi(Build.VERSION_CODES.N)
-    public static Locale getLocaleOfApp(Resources res){
+    public static Locale getLocaleOfApp(Resources res) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return getLocale(res);
-        } else{
+        } else {
             return getLocaleLegacy(res);
         }
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    private static Locale getLocale (Resources res) {
+    private static Locale getLocale(Resources res) {
         return res.getConfiguration().getLocales().get(0);
     }
 
     @SuppressWarnings("deprecation")
-    private static Locale getLocaleLegacy (Resources res) {
+    private static Locale getLocaleLegacy(Resources res) {
         return res.getConfiguration().locale;
     }
 
-    public static Locale getLocaleOfOS(){
+    public static Locale getLocaleOfOS() {
         return Locale.getDefault();
     }
 
@@ -47,8 +47,7 @@ public class LocaleUtils {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             updateResources(context, language);
-        }
-        else {
+        } else {
             updateResourcesLegacy(context, language);
         }
 

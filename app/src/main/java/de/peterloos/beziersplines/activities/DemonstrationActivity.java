@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,9 +31,9 @@ import de.peterloos.beziersplines.views.BezierView;
  * Contact info: peterloos@gmx.de
  */
 
-public class DemonstrationActivity extends AppCompatActivity implements View.OnClickListener {
+public class DemonstrationActivity extends AppCompatActivity implements OnClickListener {
 
-    private static final int DemoViewResolution = 100; // resolution of demonstration view
+    private static final int DemoViewResolution = 200; // resolution of demonstration view
     private static final int TaskDelay = 30; // animation velocity
     private static final float OffsetFromBorderDp = 15F; // density-independent pixels: offset from border
 

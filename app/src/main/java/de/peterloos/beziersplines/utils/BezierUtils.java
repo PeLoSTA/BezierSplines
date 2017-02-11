@@ -92,7 +92,7 @@ public class BezierUtils {
 
         List<BezierPoint> result = new ArrayList<>();
 
-        for (int i = 0; i < number; i ++) {
+        for (int i = 0; i < number; i++) {
 
             float x = rand.nextFloat() * width + border / 2;
             float y = rand.nextFloat() * height + border / 2;
@@ -109,7 +109,6 @@ public class BezierUtils {
 
         return result;
     }
-
 
 
     public static List<BezierPoint> getDemoCircle01(float centerX, float centerY, float radius, float arcLength) {

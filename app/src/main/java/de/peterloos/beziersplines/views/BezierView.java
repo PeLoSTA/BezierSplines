@@ -204,8 +204,6 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     public void addControlPoint(BezierPoint p) {
-
-        Log.v(TAG, "======> base::addControlPoint");
         this.controlPoints.add(p);
         this.invalidate();
     }
@@ -249,8 +247,8 @@ public class BezierView extends View implements View.OnTouchListener {
         if (this.mode == BezierMode.Demo)
             return true;
 
-        String help = String.format("%d --- %d", (int) event.getX(), (int) event.getY());
-        Log.v (TAG, help);
+//        String position = String.format("%d --- %d", (int) event.getX(), (int) event.getY());
+//        Log.v(TAG, position);
 
         int action = event.getAction();
 
@@ -543,19 +541,19 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     // support handling of interface 'BezierLogging'
-     public void registerListener(BezierLogging listener) {
-         this.listeners.add(listener);
-     }
+    public void registerListener(BezierLogging listener) {
+        this.listeners.add(listener);
+    }
 
-     public void unregisterListener(BezierLogging listener) {
-         this.listeners.remove(listener);
-     }
+    public void unregisterListener(BezierLogging listener) {
+        this.listeners.remove(listener);
+    }
 
-     private void onBezierPointChanged(String info) {
-         for (BezierLogging listener : this.listeners) {
-             listener.setCurrentInfo(info);
-         }
-     }
+    private void onBezierPointChanged(String info) {
+        for (BezierLogging listener : this.listeners) {
+            listener.setCurrentInfo(info);
+        }
+    }
 
     // test interface
     @SuppressWarnings("unused")

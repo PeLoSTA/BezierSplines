@@ -124,25 +124,24 @@ public class SettingsActivity extends AppCompatActivity {
         Context context = this.getApplicationContext();
         this.indexStrokewidthFactor = SharedPreferencesUtils.getPersistedStrokewidthFactor(context);
         String currentStrokeWidth = this.scalefactorsDisplayNames[this.indexStrokewidthFactor];
-        this.textviewStrokeWidth.setText (currentStrokeWidth);
+        this.textviewStrokeWidth.setText(currentStrokeWidth);
 
         // read shared preferences (gridlines factor)
         this.indexGridlines = SharedPreferencesUtils.getPersistedGridlinesFactor(context);
         String currentGridlinesFactor = this.gridlinesDisplayNames[this.indexGridlines];
-        this.textviewGridlines.setText (currentGridlinesFactor);
+        this.textviewGridlines.setText(currentGridlinesFactor);
 
         // read shared preferences (current app's language)
         this.indexLanguageId = 0; /* must be 0 or 1 */
         String language = SharedPreferencesUtils.getPersistedLanguage(context);
         if (language.equals(BezierGlobals.LanguageEnglish)) {
             this.indexLanguageId = 0;
-        }
-        else if (language.equals(BezierGlobals.LanguageGerman)) {
+        } else if (language.equals(BezierGlobals.LanguageGerman)) {
             this.indexLanguageId = 1;
         }
 
         String currentLanguage = this.languagesDisplayNames[this.indexLanguageId];
-        this.textViewLanguages.setText (currentLanguage);
+        this.textViewLanguages.setText(currentLanguage);
     }
 
     private void showAlertDialogStrokeWidth() {
@@ -181,7 +180,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 // update display
                 String currentStrokeWidth = SettingsActivity.this.scalefactorsDisplayNames[SettingsActivity.this.indexStrokewidthFactor];
-                SettingsActivity.this.textviewStrokeWidth.setText (currentStrokeWidth);
+                SettingsActivity.this.textviewStrokeWidth.setText(currentStrokeWidth);
 
                 // return to main activity
                 Intent intent = new Intent();
@@ -231,7 +230,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 // update display
                 String currentGridlinesFactor = SettingsActivity.this.gridlinesDisplayNames[SettingsActivity.this.indexGridlines];
-                SettingsActivity.this.textviewGridlines.setText (currentGridlinesFactor);
+                SettingsActivity.this.textviewGridlines.setText(currentGridlinesFactor);
 
                 // return to main activity
                 Intent intent = new Intent();
@@ -276,14 +275,13 @@ public class SettingsActivity extends AppCompatActivity {
                 Context context = SettingsActivity.this.getApplicationContext();
                 if (SettingsActivity.this.indexLanguageId == 0) {
                     SharedPreferencesUtils.persistLanguage(context, BezierGlobals.LanguageEnglish);
-                }
-                else if (SettingsActivity.this.indexLanguageId == 1) {
+                } else if (SettingsActivity.this.indexLanguageId == 1) {
                     SharedPreferencesUtils.persistLanguage(context, BezierGlobals.LanguageGerman);
                 }
 
                 // update view
                 String currentLanguage = SettingsActivity.this.languagesDisplayNames[SettingsActivity.this.indexLanguageId];
-                SettingsActivity.this.textViewLanguages.setText (currentLanguage);
+                SettingsActivity.this.textViewLanguages.setText(currentLanguage);
 
                 // switch language within app
                 String lang = (SettingsActivity.this.indexLanguageId == 0) ? "en" : "de";

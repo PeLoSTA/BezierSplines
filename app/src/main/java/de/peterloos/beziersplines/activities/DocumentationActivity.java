@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,7 @@ import de.peterloos.beziersplines.adapters.ViewPagerAdapter;
  * Contact info: peterloos@gmx.de
  */
 
-public class DocumentationActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class DocumentationActivity extends AppCompatActivity implements OnPageChangeListener {
 
     private LinearLayout layoutPagerIndicator;
     private int dotsCount;

@@ -49,7 +49,7 @@ public class BezierGridView extends BezierView {
 
         // setup density of gridlines
         this.density = 1;
-        this.densities = new int[] {
+        this.densities = new int[]{
             BezierGlobals.GridlinesDensityLow,
             BezierGlobals.GridlinesDensityNormal,
             BezierGlobals.GridlinesDensityHigh
@@ -77,12 +77,12 @@ public class BezierGridView extends BezierView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        this.drawGrid (canvas);
+        this.drawGrid(canvas);
         super.onDraw(canvas);
     }
 
     // public interface
-    public void setDensityOfGridlines (int density) {
+    public void setDensityOfGridlines(int density) {
         this.density = density;
         this.calculateCellSize();
         this.invalidate();
@@ -96,8 +96,7 @@ public class BezierGridView extends BezierView {
 
             this.numCellCols = numCells;
             this.numCellRows = Math.round((float) this.viewHeight / this.viewWidth * numCells);
-        }
-        else {
+        } else {
             this.numCellRows = numCells;
             this.numCellCols = Math.round((float) this.viewWidth / this.viewHeight * numCells);
         }
@@ -108,23 +107,23 @@ public class BezierGridView extends BezierView {
         this.cellHeightHalf = this.cellHeight / 2.0;
     }
 
-    private void drawGrid (Canvas canvas) {
+    private void drawGrid(Canvas canvas) {
 
         if (this.cellWidth == 0 || this.cellHeight == 0)
             return;
 
         // draw horizontal lines
         for (int i = 0; i < this.numCellRows; i++) {
-            canvas.drawLine(0, (float) (i * this.cellHeight), (float)this.viewWidth, (float) (i * this.cellHeight), this.linePaint);
+            canvas.drawLine(0, (float) (i * this.cellHeight), (float) this.viewWidth, (float) (i * this.cellHeight), this.linePaint);
         }
 
         // draw vertical lines
         for (int i = 0; i < this.numCellCols; i++) {
-            canvas.drawLine((float) (i * this.cellWidth), 0, (float) (i * this.cellWidth), (float)this.viewHeight, this.linePaint);
+            canvas.drawLine((float) (i * this.cellWidth), 0, (float) (i * this.cellWidth), (float) this.viewHeight, this.linePaint);
         }
     }
 
-    private void snapPoint (BezierPoint p) {
+    private void snapPoint(BezierPoint p) {
 
         double realLeft = Math.floor((p.getX() / this.cellWidth)) * this.cellWidth;
         float snapX = (p.getX() <= realLeft + this.cellWidthHalf) ? (float) realLeft : (float) (realLeft + this.cellWidth);

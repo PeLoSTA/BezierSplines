@@ -63,7 +63,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         textViewDocs.setMovementMethod(new ScrollingMovementMethod());
 
         textViewHeader.setText(this.docsHeaders[position]);
-        Spanned description = fromHtml (this.docsDescriptions[position]);
+        Spanned description = fromHtml(this.docsDescriptions[position]);
         textViewDocs.setText(description);
 
         imageView.setImageResource(this.resources[position]);
@@ -78,7 +78,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     @SuppressWarnings("deprecation")
-    private static Spanned fromHtml (String html) {
+    private static Spanned fromHtml(String html) {
 
         Spanned result;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -86,8 +86,7 @@ public class ViewPagerAdapter extends PagerAdapter {
             result = Html.fromHtml(html, Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE);
 
             // TODO: Needs to be tested with Nougat !!! Maybe Html.FROM_HTML_MODE_LEGACY is correct ?!?
-        }
-        else {
+        } else {
             Log.v("PeLo", "OLD API");
             result = Html.fromHtml(html);
         }

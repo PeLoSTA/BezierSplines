@@ -41,17 +41,12 @@ import de.peterloos.beziersplines.R;
  */
 
 public class MainActivity
-    extends AppCompatActivity
-    implements OnClickListener, OnSeekBarChangeListener, OnItemSelectedListener, BezierLogging {
+        extends AppCompatActivity
+        implements OnClickListener, OnSeekBarChangeListener, OnItemSelectedListener, BezierLogging {
 
     private static final String TAG = "PeLo";
 
     private static final int REQUESTCODE_SETTINGS = 1;
-
-    // keys for activities bundle
-    private static final String KEY_RESOLUTION_VALUE = "resolutionValue";
-    private static final String KEY_GRID_IS_VISIBLE = "gridIsVisible";
-    private static final String KEY_CONSTRUCTION_IS_VISIBLE = "constructionIsVisible";
 
     // controls
     private ViewSwitcher viewSwitcher;
@@ -80,8 +75,7 @@ public class MainActivity
         this.setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Log.v(TAG, "------------------------------------------------------------------------");
-        Log.v(TAG, "onCreate");
+        Log.v(TAG, "onCreate ------------------------------------------------------------------------");
 
         // prefer action bar title with two lines
         ActionBar actionBar = this.getSupportActionBar();
@@ -94,21 +88,6 @@ public class MainActivity
         this.resolution = 50;
         this.gridIsVisible = false;
         this.constructionIsVisible = false;
-
-        if (savedInstanceState != null) {
-
-            this.resolution = savedInstanceState.getInt(KEY_RESOLUTION_VALUE);
-            String tmp = savedInstanceState.getString(KEY_GRID_IS_VISIBLE);
-            // this.gridIsVisible = (tmp.equals("true")) ? true : false;
-            this.gridIsVisible = tmp.equals("true");
-            tmp = savedInstanceState.getString(KEY_CONSTRUCTION_IS_VISIBLE);
-            // this.constructionIsVisible = (tmp.equals("true")) ? true : false;
-            this.constructionIsVisible = tmp.equals("true");
-
-//            Log.v(TAG, "onCreate savedInstanceState --> grid " + Boolean.toString(this.gridIsVisible));
-//            Log.v(TAG, "onCreate savedInstanceState --> construction " + Boolean.toString(this.constructionIsVisible));
-//            Log.v(TAG, "onCreate savedInstanceState --> bool   " + Boolean.toString(this.gridIsVisible));
-        }
 
         // retrieve control references
         this.viewSwitcher = (ViewSwitcher) findViewById(R.id.viewswitcher);
@@ -166,49 +145,6 @@ public class MainActivity
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-//        Log.v(TAG, "onSaveInstanceState writing into bundle --> grid " + Boolean.toString(this.gridIsVisible));
-//        Log.v(TAG, "onSaveInstanceState writing into bundle --> construction " + Boolean.toString(this.constructionIsVisible));
-//        Log.v(TAG, "onSaveInstanceState writing into bundle --> int " + this.resolution);
-
-        // save values to support both portrait and landscape mode
-        outState.putInt(KEY_RESOLUTION_VALUE, this.resolution);
-        outState.putString(KEY_GRID_IS_VISIBLE, Boolean.toString(this.gridIsVisible));
-        outState.putString(KEY_CONSTRUCTION_IS_VISIBLE, Boolean.toString(this.constructionIsVisible));
-    }
-
-    // @Override
-//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//        super.onRestoreInstanceState(savedInstanceState);
-//
-//        if (savedInstanceState != null) {
-//
-//            this.resolution = savedInstanceState.getInt(KEY_RESOLUTION_VALUE);
-//            String tmp = savedInstanceState.getString(KEY_GRID_IS_VISIBLE);
-//            Log.v(TAG, "onRestoreInstanceState ORG --> grid ### " + tmp);
-//            this.gridIsVisible = (tmp.equals("true")) ? true : false;
-//
-//            tmp = savedInstanceState.getString(KEY_CONSTRUCTION_IS_VISIBLE);
-//            Log.v(TAG, "onRestoreInstanceState ORG --> construction ### " + tmp);
-//            this.constructionIsVisible = (tmp.equals("true")) ? true : false;
-//
-//            Log.v(TAG, "onRestoreInstanceState --> grid " + Boolean.toString(this.gridIsVisible));
-//            Log.v(TAG, "onRestoreInstanceState --> construction " + Boolean.toString(this.constructionIsVisible));
-//            Log.v(TAG, "onRestoreInstanceState --> int " + this.resolution);
-//        }
-//
-//        Log.v(TAG, "onRestoreInstanceState --> grid " + Boolean.toString(this.gridIsVisible));
-//        Log.v(TAG, "onRestoreInstanceState --> construction " + Boolean.toString(this.constructionIsVisible));
-//        Log.v(TAG, "onRestoreInstanceState --> int " + this.resolution);
-//
-//        this.seekBarResolution.setProgress(this.resolution);
-//        this.checkboxConstruction.setChecked(this.constructionIsVisible);
-//        this.checkboxSnaptogrid.setChecked(this.gridIsVisible);
-//    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = this.getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
@@ -245,22 +181,20 @@ public class MainActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUESTCODE_SETTINGS) {
-            if(resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
 
                 int gridlinesFactor = data.getIntExtra(this.resultGridlines, -1);
                 int strokewidthFactor = data.getIntExtra(this.resultStrokewidth, -1);
 
-                Log.v(TAG, "In Main wieder: RESULT_OK Antwort (Grid) = " + gridlinesFactor);
-                Log.v(TAG, "In Main wieder: RESULT_OK Antwort (Stroke) = " + strokewidthFactor);
-
                 if (gridlinesFactor != -1) {
                     this.bezierViewWithGrid.setDensityOfGridlines(gridlinesFactor);
                 }
-                else if (strokewidthFactor != -1) {
+
+                if (strokewidthFactor != -1) {
                     this.bezierViewWithoutGrid.setStrokewidthFactor(strokewidthFactor);
                     this.bezierViewWithGrid.setStrokewidthFactor(strokewidthFactor);
                 }
-            } else if(resultCode == RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
                 Log.v(TAG, "onActivityResult -> RESULT_CANCELED");
             }
         }
@@ -287,14 +221,12 @@ public class MainActivity
             }
         } else if (view == this.checkboxSnaptogrid) {
             if (this.checkboxSnaptogrid.isChecked()) {
-                Log.v(TAG, "Switch Normal View to Grid View");
                 this.gridIsVisible = true;
                 this.bezierViewWithGrid.setMode(BezierMode.Create);
                 this.bezierViewWithGrid.clear();
                 this.viewSwitcher.showNext();
 
             } else {
-                Log.v(TAG, "Switch Grid View to Normal View");
                 this.gridIsVisible = false;
                 this.bezierViewWithoutGrid.clear();
                 this.bezierViewWithoutGrid.setMode(BezierMode.Create);
