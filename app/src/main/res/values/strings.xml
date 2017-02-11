@@ -7,7 +7,7 @@
 
     <!-- activities -->
     <string name="app_main_title">Bézier Curve Simulation</string>
-    <string name="app_sub_title">De Casteljau\'s Algorithm</string>
+    <string name="app_sub_title">De Casteljau\'s Algorithm - Master</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_documentation">Documentation</string>
     <string name="title_activity_demo">Demo</string>
