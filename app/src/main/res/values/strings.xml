@@ -3,11 +3,11 @@
 <resources>
     <string name="app_name">De Casteljau Bézier Curve Simulation</string>
     <string name="app_name_for_app_drawer">Bézier Splines</string>
-    <string name="app_version">Version 1.1 &#8213; &#169; Peter Loos</string>
+    <string name="app_version">Version 2.0 &#8213; &#169; Peter Loos</string>
 
     <!-- activities -->
     <string name="app_main_title">Bézier Curve Simulation</string>
-    <string name="app_sub_title">De Casteljau\'s Algorithm - Branch</string>
+    <string name="app_sub_title">De Casteljau\'s Algorithm</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_documentation">Documentation</string>
     <string name="title_activity_demo">Demo</string>
@@ -25,9 +25,6 @@
     <string name="button_restart">Restart</string>
     <string name="show_construction">Show Construction</string>
     <string name="show_snaptogrid">Snap to Grid</string>
-    <string name="button_english">English</string>
-    <string name="button_german">German</string>
-    <string name="stroke_width">Stroke Width</string>
 
     <!-- shared preferences -->
     <string name="shared_pref_strokewidthfactor">StrokeWidthFactor</string>
@@ -44,6 +41,7 @@
         <item>Edit</item>
         <item>Delete</item>
         <item>Clear</item>
+        <!--<item>Demo</item>-->   <!-- just for generating screenshots -->
     </string-array>
 
     <!-- settings activity - languages -->

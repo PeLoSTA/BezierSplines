@@ -76,7 +76,7 @@ public class BezierUtils {
     }
 
     // ============================================================================================
-    //  methods for test pictures
+    //  methods for test pictures (Google Play Store)
     // ============================================================================================
 
     // looks boring
@@ -85,7 +85,7 @@ public class BezierUtils {
         Random rand = new Random();
 
         // create a border
-        int border = 60;
+        int border = 100;
 
         width -= border;
         height -= border;
@@ -111,7 +111,7 @@ public class BezierUtils {
     }
 
 
-    public static List<BezierPoint> getDemoCircle01(float centerX, float centerY, float radius, float arcLength) {
+    public static List<BezierPoint> getDemo_SingleCircle(float centerX, float centerY, float radius, float arcLength) {
 
         List<BezierPoint> result = new ArrayList<>();
 
@@ -127,7 +127,7 @@ public class BezierUtils {
         return result;
     }
 
-    public static List<BezierPoint> getDemoCircle02(float centerX, float centerY, float radius, float arcLength) {
+    public static List<BezierPoint> getDemo_SingleCircleOppositeConnected(float centerX, float centerY, float radius, float arcLength) {
 
         List<BezierPoint> result = new ArrayList<>();
 
@@ -178,6 +178,7 @@ public class BezierUtils {
             result.add(p);
         }
 
+        // outer circle
         for (double z = 0.0; z < 2 * Math.PI - 0.1; z = z + arcLength / 1.5) {
             float x = centerX + radius2 * (float) Math.sin(z);
             float y = centerY + radius2 * (float) Math.cos(z);

@@ -86,7 +86,6 @@ public class DemonstrationActivity extends AppCompatActivity implements OnClickL
 
         // retrieve shared preferences
         Context context = this.getApplicationContext();
-        // SharedPreferencesUtils.getPersistedStrokeWidths(context, this.bezierView, null);
         int strokewidthFactor = SharedPreferencesUtils.getPersistedStrokewidthFactor(context);
         this.bezierView.setStrokewidthFactor(strokewidthFactor);
 
@@ -160,7 +159,7 @@ public class DemonstrationActivity extends AppCompatActivity implements OnClickL
 
         float arcLength = (float) (2 * Math.PI / 40);
 
-        DemonstrationActivity.this.demoControlPoints = BezierUtils.getDemoCircle02(centerX, centerY, radius, arcLength);
+        DemonstrationActivity.this.demoControlPoints = BezierUtils.getDemo_SingleCircleOppositeConnected(centerX, centerY, radius, arcLength);
         DemonstrationActivity.this.task = new DemoOperation();
         DemonstrationActivity.this.task.setRunning(true);
         DemonstrationActivity.this.task.execute();

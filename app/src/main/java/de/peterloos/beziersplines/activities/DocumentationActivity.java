@@ -28,10 +28,10 @@ public class DocumentationActivity extends AppCompatActivity implements OnPageCh
     private ViewPagerAdapter viewPagerAdapter;
 
     private int[] imagesResources = {
-            R.mipmap.device_2017_01,
-            R.mipmap.device_2017_02,
-            R.mipmap.device_2017_03,
-            R.mipmap.device_2017_04
+            R.mipmap.device_2017_02_01,
+            R.mipmap.device_2017_02_02,
+            R.mipmap.device_2017_02_03,
+            R.mipmap.device_2017_02_04
     };
 
     @Override

@@ -48,6 +48,15 @@ public class MainActivity
 
     private static final int REQUESTCODE_SETTINGS = 1;
 
+    // keys for generating screenshots (Google Play Store)
+    public static final int SCREENSHOT_TOTALLY_RANDOM = 0;
+    public static final int SCREENSHOT_SINGLE_CIRCLE = 1;
+    public static final int SCREENSHOT_SINGLE_CIRCLE_OPPOSITE_CONNECTED = 2;
+    public static final int SCREENSHOT_CONCENTRIC_CIRCLES = 3;
+    public static final int SCREENSHOT_CASCADING_RECTANGLES = 4;
+    public static final int SCREENSHOT_NICE_FIGURE = 5;
+    public static final int SCREENSHOT_NICE_FIGURE_02 = 6;
+
     // controls
     private ViewSwitcher viewSwitcher;
     private BezierView bezierViewWithoutGrid;
@@ -281,19 +290,19 @@ public class MainActivity
         Log.v("PeLo", "onItemSelected: " + Integer.toString(i) + ", " + Long.toString(l));
 
         switch (i) {
-            case 0:
+            case 0:  // create mode
                 this.bezierViewWithoutGrid.setMode(BezierMode.Create);
                 this.bezierViewWithGrid.setMode(BezierMode.Create);
                 break;
-            case 1:
+            case 1:  // edit mode
                 this.bezierViewWithoutGrid.setMode(BezierMode.Edit);
                 this.bezierViewWithGrid.setMode(BezierMode.Edit);
                 break;
-            case 2:
+            case 2:  // delete single mode
                 this.bezierViewWithoutGrid.setMode(BezierMode.Delete);
                 this.bezierViewWithGrid.setMode(BezierMode.Delete);
                 break;
-            case 3:
+            case 3:  // delete all mode
                 this.bezierViewWithoutGrid.clear();
                 this.bezierViewWithGrid.clear();
                 this.bezierViewWithoutGrid.setMode(BezierMode.Create);
@@ -301,14 +310,17 @@ public class MainActivity
                 this.seekBarResolution.setProgress(50);
                 this.seekBarT.setProgress(50);
                 this.spinnerMode.setSelection(0);
-
-                // JUST FOR MAKING SCREENSHOTS: Begin
-                // this.bezierView.showScreenshot();
-                // JUST FOR MAKING SCREENSHOTS: End
                 break;
-            case 4:
+            case 4:  // demo mode
                 this.bezierViewWithoutGrid.setMode(BezierMode.Demo);
+                this.bezierViewWithoutGrid.showScreenshot(SCREENSHOT_CONCENTRIC_CIRCLES);
                 this.bezierViewWithGrid.setMode(BezierMode.Demo);
+                this.bezierViewWithGrid.showScreenshot(SCREENSHOT_CONCENTRIC_CIRCLES);
+
+//                this.viewSwitcher.setDisplayedChild(1);
+//                this.bezierViewWithGrid.setMode(BezierMode.Demo);
+//                this.bezierViewWithGrid.showScreenshot(SCREENSHOT_NICE_FIGURE);
+
                 break;
         }
     }

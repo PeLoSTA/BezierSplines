@@ -12,7 +12,6 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +24,7 @@ import java.util.Locale;
 
 import de.peterloos.beziersplines.R;
 import de.peterloos.beziersplines.activities.BezierGlobals;
+import de.peterloos.beziersplines.activities.MainActivity;
 import de.peterloos.beziersplines.utils.BezierMode;
 import de.peterloos.beziersplines.utils.BezierPoint;
 import de.peterloos.beziersplines.utils.BezierUtils;
@@ -208,10 +208,16 @@ public class BezierView extends View implements View.OnTouchListener {
         this.invalidate();
     }
 
-    @SuppressWarnings("unused")
+//    public void addControlPoints(List<BezierPoint> points) {
+//        this.controlPoints = points;
+//        this.invalidate();
+//    }
+
     public void addControlPoints(List<BezierPoint> points) {
-        this.controlPoints = points;
-        this.invalidate();
+
+        for (BezierPoint point : points) {
+            this.addControlPoint (point);
+        }
     }
 
     public void moveControlPoint(int index, BezierPoint p) {
@@ -465,9 +471,12 @@ public class BezierView extends View implements View.OnTouchListener {
             colorEnd,
             Shader.TileMode.CLAMP);
 
+        // draw point
         this.circlePaint.setShader(shader);
         this.circlePaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(cx, cy, this.strokeWidthCircle, this.circlePaint);
+
+        // draw number
         canvas.drawText(text, cx + this.distanceFromNumber, cy - this.distanceFromNumber, this.textPaint);
 
         // draw border, if any
@@ -557,55 +566,92 @@ public class BezierView extends View implements View.OnTouchListener {
 
     // test interface
     @SuppressWarnings("unused")
-    public void showScreenshot() {
+    public void showScreenshot(int number) {
 
-        // List<BezierPoint> circleList;
+        List<BezierPoint> circleList = null;
 
-        // screen-shot (totally random)
-        // circleList = showScreenshot01();
+        if (number == MainActivity.SCREENSHOT_SINGLE_CIRCLE) {
+            circleList = this.showScreenshot_SingleCircle();
+        }
+        else if (number == MainActivity.SCREENSHOT_SINGLE_CIRCLE_OPPOSITE_CONNECTED) {
+            circleList = this.showScreenshot_SingleCircle_OppositeConnected();
+        }
+        else if (number == MainActivity.SCREENSHOT_CONCENTRIC_CIRCLES) {
+            circleList = this.showScreenshot_TwoConcentricCircles();
+        }
+        else if (number == MainActivity.SCREENSHOT_CASCADING_RECTANGLES) {
+            circleList = this.showScreenshot_Cascading_Rectangles();
+        }
+        else if (number == MainActivity.SCREENSHOT_TOTALLY_RANDOM) {
+            circleList = this.showScreenshotTotallyRandom();
+        }
+        else if (number == MainActivity.SCREENSHOT_NICE_FIGURE) {
+            circleList = this.showScreenshot_NiceFigure();
+        }
+        else if (number == MainActivity.SCREENSHOT_NICE_FIGURE_02) {
+            circleList = this.showScreenshot_NiceFigure_02();
+        }
 
-        // screen-shot (lines)
-        // circleList = showScreenshot02();
-
-        // screen-shot (two concentric circles)
-        // circleList = showScreenshot03();
-
-        // screen-shot (bunch of lines)
-        // circleList = showScreenshot04();
-
-        // this.addControlPoints(circleList);
+        this.addControlPoints(circleList);
     }
 
     @SuppressWarnings("unused")
-    private List<BezierPoint> showScreenshot01() {
-        return BezierUtils.getTotallyRandom(this.getWidth(), this.getHeight(), 70);
+    private List<BezierPoint> showScreenshotTotallyRandom() {
+        return BezierUtils.getTotallyRandom(this.getWidth(), this.getHeight(), 50);
     }
 
     @SuppressWarnings("unused")
-    private List<BezierPoint> showScreenshot02() {
+    private List<BezierPoint> showScreenshot_SingleCircle() {
         float centerX = this.getWidth() / 2;
         float centerY = this.getHeight() / 2;
         float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
-        int partitions = 6;
-        return BezierUtils.getDemoCircle01(centerX, centerY, squareLength / 2 - 50, partitions);
+        float arcLength = (float) (2 * Math.PI / 25);
+        return BezierUtils.getDemo_SingleCircle(centerX, centerY, squareLength / 2 - 100, arcLength);
     }
 
     @SuppressWarnings("unused")
-    private List<BezierPoint> showScreenshot03() {
+    private List<BezierPoint> showScreenshot_SingleCircle_OppositeConnected() {
+        float centerX = this.getWidth() / 2;
+        float centerY = this.getHeight() / 2;
+        float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
+        float arcLength = (float) (2 * Math.PI / 25);
+        return BezierUtils.getDemo_SingleCircleOppositeConnected(centerX, centerY, squareLength / 2 - 100, arcLength);
+    }
+
+    @SuppressWarnings("unused")
+    private List<BezierPoint> showScreenshot_TwoConcentricCircles() {
         float centerX = this.getWidth() / 2;
         float centerY = this.getHeight() / 2;
         float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
         float arcLength = 0.5f;
-        return BezierUtils.getDemoConcentricCircles(centerX, centerY, squareLength / 5, squareLength / 2 - 50, arcLength);
+        return BezierUtils.getDemoConcentricCircles(centerX, centerY, squareLength / 5, squareLength / 2 - 150, arcLength);
     }
 
     @SuppressWarnings("unused")
-    private List<BezierPoint> showScreenshot04() {
+    private List<BezierPoint> showScreenshot_Cascading_Rectangles() {
         int numEdges = 8;
         float centerX = this.getWidth() / 2;
         float centerY = this.getHeight() / 2;
         float deltaX = this.getWidth() / (float) numEdges;
         float deltaY = this.getHeight() / (float) numEdges;
         return BezierUtils.getDemoRectangle(centerX, centerY, deltaX, deltaY, numEdges - 1);
+    }
+
+    @SuppressWarnings("unused")
+    private List<BezierPoint> showScreenshot_NiceFigure() {
+        int numEdges = 7;
+        float centerX = this.getWidth() / 2;
+        float centerY = this.getHeight() / 2;
+        float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
+        return BezierUtils.getDemoCircle03(centerX, centerY, squareLength / 2 - 100, numEdges - 1);
+    }
+
+    @SuppressWarnings("unused")
+    private List<BezierPoint> showScreenshot_NiceFigure_02() {
+        int numEdges = 6;
+        float centerX = this.getWidth() / 2;
+        float centerY = this.getHeight() / 2;
+        float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
+        return BezierUtils.getDemoCircle04(centerX, centerY, squareLength / 2 - 100, numEdges - 1);
     }
 }
