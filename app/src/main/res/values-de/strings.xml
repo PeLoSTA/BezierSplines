@@ -25,6 +25,15 @@
     <string name="show_construction">Konstruktion</string>
     <string name="show_snaptogrid">Gitternetzlinien</string>
 
+    <!-- shared preferences -->
+    <string name="shared_pref_strokewidthfactor">StrokeWidthFactor</string>
+    <string name="shared_pref_gridlines">Gridlines</string>
+    <string name="shared_pref_language">Language</string>
+
+    <!-- state changes according to settings activity -->
+    <string name="result_gridlines">ResultGridlines</string>
+    <string name="result_strokewidth">ResultStrokewidth</string>
+
     <!-- main spinner -->
     <string-array name="editor_modes">
         <item>Neu</item>
