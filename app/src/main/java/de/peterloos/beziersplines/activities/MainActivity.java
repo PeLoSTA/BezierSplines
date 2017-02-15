@@ -30,7 +30,7 @@ import de.peterloos.beziersplines.utils.BezierMode;
 import de.peterloos.beziersplines.utils.LocaleUtils;
 import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
 import de.peterloos.beziersplines.views.BezierGridView;
-import de.peterloos.beziersplines.views.BezierLogging;
+import de.peterloos.beziersplines.views.BezierListener;
 import de.peterloos.beziersplines.views.BezierView;
 import de.peterloos.beziersplines.R;
 
@@ -42,7 +42,7 @@ import de.peterloos.beziersplines.R;
 
 public class MainActivity
         extends AppCompatActivity
-        implements OnClickListener, OnSeekBarChangeListener, OnItemSelectedListener, BezierLogging {
+        implements OnClickListener, OnSeekBarChangeListener, OnItemSelectedListener, BezierListener {
 
     private static final String TAG = "PeLo";
 
@@ -84,7 +84,7 @@ public class MainActivity
         this.setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Log.v(TAG, "onCreate ------------------------------------------------------------------------");
+        Log.v(TAG, "onCreate ------------------------------------------------------------------");
 
         // prefer action bar title with two lines
         ActionBar actionBar = this.getSupportActionBar();
@@ -316,11 +316,6 @@ public class MainActivity
                 this.bezierViewWithoutGrid.showScreenshot(SCREENSHOT_CONCENTRIC_CIRCLES);
                 this.bezierViewWithGrid.setMode(BezierMode.Demo);
                 this.bezierViewWithGrid.showScreenshot(SCREENSHOT_CONCENTRIC_CIRCLES);
-
-//                this.viewSwitcher.setDisplayedChild(1);
-//                this.bezierViewWithGrid.setMode(BezierMode.Demo);
-//                this.bezierViewWithGrid.showScreenshot(SCREENSHOT_NICE_FIGURE);
-
                 break;
         }
     }
@@ -331,12 +326,18 @@ public class MainActivity
     }
 
     /*
-     * implementing interface 'BezierLogging'
+     * implementing interface 'BezierListener'
      */
 
     @Override
-    public void setCurrentInfo(String info) {
+    public void setInfo(String info) {
         this.textViewInfo.setText(info);
+    }
+
+    @Override
+    public void changeMode(BezierMode mode) {
+        // should be only called with requested mode 'BezierMode.Create'
+        this.spinnerMode.setSelection(0);
     }
 
     // private helper methods

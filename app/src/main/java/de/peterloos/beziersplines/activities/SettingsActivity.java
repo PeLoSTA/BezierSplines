@@ -172,7 +172,8 @@ public class SettingsActivity extends AppCompatActivity {
         alertDialog.setPositiveButton(ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
-                SettingsActivity.this.indexStrokewidthFactor = SettingsActivity.this.indexTmpStrokewidthFactor;
+                SettingsActivity.this.indexStrokewidthFactor =
+                        SettingsActivity.this.indexTmpStrokewidthFactor;
 
                 // persist strokewidth factor
                 Context context = SettingsActivity.this.getApplicationContext();

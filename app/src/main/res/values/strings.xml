@@ -41,7 +41,7 @@
         <item>Edit</item>
         <item>Delete</item>
         <item>Clear</item>
-        <!--<item>Demo</item>-->   <!-- just for generating screenshots -->
+        <!-- <item>Demo</item>  -->   <!-- just for generating screenshots -->
     </string-array>
 
     <!-- settings activity - languages -->

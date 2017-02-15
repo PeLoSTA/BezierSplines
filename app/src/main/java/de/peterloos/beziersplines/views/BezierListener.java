@@ -1,6 +1,6 @@
 package de.peterloos.beziersplines.views;
 
-import de.peterloos.beziersplines.utils.BezierPoint;
+import de.peterloos.beziersplines.utils.BezierMode;
 
 /**
  * Project: Bézier Splines Simulation
@@ -8,6 +8,7 @@ import de.peterloos.beziersplines.utils.BezierPoint;
  * Contact info: peterloos@gmx.de
  */
 
-public interface BezierLogging {
-    void setCurrentInfo(String info);
+public interface BezierListener {
+    void setInfo(String info);
+    void changeMode(BezierMode mode);
 }

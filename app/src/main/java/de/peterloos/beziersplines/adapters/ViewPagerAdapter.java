@@ -83,9 +83,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         Spanned result;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Log.v("PeLo", "NEW API");
-            result = Html.fromHtml(html, Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE);
-
             // TODO: Needs to be tested with Nougat !!! Maybe Html.FROM_HTML_MODE_LEGACY is correct ?!?
+            result = Html.fromHtml(html, Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE);
         } else {
             Log.v("PeLo", "OLD API");
             result = Html.fromHtml(html);

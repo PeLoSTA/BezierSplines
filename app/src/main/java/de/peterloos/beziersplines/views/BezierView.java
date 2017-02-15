@@ -85,7 +85,7 @@ public class BezierView extends View implements View.OnTouchListener {
     protected int viewHeight;
 
     // miscellaneous
-    private List<BezierLogging> listeners;
+    private List<BezierListener> listeners;
     private Resources res;
 
     // c'tor
@@ -181,18 +181,18 @@ public class BezierView extends View implements View.OnTouchListener {
     public void setStrokewidthFactor(int setStrokewidthFactor) {
 
         float strokeWidthControlPointsDp =
-            BezierGlobals.StrokeWidthControlPointsDp *
-            BezierGlobals.StrokewidthFactors[setStrokewidthFactor];
+                BezierGlobals.StrokeWidthControlPointsDp *
+                        BezierGlobals.StrokewidthFactors[setStrokewidthFactor];
         this.strokeWidthControlPoints = convertDpToPixel(this.res, strokeWidthControlPointsDp);
 
         float strokeWidthCurveLineDp =
-            BezierGlobals.StrokeWidthCurveLineDp *
-            BezierGlobals.StrokewidthFactors[setStrokewidthFactor];
+                BezierGlobals.StrokeWidthCurveLineDp *
+                        BezierGlobals.StrokewidthFactors[setStrokewidthFactor];
         this.strokeWidthCurveLines = convertDpToPixel(this.res, strokeWidthCurveLineDp);
 
         float strokeWidthConstructionLinesDp =
-            BezierGlobals.StrokeWidthConstructionLinesDp *
-            BezierGlobals.StrokewidthFactors[setStrokewidthFactor];
+                BezierGlobals.StrokeWidthConstructionLinesDp *
+                        BezierGlobals.StrokewidthFactors[setStrokewidthFactor];
         this.strokeWidthConstructionLines = convertDpToPixel(this.res, strokeWidthConstructionLinesDp);
     }
 
@@ -208,15 +208,10 @@ public class BezierView extends View implements View.OnTouchListener {
         this.invalidate();
     }
 
-//    public void addControlPoints(List<BezierPoint> points) {
-//        this.controlPoints = points;
-//        this.invalidate();
-//    }
-
     public void addControlPoints(List<BezierPoint> points) {
 
         for (BezierPoint point : points) {
-            this.addControlPoint (point);
+            this.addControlPoint(point);
         }
     }
 
@@ -252,9 +247,6 @@ public class BezierView extends View implements View.OnTouchListener {
 
         if (this.mode == BezierMode.Demo)
             return true;
-
-//        String position = String.format("%d --- %d", (int) event.getX(), (int) event.getY());
-//        Log.v(TAG, position);
 
         int action = event.getAction();
 
@@ -300,6 +292,7 @@ public class BezierView extends View implements View.OnTouchListener {
                             this.setTouchPosition((int) p.getX(), (int) p.getY());
                         } else {
                             this.clearTouchPosition();
+                            this.onChangeBezierMode(BezierMode.Create);
                         }
                         this.removeControlPoint(index);
                     }
@@ -463,13 +456,13 @@ public class BezierView extends View implements View.OnTouchListener {
     private void drawPoint(Canvas canvas, float cx, float cy, int colorStart, int colorEnd, String text, boolean drawBorder) {
 
         Shader shader = new LinearGradient(
-            cx,
-            cy,
-            cx + this.strokeWidthCircle,
-            cy + this.strokeWidthCircle,
-            colorStart,
-            colorEnd,
-            Shader.TileMode.CLAMP);
+                cx,
+                cy,
+                cx + this.strokeWidthCircle,
+                cy + this.strokeWidthCircle,
+                colorStart,
+                colorEnd,
+                Shader.TileMode.CLAMP);
 
         // draw point
         this.circlePaint.setShader(shader);
@@ -530,16 +523,7 @@ public class BezierView extends View implements View.OnTouchListener {
         return strokeWidth;
     }
 
-    private int digitsOfNumber(int number) {
-        int result = 0;
-        while (number != 0) {
-            number = number / 10;
-            result++;
-        }
-        return result;
-    }
-
-    public static final int getColorWrapper(Context context, int id) {
+    public static int getColorWrapper(Context context, int id) {
         final int version = Build.VERSION.SDK_INT;
         if (version >= Build.VERSION_CODES.M) {
             return ContextCompat.getColor(context, id);
@@ -549,22 +533,29 @@ public class BezierView extends View implements View.OnTouchListener {
         }
     }
 
-    // support handling of interface 'BezierLogging'
-    public void registerListener(BezierLogging listener) {
+    // support handling of interface 'BezierListener'
+    public void registerListener(BezierListener listener) {
         this.listeners.add(listener);
     }
 
-    public void unregisterListener(BezierLogging listener) {
+    @SuppressWarnings("unused")
+    public void unregisterListener(BezierListener listener) {
         this.listeners.remove(listener);
     }
 
     private void onBezierPointChanged(String info) {
-        for (BezierLogging listener : this.listeners) {
-            listener.setCurrentInfo(info);
+        for (BezierListener listener : this.listeners) {
+            listener.setInfo(info);
         }
     }
 
-    // test interface
+    private void onChangeBezierMode(BezierMode mode) {
+        for (BezierListener listener : this.listeners) {
+            listener.changeMode(mode);
+        }
+    }
+
+    // test interface - screenshots for Google Play Services
     @SuppressWarnings("unused")
     public void showScreenshot(int number) {
 
@@ -572,23 +563,17 @@ public class BezierView extends View implements View.OnTouchListener {
 
         if (number == MainActivity.SCREENSHOT_SINGLE_CIRCLE) {
             circleList = this.showScreenshot_SingleCircle();
-        }
-        else if (number == MainActivity.SCREENSHOT_SINGLE_CIRCLE_OPPOSITE_CONNECTED) {
+        } else if (number == MainActivity.SCREENSHOT_SINGLE_CIRCLE_OPPOSITE_CONNECTED) {
             circleList = this.showScreenshot_SingleCircle_OppositeConnected();
-        }
-        else if (number == MainActivity.SCREENSHOT_CONCENTRIC_CIRCLES) {
+        } else if (number == MainActivity.SCREENSHOT_CONCENTRIC_CIRCLES) {
             circleList = this.showScreenshot_TwoConcentricCircles();
-        }
-        else if (number == MainActivity.SCREENSHOT_CASCADING_RECTANGLES) {
+        } else if (number == MainActivity.SCREENSHOT_CASCADING_RECTANGLES) {
             circleList = this.showScreenshot_Cascading_Rectangles();
-        }
-        else if (number == MainActivity.SCREENSHOT_TOTALLY_RANDOM) {
+        } else if (number == MainActivity.SCREENSHOT_TOTALLY_RANDOM) {
             circleList = this.showScreenshotTotallyRandom();
-        }
-        else if (number == MainActivity.SCREENSHOT_NICE_FIGURE) {
+        } else if (number == MainActivity.SCREENSHOT_NICE_FIGURE) {
             circleList = this.showScreenshot_NiceFigure();
-        }
-        else if (number == MainActivity.SCREENSHOT_NICE_FIGURE_02) {
+        } else if (number == MainActivity.SCREENSHOT_NICE_FIGURE_02) {
             circleList = this.showScreenshot_NiceFigure_02();
         }
 
@@ -643,7 +628,7 @@ public class BezierView extends View implements View.OnTouchListener {
         float centerX = this.getWidth() / 2;
         float centerY = this.getHeight() / 2;
         float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
-        return BezierUtils.getDemoCircle03(centerX, centerY, squareLength / 2 - 100, numEdges - 1);
+        return BezierUtils.getDemoNiceFigure(centerX, centerY, squareLength / 2 - 100, numEdges - 1);
     }
 
     @SuppressWarnings("unused")
@@ -652,6 +637,6 @@ public class BezierView extends View implements View.OnTouchListener {
         float centerX = this.getWidth() / 2;
         float centerY = this.getHeight() / 2;
         float squareLength = (this.getWidth() < this.getHeight()) ? this.getWidth() : this.getHeight();
-        return BezierUtils.getDemoCircle04(centerX, centerY, squareLength / 2 - 100, numEdges - 1);
+        return BezierUtils.getDemoNiceFigure2(centerX, centerY, squareLength / 2 - 100, numEdges - 1);
     }
 }

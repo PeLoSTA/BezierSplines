@@ -31,7 +31,7 @@
         <item>Verschieben</item>
         <item>Entfernen</item>
         <item>Löschen</item>
-        <!--<item>Demo</item>-->   <!-- just for generating screenshots -->
+        <!-- <item>Demo</item> -->   <!-- just for generating screenshots -->
     </string-array>
 
     <!-- settings activity - languages -->

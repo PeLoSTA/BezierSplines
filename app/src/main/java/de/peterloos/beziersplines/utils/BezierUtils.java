@@ -97,15 +97,9 @@ public class BezierUtils {
             float x = rand.nextFloat() * width + border / 2;
             float y = rand.nextFloat() * height + border / 2;
 
-//            String s = String.format("%f,%f", x, y);
-//            Log.v("PeLo", s);
-
             BezierPoint p = new BezierPoint(x, y);
             result.add(p);
         }
-
-//        BezierPoint last = new BezierPoint(centerX + radius * (float) Math.sin(0.0), centerY + radius * (float) Math.cos(0.0));
-//        result.add(last);
 
         return result;
     }
@@ -191,7 +185,7 @@ public class BezierUtils {
     }
 
     @SuppressWarnings("unused")
-    public static List<BezierPoint> getDemoCircle03(float centerX, float centerY, float radius, int partitions) {
+    public static List<BezierPoint> getDemoNiceFigure(float centerX, float centerY, float radius, int partitions) {
 
         List<BezierPoint> result = new ArrayList<>();
 
@@ -228,7 +222,7 @@ public class BezierUtils {
     }
 
     @SuppressWarnings("unused")
-    public static List<BezierPoint> getDemoCircle04(float centerX, float centerY, float radius, int partition) {
+    public static List<BezierPoint> getDemoNiceFigure2(float centerX, float centerY, float radius, int partition) {
 
         List<BezierPoint> result = new ArrayList<>();
 

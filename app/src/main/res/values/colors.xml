@@ -34,6 +34,7 @@
     <color name="material_blue_grey_500">#ff607d8b</color>
     <color name="material_blue_grey_800">#ff37474f</color>
     <color name="material_blue_grey_900">#ff263238</color> <!-- Primary color used by Settings -->
-    <color name="material_blue_grey_950">#ff21272b</color> <!-- Primary dark color used by Settings -->
+    <color name="material_blue_grey_950">#ff21272b
+    </color> <!-- Primary dark color used by Settings -->
 
 </resources>

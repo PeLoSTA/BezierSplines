@@ -50,9 +50,9 @@ public class BezierGridView extends BezierView {
         // setup density of gridlines
         this.density = 1;
         this.densities = new int[]{
-            BezierGlobals.GridlinesDensityLow,
-            BezierGlobals.GridlinesDensityNormal,
-            BezierGlobals.GridlinesDensityHigh
+                BezierGlobals.GridlinesDensityLow,
+                BezierGlobals.GridlinesDensityNormal,
+                BezierGlobals.GridlinesDensityHigh
         };
     }
 
@@ -114,21 +114,33 @@ public class BezierGridView extends BezierView {
 
         // draw horizontal lines
         for (int i = 0; i < this.numCellRows; i++) {
-            canvas.drawLine(0, (float) (i * this.cellHeight), (float) this.viewWidth, (float) (i * this.cellHeight), this.linePaint);
+            canvas.drawLine(
+                0,
+                (float) (i * this.cellHeight),
+                (float) this.viewWidth,
+                (float) (i * this.cellHeight),
+                this.linePaint);
         }
 
         // draw vertical lines
         for (int i = 0; i < this.numCellCols; i++) {
-            canvas.drawLine((float) (i * this.cellWidth), 0, (float) (i * this.cellWidth), (float) this.viewHeight, this.linePaint);
+            canvas.drawLine(
+                (float) (i * this.cellWidth),
+                0,
+                (float) (i * this.cellWidth),
+                (float) this.viewHeight,
+                this.linePaint);
         }
     }
 
     private void snapPoint(BezierPoint p) {
 
         double realLeft = Math.floor((p.getX() / this.cellWidth)) * this.cellWidth;
-        float snapX = (p.getX() <= realLeft + this.cellWidthHalf) ? (float) realLeft : (float) (realLeft + this.cellWidth);
+        float snapX = (p.getX() <= realLeft + this.cellWidthHalf) ?
+            (float) realLeft : (float) (realLeft + this.cellWidth);
         double realUpper = Math.floor((p.getY() / this.cellHeight)) * this.cellHeight;
-        float snapY = (p.getY() <= realUpper + this.cellHeightHalf) ? (float) realUpper : (float) (realUpper + this.cellHeight);
+        float snapY = (p.getY() <= realUpper + this.cellHeightHalf) ?
+            (float) realUpper : (float) (realUpper + this.cellHeight);
 
         p.setX(snapX);
         p.setY(snapY);

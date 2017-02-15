@@ -10,32 +10,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="de.peterloos.beziersplines.activities.DocumentationActivity">
 
-<!--    <RelativeLayout
-        android:id="@+id/view_pager_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="5dp"
-        android:gravity="center" >
-
-        <LinearLayout
-            android:id="@+id/view_pager_count_dots"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:orientation="horizontal" />
-
-    </RelativeLayout>-->
-
     <LinearLayout
         android:id="@+id/view_pager_count_dots"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="5dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:orientation="horizontal" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager_documentation"

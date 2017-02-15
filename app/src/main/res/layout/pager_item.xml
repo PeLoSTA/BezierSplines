@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:weightSum="20"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="20">
 
     <ImageView
-        android:layout_height="0dp"
-        android:layout_weight="12"
-        android:layout_width="wrap_content"
-        tools:src="@mipmap/device_2017_01"
         android:id="@+id/img_pager_item"
-        android:scaleType="centerInside"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
-        android:clickable="false"
         android:layout_margin="20dp"
-        android:contentDescription="@string/documentation_image" />
+        android:layout_weight="12"
+        android:clickable="false"
+        android:contentDescription="@string/documentation_image"
+        android:scaleType="centerInside"
+        tools:src="@mipmap/device_2017_02_01" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/text_docs_header"
@@ -36,12 +35,12 @@
 
         <TextView
             android:id="@+id/text_docs_contents"
+            style="@style/ThemeOverlay.MyTextDetail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/ThemeOverlay.MyTextDetail"
-            android:scrollbars="vertical"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"  />
+            android:layout_marginRight="20dp"
+            android:scrollbars="vertical" />
 
     </LinearLayout>
 
