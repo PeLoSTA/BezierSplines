@@ -5,8 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 
-import de.peterloos.beziersplines.activities.BezierGlobals;
+import de.peterloos.beziersplines.BezierGlobals;
 import de.peterloos.beziersplines.utils.BezierPoint;
 
 /**
@@ -16,8 +17,6 @@ import de.peterloos.beziersplines.utils.BezierPoint;
  */
 
 public class BezierGridView extends BezierView {
-
-    private static final String TAG = "PeLo";
 
     private int density;
     private int densities[];
@@ -35,6 +34,8 @@ public class BezierGridView extends BezierView {
     // c'tor
     public BezierGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        Log.v(BezierGlobals.TAG, "c'tor BezierGridView");
 
         // setup grid details
         this.cellHeight = 0;

@@ -1,4 +1,4 @@
-package de.peterloos.beziersplines.activities;
+package de.peterloos.beziersplines;
 
 /**
  * Project: Bézier Splines Simulation
@@ -7,6 +7,8 @@ package de.peterloos.beziersplines.activities;
  */
 
 public class BezierGlobals {
+
+    public static final String TAG = "PeLo";
 
     // language settings
     public static final String LanguageGerman = "German";

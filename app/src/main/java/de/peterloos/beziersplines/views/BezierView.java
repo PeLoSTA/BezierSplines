@@ -12,6 +12,7 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,11 +24,12 @@ import java.util.List;
 import java.util.Locale;
 
 import de.peterloos.beziersplines.R;
-import de.peterloos.beziersplines.activities.BezierGlobals;
+import de.peterloos.beziersplines.BezierGlobals;
 import de.peterloos.beziersplines.activities.MainActivity;
 import de.peterloos.beziersplines.utils.BezierMode;
 import de.peterloos.beziersplines.utils.BezierPoint;
 import de.peterloos.beziersplines.utils.BezierUtils;
+import de.peterloos.beziersplines.utils.ControlPointsHolder;
 
 /**
  * Project: Bézier Splines Simulation
@@ -37,11 +39,10 @@ import de.peterloos.beziersplines.utils.BezierUtils;
 
 public class BezierView extends View implements View.OnTouchListener {
 
-    private static final String TAG = "PeLo";
-
     private BezierMode mode;
 
-    private List<BezierPoint> controlPoints;
+    // TODO: Die Statements mit controlPoints sind alle noch da ... LÖSCHEN
+    // private List<BezierPoint> controlPoints;
 
     private boolean showControlPoints;
     private boolean showBezierCurve;
@@ -84,6 +85,9 @@ public class BezierView extends View implements View.OnTouchListener {
     protected int viewWidth;
     protected int viewHeight;
 
+    // share controls points between different views
+    private ControlPointsHolder holder;
+
     // miscellaneous
     private List<BezierListener> listeners;
     private Resources res;
@@ -92,6 +96,8 @@ public class BezierView extends View implements View.OnTouchListener {
     public BezierView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        Log.v(BezierGlobals.TAG, "c'tor BezierView");
+
         this.res = this.getResources();
 
         this.mode = BezierMode.Create;
@@ -99,7 +105,7 @@ public class BezierView extends View implements View.OnTouchListener {
         ViewConfiguration vc = ViewConfiguration.get(context);
         this.touchSlop = vc.getScaledTouchSlop();
 
-        this.controlPoints = new ArrayList<>();
+        // this.controlPoints = new ArrayList<>();
 
         this.showControlPoints = true;
         this.showBezierCurve = true;
@@ -136,6 +142,9 @@ public class BezierView extends View implements View.OnTouchListener {
         this.listeners = new ArrayList<>();
         this.resolution = 50;
         this.constructionPosition = (float) 0.5;
+
+        // retrieve singleton data object, to access control points
+        this.holder = ControlPointsHolder.getInstance();
 
         //  need size of view (when view is visible)
         ViewTreeObserver vto = this.getViewTreeObserver();
@@ -197,39 +206,58 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     // public interface
+//    public void clear() {
+//        this.controlPoints.clear();
+//        this.clearTouchPosition();
+//        this.invalidate();
+//    }
+
     public void clear() {
-        this.controlPoints.clear();
+        this.holder.clear();
         this.clearTouchPosition();
         this.invalidate();
     }
 
+//    public void addControlPoint(BezierPoint p) {
+//        this.controlPoints.add(p);
+//        this.invalidate();
+//
+//        // TODO / NEW
+//        List<BezierPoint> model = this.holder.getData();
+//        model.add(p);
+//    }
+
     public void addControlPoint(BezierPoint p) {
-        this.controlPoints.add(p);
+        this.holder.add(p);
         this.invalidate();
     }
 
     public void addControlPoints(List<BezierPoint> points) {
-
         for (BezierPoint point : points) {
             this.addControlPoint(point);
         }
     }
 
-    public void moveControlPoint(int index, BezierPoint p) {
-        this.controlPoints.set(index, p);
-        this.invalidate();
-    }
+//    public void removeControlPoint(int index) {
+//        this.controlPoints.remove(index);
+//        this.invalidate();
+//    }
 
     public void removeControlPoint(int index) {
-        this.controlPoints.remove(index);
+        this.holder.remove(index);
         this.invalidate();
     }
+
+
+//    public void updateControlPoint(int index, BezierPoint p) {
+//        this.controlPoints.set(index, p);
+//        this.invalidate();
+//    }
 
     public void updateControlPoint(int index, BezierPoint p) {
-        this.controlPoints.set(index, p);
+        this.holder.update(index, p);
         this.invalidate();
     }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -287,14 +315,27 @@ public class BezierView extends View implements View.OnTouchListener {
                         }
 
                         // remove this control point
-                        p = this.controlPoints.get(index);
-                        if (this.controlPoints.size() > 1) {
+//                        p = this.controlPoints.get(index);
+//                        if (this.controlPoints.size() > 1) {
+//                            this.setTouchPosition((int) p.getX(), (int) p.getY());
+//                        } else {
+//                            this.clearTouchPosition();
+//                            this.onChangeBezierMode(BezierMode.Create);
+//                        }
+//                        this.removeControlPoint(index);
+
+
+                        p = this.holder.get(index);
+                        if (this.holder.size() > 1) {
                             this.setTouchPosition((int) p.getX(), (int) p.getY());
                         } else {
                             this.clearTouchPosition();
                             this.onChangeBezierMode(BezierMode.Create);
                         }
                         this.removeControlPoint(index);
+
+
+
                     }
                 }
             } else if (this.mode == BezierMode.Edit) {
@@ -320,7 +361,7 @@ public class BezierView extends View implements View.OnTouchListener {
 
                 // update control point
                 this.setTouchPosition((int) p.getX(), (int) p.getY());
-                this.moveControlPoint(dragIndex, p);
+                this.updateControlPoint(dragIndex, p);
             }
         }
 
@@ -329,16 +370,16 @@ public class BezierView extends View implements View.OnTouchListener {
 
     // private helper methods
     private void drawControlPoints(Canvas canvas) {
-        int numPoints = this.controlPoints.size();
+        int numPoints = this.holder.size();
         if (numPoints == 0)
             return;
 
         BezierPoint p0, p1;
-        p0 = this.controlPoints.get(0);
+        p0 = this.holder.get(0);
         this.drawControlPoint(canvas, p0.getX(), p0.getY(), "0");
 
         for (int i = 1; i < numPoints; i++) {
-            p1 = this.controlPoints.get(i);
+            p1 = this.holder.get(i);
             String s = Integer.toString(i);
             this.drawControlPoint(canvas, p1.getX(), p1.getY(), s);
             this.drawLineBetweenControlPoints(canvas, p0, p1);
@@ -347,11 +388,11 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     private void drawBezierCurve(Canvas canvas) {
-        int numPoints = this.controlPoints.size();
+        int numPoints = this.holder.size();
         if (numPoints < 3)
             return;
 
-        BezierPoint p0 = this.controlPoints.get(0);
+        BezierPoint p0 = this.holder.get(0);
         for (int i = 1; i <= this.resolution; i++) {
             float t = ((float) i) / ((float) this.resolution);
             BezierPoint p1 = this.computeBezierPoint(t);
@@ -362,11 +403,11 @@ public class BezierView extends View implements View.OnTouchListener {
 
     // helper function to compute a bezier point defined by the control polygon at value t
     private BezierPoint computeBezierPoint(float t) {
-        int numPoints = this.controlPoints.size();
+        int numPoints = this.holder.size();
         BezierPoint[] dest = new BezierPoint[numPoints];
         BezierPoint[] src = new BezierPoint[numPoints];
 
-        this.controlPoints.toArray(src);
+        this.holder.toArray(src);
         System.arraycopy(src, 0, dest, 0, numPoints);
 
         for (int n = dest.length; n > 0; n--)
@@ -377,7 +418,7 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     private void drawConstructionPoints(Canvas canvas) {
-        int numPoints = this.controlPoints.size();
+        int numPoints = this.holder.size();
         if (numPoints < 3)
             return;
 
@@ -404,11 +445,11 @@ public class BezierView extends View implements View.OnTouchListener {
     // helper function to compute all the construction points
     // needed to compute a single bezier point at value t
     private BezierPoint[][] computeConstructionPoints(float t) {
-        int numPoints = controlPoints.size();
+        int numPoints = holder.size();
         BezierPoint[][] constructionPoints = new BezierPoint[numPoints][];
 
         BezierPoint[] tmpArray = new BezierPoint[numPoints];
-        this.controlPoints.toArray(tmpArray);
+        this.holder.toArray(tmpArray);
         constructionPoints[numPoints - 1] = tmpArray;
 
         for (int n = numPoints - 1; n > 0; n--) {
@@ -426,7 +467,7 @@ public class BezierView extends View implements View.OnTouchListener {
 
     // helper function to find the nearest control point
     private int getNearestPointIndex(BezierPoint p) {
-        int numPoints = controlPoints.size();
+        int numPoints = holder.size();
         if (numPoints == 0)
             return -1;
 
@@ -434,7 +475,7 @@ public class BezierView extends View implements View.OnTouchListener {
         float dist = Float.MAX_VALUE;
 
         for (int i = 0; i < numPoints; i++) {
-            BezierPoint p0 = this.controlPoints.get(i);
+            BezierPoint p0 = this.holder.get(i);
             float newDist = BezierPoint.Distance(p, p0);
             if (newDist < dist) {
                 dist = newDist;

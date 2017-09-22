@@ -26,6 +26,7 @@ import android.widget.ViewSwitcher;
 
 import java.util.Locale;
 
+import de.peterloos.beziersplines.BezierGlobals;
 import de.peterloos.beziersplines.utils.BezierMode;
 import de.peterloos.beziersplines.utils.LocaleUtils;
 import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
@@ -43,8 +44,6 @@ import de.peterloos.beziersplines.R;
 public class MainActivity
         extends AppCompatActivity
         implements OnClickListener, OnSeekBarChangeListener, OnItemSelectedListener, BezierListener {
-
-    private static final String TAG = "PeLo";
 
     private static final int REQUESTCODE_SETTINGS = 1;
 
@@ -84,7 +83,7 @@ public class MainActivity
         this.setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Log.v(TAG, "onCreate ------------------------------------------------------------------");
+        Log.v(BezierGlobals.TAG, "onCreate ------------------------------------------------------------------");
 
         // prefer action bar title with two lines
         ActionBar actionBar = this.getSupportActionBar();
@@ -204,7 +203,7 @@ public class MainActivity
                     this.bezierViewWithGrid.setStrokewidthFactor(strokewidthFactor);
                 }
             } else if (resultCode == RESULT_CANCELED) {
-                Log.v(TAG, "onActivityResult -> RESULT_CANCELED");
+                Log.v(BezierGlobals.TAG, "onActivityResult -> RESULT_CANCELED");
             }
         }
     }
@@ -231,14 +230,14 @@ public class MainActivity
         } else if (view == this.checkboxSnaptogrid) {
             if (this.checkboxSnaptogrid.isChecked()) {
                 this.gridIsVisible = true;
-                this.bezierViewWithGrid.setMode(BezierMode.Create);
-                this.bezierViewWithGrid.clear();
+                // this.bezierViewWithGrid.setMode(BezierMode.Create);
+                // this.bezierViewWithGrid.clear();
                 this.viewSwitcher.showNext();
 
             } else {
                 this.gridIsVisible = false;
-                this.bezierViewWithoutGrid.clear();
-                this.bezierViewWithoutGrid.setMode(BezierMode.Create);
+                // this.bezierViewWithoutGrid.clear();
+                // this.bezierViewWithoutGrid.setMode(BezierMode.Create);
                 this.viewSwitcher.showPrevious();
             }
 

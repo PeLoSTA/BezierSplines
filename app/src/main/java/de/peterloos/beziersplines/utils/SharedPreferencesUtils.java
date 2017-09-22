@@ -8,7 +8,7 @@ import android.util.Log;
 import java.util.Locale;
 
 import de.peterloos.beziersplines.R;
-import de.peterloos.beziersplines.activities.BezierGlobals;
+import de.peterloos.beziersplines.BezierGlobals;
 
 /**
  * Project: Bézier Splines Simulation

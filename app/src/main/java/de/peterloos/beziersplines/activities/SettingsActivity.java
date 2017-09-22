@@ -8,11 +8,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import de.peterloos.beziersplines.BezierGlobals;
 import de.peterloos.beziersplines.R;
 import de.peterloos.beziersplines.utils.LocaleUtils;
 import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
@@ -24,8 +24,6 @@ import de.peterloos.beziersplines.utils.SharedPreferencesUtils;
  */
 
 public class SettingsActivity extends AppCompatActivity {
-
-    private static final String TAG = "PeLo";
 
     private RelativeLayout relativeLayoutStrokeWidth;
     private TextView textviewStrokeWidthHeader;
