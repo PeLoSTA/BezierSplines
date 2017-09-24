@@ -8,6 +8,8 @@ package de.peterloos.beziersplines;
 
 public class BezierGlobals {
 
+    public static final String VersionReadable = "Redesign including new snap lines algorithm";
+
     public static final String TAG = "PeLo";
 
     // language settings
