@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -73,6 +74,12 @@ public class MainActivity
     private String resultGridlines;
     private String resultStrokewidth;
 
+    // size of bezier view(s)
+    // TODO: Size hat API Level 21 ?!?!?!?
+    // private Size viewSize;
+    private int viewWidth;
+    private int viewHeight;
+
     private int resolution;
     private boolean gridIsVisible;
     private boolean constructionIsVisible;
@@ -81,9 +88,11 @@ public class MainActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Log.v(BezierGlobals.TAG, "onCreate ------------------------------------------------------------------");
+
+        // both portrait and landscape mode make this app more complicated
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // prefer action bar title with two lines
         ActionBar actionBar = this.getSupportActionBar();
@@ -92,10 +101,12 @@ public class MainActivity
             actionBar.setSubtitle(this.getString(R.string.app_sub_title));
         }
 
-        // support orientation changes
+        // miscellaneous
         this.resolution = 50;
         this.gridIsVisible = false;
         this.constructionIsVisible = false;
+        this.viewWidth = -1;
+        this.viewHeight = -1;
 
         // retrieve control references
         this.viewSwitcher = (ViewSwitcher) findViewById(R.id.viewswitcher);
@@ -145,7 +156,11 @@ public class MainActivity
 
         // connect event sink with clients
         this.bezierViewWithoutGrid.registerListener(this);
-        this.bezierViewWithGrid.registerListener(this);
+
+        // TODO:
+        // Da beide Views groß genug sind,  brauche ich das nur einmal
+        // Sieht nicht sehr ästhetisch aus ?!?!?!
+        // this.bezierViewWithGrid.registerListener(this);
 
         // sync shared preferences settings with language:
         // implemented - but didn't work with Android 'Nougat'
@@ -331,6 +346,31 @@ public class MainActivity
     @Override
     public void setInfo(String info) {
         this.textViewInfo.setText(info);
+    }
+
+    public void setSize(int width, int height) {
+
+        this.viewWidth = width;
+        this.viewHeight = height;
+
+        String info = String.format(Locale.getDefault(),
+            "Size in Pixel: =============> %d, %d", this.viewWidth, this.viewHeight);
+        Log.v(BezierGlobals.TAG, info);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        double x = Math.pow(width/dm.xdpi,2);
+        double y = Math.pow(height/dm.ydpi,2);
+        double screenInches = Math.sqrt(x+y);
+        Log.d(BezierGlobals.TAG,"Screen inches: " + screenInches);
+
+        // und jetzt PeLo
+        double xxInches = (double) width / (double) dm.xdpi;
+        double xxCm = xxInches * 2.54;
+        double yyInches = (double) height / (double) dm.ydpi;
+        double yyCm = yyInches * 2.54;
+        Log.d(BezierGlobals.TAG,"View in cm (width): " + xxCm);
+        Log.d(BezierGlobals.TAG,"View in cm (height): " + yyCm);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package de.peterloos.beziersplines.views;
 
+import android.util.Size;
+
 import de.peterloos.beziersplines.utils.BezierMode;
 
 /**
@@ -10,5 +12,6 @@ import de.peterloos.beziersplines.utils.BezierMode;
 
 public interface BezierListener {
     void setInfo(String info);
+    void setSize(int width, int height);
     void changeMode(BezierMode mode);
 }

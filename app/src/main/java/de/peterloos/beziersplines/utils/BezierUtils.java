@@ -104,7 +104,6 @@ public class BezierUtils {
         return result;
     }
 
-
     public static List<BezierPoint> getDemo_SingleCircle(float centerX, float centerY, float radius, float arcLength) {
 
         List<BezierPoint> result = new ArrayList<>();

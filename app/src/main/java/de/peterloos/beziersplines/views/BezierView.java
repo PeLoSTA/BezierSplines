@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Size;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -89,7 +90,11 @@ public class BezierView extends View implements View.OnTouchListener {
     private ControlPointsHolder holder;
 
     // miscellaneous
-    private List<BezierListener> listeners;
+
+    // TODO die nächste Variable löschen ...
+    // private List<BezierListener> listeners;
+    private BezierListener listener;
+
     private Resources res;
 
     // c'tor
@@ -139,7 +144,6 @@ public class BezierView extends View implements View.OnTouchListener {
         this.textPaint.setTextSize(this.strokeTextSize);
 
         // miscellaneous
-        this.listeners = new ArrayList<>();
         this.resolution = 50;
         this.constructionPosition = (float) 0.5;
 
@@ -157,6 +161,10 @@ public class BezierView extends View implements View.OnTouchListener {
                 int height = BezierView.this.getMeasuredHeight();
 
                 BezierView.this.setActualSize(width, height);
+
+                if (BezierView.this.listener != null) {
+                    BezierView.this.listener.setSize(width, height);
+                }
             }
         });
     }
@@ -206,26 +214,11 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     // public interface
-//    public void clear() {
-//        this.controlPoints.clear();
-//        this.clearTouchPosition();
-//        this.invalidate();
-//    }
-
     public void clear() {
         this.holder.clear();
         this.clearTouchPosition();
         this.invalidate();
     }
-
-//    public void addControlPoint(BezierPoint p) {
-//        this.controlPoints.add(p);
-//        this.invalidate();
-//
-//        // TODO / NEW
-//        List<BezierPoint> model = this.holder.getData();
-//        model.add(p);
-//    }
 
     public void addControlPoint(BezierPoint p) {
         this.holder.add(p);
@@ -238,21 +231,10 @@ public class BezierView extends View implements View.OnTouchListener {
         }
     }
 
-//    public void removeControlPoint(int index) {
-//        this.controlPoints.remove(index);
-//        this.invalidate();
-//    }
-
     public void removeControlPoint(int index) {
         this.holder.remove(index);
         this.invalidate();
     }
-
-
-//    public void updateControlPoint(int index, BezierPoint p) {
-//        this.controlPoints.set(index, p);
-//        this.invalidate();
-//    }
 
     public void updateControlPoint(int index, BezierPoint p) {
         this.holder.update(index, p);
@@ -315,16 +297,6 @@ public class BezierView extends View implements View.OnTouchListener {
                         }
 
                         // remove this control point
-//                        p = this.controlPoints.get(index);
-//                        if (this.controlPoints.size() > 1) {
-//                            this.setTouchPosition((int) p.getX(), (int) p.getY());
-//                        } else {
-//                            this.clearTouchPosition();
-//                            this.onChangeBezierMode(BezierMode.Create);
-//                        }
-//                        this.removeControlPoint(index);
-
-
                         p = this.holder.get(index);
                         if (this.holder.size() > 1) {
                             this.setTouchPosition((int) p.getX(), (int) p.getY());
@@ -333,9 +305,6 @@ public class BezierView extends View implements View.OnTouchListener {
                             this.onChangeBezierMode(BezierMode.Create);
                         }
                         this.removeControlPoint(index);
-
-
-
                     }
                 }
             } else if (this.mode == BezierMode.Edit) {
@@ -575,23 +544,44 @@ public class BezierView extends View implements View.OnTouchListener {
     }
 
     // support handling of interface 'BezierListener'
+//    public void registerListener(BezierListener listener) {
+//        this.listeners.add(listener);
+//    }
+//
+//    @SuppressWarnings("unused")
+//    public void unregisterListener(BezierListener listener) {
+//        this.listeners.remove(listener);
+//    }
+//
+//    private void onBezierPointChanged(String info) {
+//        for (BezierListener listener : this.listeners) {
+//            listener.setInfo(info);
+//        }
+//    }
+//
+//    private void onChangeBezierMode(BezierMode mode) {
+//        for (BezierListener listener : this.listeners) {
+//            listener.changeMode(mode);
+//        }
+//    }
+
     public void registerListener(BezierListener listener) {
-        this.listeners.add(listener);
+        this.listener = listener;
     }
 
     @SuppressWarnings("unused")
     public void unregisterListener(BezierListener listener) {
-        this.listeners.remove(listener);
+        this.listener = null;
     }
 
     private void onBezierPointChanged(String info) {
-        for (BezierListener listener : this.listeners) {
+        if (this.listener != null) {
             listener.setInfo(info);
         }
     }
 
     private void onChangeBezierMode(BezierMode mode) {
-        for (BezierListener listener : this.listeners) {
+        if (this.listener != null) {
             listener.changeMode(mode);
         }
     }
